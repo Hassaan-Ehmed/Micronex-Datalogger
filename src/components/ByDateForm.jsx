@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Tabs, Tab, Input, Button, Card, CardBody, } from "@nextui-org/react";
+import {Tabs, Tab, Input, Button, Card, CardBody, DateRangePicker, Checkbox, } from "@nextui-org/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ref,onValue, getDatabase } from "firebase/database";
 import { firebaseApp, firebaseAuth, useFirebaseContext } from "../context/FirebaseApp";
@@ -10,23 +10,49 @@ import { Bounce, toast ,Flip, Slide} from "react-toastify";
 import '../App.css'
 import MyFullScreenModal from "./FullScreenModal";
 import { CgMaximize, CgMinimizeAlt } from "react-icons/cg";
-
 import {DatePicker} from "@nextui-org/react";
 import {getLocalTimeZone, today,parseDate} from "@internationalized/date";
 import { formatedDate } from "../utils/helper";
-
+import { Chip, cn } from "@nextui-org/react";
 
 export default function App() {
   
   const [selected, setSelected] = React.useState("sign-up");
+  const [options,setOptions] = React.useReducer((state,newState)=>({...state,...newState}),{
+    selected : "sign-up",
+    isCheckboxSelected:false,
+    isButtonDisabled:true
+  })
   
+  const user = {
+    name: "Download all data",
+    role: "Data Logs",
+    status: "Available"
+  }
+
   const navigate = useNavigate();
 
+  const [value, setValue] = React.useState({
+    start: parseDate(formatedDate(1714377797)),
+    end: parseDate(formatedDate(1714638847)),
+  });
+
+  const FirebaseContext = useFirebaseContext();  
 
 
-  const FirebaseContext = useFirebaseContext();
+React.useEffect(()=>{
+
+    if(options?.isCheckboxSelected){
+
+      setOptions({isButtonDisabled:false});
+    }else if(!options?.isCheckboxSelected){
+      
+      setOptions({isButtonDisabled:true});
+    }
   
-  
+  },[options?.isCheckboxSelected,options?.selectedOption]);
+
+
   const [state,setState] = React.useReducer((state,newState)=>({...state,...newState}),{
   
     email:"",
@@ -37,8 +63,7 @@ export default function App() {
     isPasswordAllowed : false,
     emailErorrMsg:"",
     passwordErorrMsg:"",
-  })
-  
+  })  
   
   const validateEmailAndPassword=()=>{
   
@@ -88,12 +113,25 @@ export default function App() {
   
   
     React.useEffect(()=>{
+
+      console.log("Start Date\n\n")
+      console.log("start day",value.start.day);
+      console.log("start month",value.start.month);
+      console.log("start year",value.start.year);
+      console.log("-----------\n\n");
+
+      console.log("End Date\n\n")
+      console.log("end day",value.end.day);
+      console.log("end month",value.start.month);
+      console.log("end year",value.end.year);
+      console.log("-----------\n\n");
+      
+      
+      // console.log("Date",(formatedDate(1714377797)));
+      console.log("Date",(formatedDate(1714638847)));
+
   
-  
-  
-      FirebaseContext.toggleMinMaxIcon()
-  
-    },[])
+    },[value])
   
     document.addEventListener("fullscreenchange",()=>{
   
@@ -233,8 +271,7 @@ export default function App() {
   
   }
   
-  
-  
+
   return (
     <div className="flex flex-col w-full">
       <Card className="max-w-full w-[340px] h-[310px]">
@@ -249,24 +286,48 @@ export default function App() {
 
             <Tab key="sign-up" title="Select Date range"  className="cursor-default">
               <form className="flex flex-col gap-4 h-[300px]">
+            
+            <DateRangePicker
+            key={'inside'}
+            label="Date Duration"
+            // labelPlacement={"placement"}
+            // description={"hello"}
+            style={{paddingTop:"30px",paddingBottom:"20px"}}
+            className="max-w-xs"
+          value={value}
+          onChange={setValue}
+                />
 
-            <DatePicker
-          label="Start Date"
-          minValue={parseDate('2023-01-01')}
-          maxValue={parseDate(formatedDate(1716119290))}
-          defaultValue={parseDate('2023-01-01')}
-          // today(getLocalTimeZone()).subtract({) days: 1 })
-          />
-           
-           <DatePicker
-          label="End Date"
-          minValue={parseDate('2023-01-01')}
-          maxValue={parseDate('2023-01-31')}
-          defaultValue={parseDate('2023-01-31')}
-        />
+      <Checkbox       
+      aria-label={user.name}
+      classNames={{
+        base: cn(
+          "inline-flex max-w-md bg-content1 alig-self",
+          "hover:bg-content2 items-center justify-start",
+          "cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent",
+          "data-[selected=true]:border-primary",
+        ),
+        label: "w-full",
+      }}
+
+      isSelected={options?.isCheckboxSelected}
+      onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})}
+    >
+
+<div className="w-full flex justify-between gap-2">
+   
+   <div className="flex flex-col items-end gap-1">
+     <span className="text-tiny text-default-500">{user.role}</span>
+     <Chip color="success" size="sm" variant="flat">
+       {user.status}
+     </Chip>
+   </div>
+ </div>
+</Checkbox>
+ 
       
-              <Button   id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
-                           
+                <Button isDisabled={options?.isButtonDisabled} id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
+
                            isLoading={FirebaseContext.isLoading}
                            spinner={
                               <svg

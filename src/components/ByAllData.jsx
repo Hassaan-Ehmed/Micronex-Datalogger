@@ -11,7 +11,7 @@ import { getDatabase, ref , get, child } from "firebase/database";
 
 export default function App() {
   
-  const fileFormats = ["Text format","Excel format","PDF format"]
+  const fileFormats = ["Text format","Excel format","PDF format"];
 
   const user = {
     name: "Download all data",
@@ -130,7 +130,7 @@ export default function App() {
         
     </Select>
 
-    <Checkbox       
+<Checkbox       
       aria-label={user.name}
       classNames={{
         base: cn(
@@ -143,7 +143,11 @@ export default function App() {
       }}
       isSelected={options?.isCheckboxSelected}
       onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})}
-    >
+>
+
+
+
+
       <div className="w-full flex justify-between gap-2">
    
         <div className="flex flex-col items-end gap-1">

@@ -12,7 +12,6 @@ const DownloadModal = () => {
 
     const FirebaseContext = useFirebaseContext();
 
-        
       const pleaseCloseTheModal=()=>{
 
         FirebaseContext.closeModal("DL");

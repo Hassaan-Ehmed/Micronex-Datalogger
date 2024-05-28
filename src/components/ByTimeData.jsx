@@ -1,15 +1,18 @@
-import { Button, Card, CardBody, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
+import { Button, Card, CardBody, DatePicker, Select, SelectItem, Tab, Tabs, TimeInput } from "@nextui-org/react";
 import React from "react";
 import '../App.css';
 import { useFirebaseContext } from "../context/FirebaseApp";
 
+import {parseAbsoluteToLocal, Time,parseDate} from "@internationalized/date";
 
 import { Checkbox, Chip, cn } from "@nextui-org/react";
 import { getDatabase, ref , get, child } from "firebase/database";
-
+import { ConvertEpochTimeStamp, formatedDate } from "../utils/helper";
 
 
 export default function App() {
+
+
   
   const fileFormats = ["Text format","Excel format","PDF format"]
 
@@ -30,7 +33,17 @@ export default function App() {
     isButtonDisabled:true
   })
 
+
+  // const [time, setTime] = React.useReducer((state,newState)=>({...state,...newState}),{
+  //   startTime: new Time(12,15),
+  //   endTime: new Time(5,30),
+  // });
   
+ 
+  let [startValue, setStartValue] = React.useState(parseAbsoluteToLocal("2024-04-08T18:45:22Z"));
+  let [endValue, setEndValue] = React.useState(parseAbsoluteToLocal("2024-04-08T18:45:22Z"));
+  let [date, setDate] = React.useState(parseDate("2024-04-04"));
+
   React.useEffect(()=>{
 
     if(options?.isCheckboxSelected){
@@ -92,8 +105,21 @@ export default function App() {
     
   }
 
+React.useEffect(()=>{
+
+  // console.log("value start",value.start);
+  // console.log("value end",value.end);
+  // console.log(new Time(2,18).toString());
 
 
+  // Epoch Time 11:35://03
+  console.log("endvalue",endValue.toString().split("").slice(11,16).join(""));
+  console.log("startvalue",startValue.toString().split("").slice(11,16).join(""));
+  console.log("date",date.toDate());
+
+
+
+},[endValue,startValue,date])
     return (
     <div className="flex flex-col w-full">
       <Card className="max-w-full w-[340px] h-[310px]">
@@ -107,36 +133,36 @@ export default function App() {
           >
 
             <Tab key="sign-up" title="Select Time period"  className="cursor-default">
-              <form className="flex flex-col  gap-4 h-[300px]">
+              <form className="flex flex-col gap-4 h-[300px]">
 
-      <Select
-      label="Select File format"
-      placeholder="Text Format"
-      defaultSelectedKeys={["Text format"]}
-      className="max-w-xs"
-      selectedKeys={[options?.selectedOption]}
-      onChange={(e)=>setOptions({selectedOption:e.target.value})}
-      
-    >
-      {fileFormats.map((format)=>{
 
-      return(
-      <SelectItem key={format} value={format}>
-      {format}
-    </SelectItem>)
-   
+              <div className="w-full flex justify-between gap-2">
 
-        })}
-        
-    </Select>
+              <TimeInput hideTimeZone={true} label="Start Time" defaultValue={new Time(12,15)} value={startValue} onChange={setStartValue} className="w-[50%]" />
 
-    <Checkbox       
+              <TimeInput hideTimeZone={true} label="End Time" defaultValue={new Time(5,30)} value={endValue} onChange={setEndValue}  className="w-[50%]" />
+            
+              </div>
+
+              
+    
+            <DatePicker
+            key={'inside'}
+            label="Select Date"
+            // labelPlacement={"placement"}
+            // description={"hello"}
+            style={{paddingTop:"30px",paddingBottom:"20px"}}
+            className="max-w-md"
+          value={date}
+          onChange={setDate}
+                />
+      <Checkbox       
       aria-label={user.name}
       classNames={{
         base: cn(
           "inline-flex max-w-md bg-content1 alig-self",
           "hover:bg-content2 items-center justify-start",
-          "cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent",
+          "cursor-pointer rounded-lg gap-2 p-2 border-2 border-transparent",
           "data-[selected=true]:border-primary",
         ),
         label: "w-full",

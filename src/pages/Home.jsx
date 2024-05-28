@@ -40,15 +40,19 @@ export default function Home() {
       
       onValue(Database_Credentials,(snapshot)=>{
   
-
         try{    
             
             const data = snapshot.val();
             
             const newArr = Object.values(data);
-      const {humidity,temperature,timestamp} = {...newArr[newArr.length-120]}; 
 
-      // Send humidity & temperature (packet)
+            console.log("Length",newArr.length)
+       const {humidity,temperature,timestamp} = {...newArr[newArr.length-120]}; 
+
+       console.log("TIMESTAMP:::::",timestamp);
+       console.log("After Conversion > ",ConvertEpochTimeStamp(timestamp).split(":").slice(0,2).join(":"));
+
+       // Send humidity & temperature (packet)
       FirebaseContext.setDataPacket({humidity,temperature});
       console.log("Hello Data",newArr);
       console.log("Length",newArr.length);
