@@ -4,11 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useFirebaseContext } from '../context/FirebaseApp';
 import { getAuth, signOut } from 'firebase/auth';
 import DownloadTabs from './DownloadTabs'
-import ByAllData from './ByAllData';
+import ByAllDataForm from './ByAllData';
 import ByDateForm from './ByDateForm';
-
-
-
+import ByTimeForm from './ByTimeData';
 
 const DownloadModal = () => {
 
@@ -48,7 +46,7 @@ const DownloadModal = () => {
 <div className='w-full h-auto grid place-content-center pb-6 pt-4 '>
 
 
-{FirebaseContext.isDownloadTabSelected  == "all-data"  ? (<ByAllData/>) : FirebaseContext.isDownloadTabSelected  == "by-date"  ? (<ByDateForm/>) : FirebaseContext.isDownloadTabSelected  == "by-time"  ? "Hello Time" : ""}
+{FirebaseContext.isDownloadTabSelected  == "all-data"  ? (<ByAllDataForm/>) : FirebaseContext.isDownloadTabSelected  == "by-date"  ? (<ByDateForm/>) : FirebaseContext.isDownloadTabSelected  == "by-time"  ? (<ByTimeForm/>) : "" }
 
 </div>
 

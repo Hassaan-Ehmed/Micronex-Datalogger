@@ -106,7 +106,7 @@ export default function App() {
             onSelectionChange={setOptions}
           >
 
-            <Tab key="sign-up" title="Select options"  className="cursor-default">
+            <Tab key="sign-up" title="Select Time period"  className="cursor-default">
               <form className="flex flex-col  gap-4 h-[300px]">
 
       <Select

@@ -265,7 +265,6 @@ export default function App() {
           defaultValue={parseDate('2023-01-31')}
         />
       
-           
               <Button   id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
                            
                            isLoading={FirebaseContext.isLoading}
