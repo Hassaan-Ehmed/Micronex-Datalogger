@@ -1,0 +1,154 @@
+
+
+body{background-color: rgb(60, 60, 60);}
+
+
+.my-form{
+
+   /* From https://css.glass */
+background: rgba(255, 255, 255, 0.12);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(3.9px);
+-webkit-backdrop-filter: blur(3.9px);
+border: 1px solid rgba(255, 255, 255, 1);
+}
+
+
+.theme-primary-color{
+    background-color: #FF0000;
+}
+
+
+.navglass{
+
+    /* From https://css.glass */
+background: rgba(255, 255, 255, 0.37);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(9.3px);
+-webkit-backdrop-filter: blur(9.3px);
+}
+
+
+
+.max-w-\[1024px\] {
+	max-width: none;
+}
+.main-logo{
+    animation: myAnim 13s ease-in-out 0s infinite normal none;
+}
+
+@keyframes myAnim {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	10%,
+	30%,
+	50%,
+	70% {
+		transform: translateY(-2px);
+	}
+
+	20%,
+	40%,
+	60% {
+		transform: translateY(2px);
+	}
+
+	80% {
+		transform: translateY(1.2px);
+	}
+
+	90% {
+		transform: translateY(-1.2px);
+	}
+}
+
+
+
+
+.big-logo{
+    animation: myAnimLG 13s ease-in-out 0s infinite normal none;
+}
+
+@keyframes myAnimLG {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	10%,
+	30%,
+	50%,
+	70% {
+		transform: translateY(-6px);
+	}
+
+	20%,
+	40%,
+	60% {
+		transform: translateY(6px);
+	}
+
+	80% {
+		transform: translateY(5.2px);
+	}
+
+	90% {
+		transform: translateY(-5.2px);
+	}
+}
+
+
+
+
+
+
+.chart-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	background-color: #f4f4f4;
+  }
+  
+.graph-container {
+	max-width: 50%;
+	width: 100%;
+	background-color: #ffffff;
+	padding: 20px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+	margin: 30px;
+  }
+
+
+
+.responsive-chart{
+	width: 900;
+ }
+
+.home-bg{
+	position:"absolute";
+	height:"100%";
+	width:"100%";
+	object-fit:"cover";
+	top:0;
+	z-index:0
+}
+
+@media (min-width:768px) {
+	.responsive-chart{
+			 max-width: 1000;
+			 /* background-color: gold; */
+	}
+}
+
+
+
+.group[data-selected=true] .group-data-\[selected\=true\]\:text-primary-foreground {
+	color: white;
+}
