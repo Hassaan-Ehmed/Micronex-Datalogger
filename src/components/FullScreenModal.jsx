@@ -14,7 +14,11 @@ useEffect(()=>{
 
         return 
     }else{
-        FirebaseContext.openModal("FS");
+
+        // if('humidity' in FirebaseContext.dataPacket){
+
+            FirebaseContext.openModal("FS");
+        // }
     }
 
 

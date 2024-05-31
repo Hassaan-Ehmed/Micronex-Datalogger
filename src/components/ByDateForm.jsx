@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Tabs, Tab, Input, Button, Card, CardBody, DateRangePicker, Checkbox, } from "@nextui-org/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ref,onValue, getDatabase } from "firebase/database";
+import { ref,onValue, getDatabase, query, orderByChild, child, get } from "firebase/database";
 import { firebaseApp, firebaseAuth, useFirebaseContext } from "../context/FirebaseApp";
 import {getAuth, signInWithEmailAndPassword,createUserWithEmailAndPassword} from 'firebase/auth'
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -12,34 +12,63 @@ import MyFullScreenModal from "./FullScreenModal";
 import { CgMaximize, CgMinimizeAlt } from "react-icons/cg";
 import {DatePicker} from "@nextui-org/react";
 import {getLocalTimeZone, today,parseDate} from "@internationalized/date";
-import { formatedDate } from "../utils/helper";
+import { dateToEpochTime, formatedDate } from "../utils/helper";
 import { Chip, cn } from "@nextui-org/react";
 
 export default function App() {
   
-  const [selected, setSelected] = React.useState("sign-up");
-  const [options,setOptions] = React.useReducer((state,newState)=>({...state,...newState}),{
-    selected : "sign-up",
-    isCheckboxSelected:false,
-    isButtonDisabled:true
-  })
-  
+  const FirebaseContext = useFirebaseContext();
+  const DB_REF = ref(getDatabase());
+
   const user = {
     name: "Download all data",
     role: "Data Logs",
     status: "Available"
   }
 
-  const navigate = useNavigate();
+  
+  const [selected, setSelected] = React.useState("sign-up");
+  const [value, setValue] = React.useState(
+    {
+        start: parseDate(formatedDate(1714377797)),
+        end: parseDate(formatedDate(1714377765)),
+    } 
+);
+    
 
-  const [value, setValue] = React.useState({
-    start: parseDate(formatedDate(1714377797)),
-    end: parseDate(formatedDate(1714638847)),
-  });
-
-  const FirebaseContext = useFirebaseContext();  
+  const [options,setOptions] = React.useReducer((state,newState)=>({...state,...newState}),{
+    selected : "sign-up",
+    isCheckboxSelected:false,
+    isButtonDisabled:true,
 
 
+  })
+  
+  React.useEffect(()=>{
+
+
+    // console.log("Start Date\n\n")
+    // console.log("start day",value.start.day);
+    // console.log("start month",value.start.month);
+    // console.log("start year",value.start.year);
+    // console.log("-----------\n\n");
+
+    // console.log("End Date\n\n")
+    // console.log("end day",value.end.day);
+    // console.log("end month",value.start.month);
+    // console.log("end year",value.end.year);
+    // console.log("-----------\n\n");
+    
+    // fetchTimeStamp();  
+    // console.table("Hmm...",parseDate(formatedDate(1714377797)))   
+    console.log("StartDateConv..",value.start.toString())   
+    console.log("StartDateConv.XZY",dateToEpochTime(value.start.toString() || ""))   
+    console.log("EndDateConv..",value.end)   
+
+  },[])
+  
+
+  
 React.useEffect(()=>{
 
     if(options?.isCheckboxSelected){
@@ -52,227 +81,64 @@ React.useEffect(()=>{
   
   },[options?.isCheckboxSelected,options?.selectedOption]);
 
-
-  const [state,setState] = React.useReducer((state,newState)=>({...state,...newState}),{
-  
-    email:"",
-    password:"",
-    isEmailValid:false,
-    isPasswordValid:false,
-    isEmailAllowed : false,
-    isPasswordAllowed : false,
-    emailErorrMsg:"",
-    passwordErorrMsg:"",
-  })  
-  
-  const validateEmailAndPassword=()=>{
-  
-    try {
-  
-   
-    if(state?.email === "" && state?.isEmailAllowed){
-      
-      setState({emailErorrMsg:"Please enter your email"});
-      setState({isEmailValid:true});
-      
-      
-    }else if (state?.email !== "" && state?.isEmailAllowed){
-      
-     
-      setState({isEmailValid:false});
-      setState({emailErorrMsg:""});
-    }
-    
-    if(state?.password === "" && state?.isPasswordAllowed){
-      
-      
-      setState({passwordErorrMsg:"Please enter your passsword"});
-      setState({isPasswordValid:true});
-      
-    }else if (state?.password !== "" && state?.isPasswordAllowed){
-      
-      setState({passwordErorrMsg:"Please enter your passsword"});
-      setState({isPasswordValid:false});
-    }
-  
-  
-  
-  
-  } catch (error) {
-    console.log("Error while validate Email & Pass",error);
-  }
-  }
-  
-  
-  React.useEffect(()=>{
-  
-    validateEmailAndPassword();
-  
-  },[state?.email,state?.password]);
-  
-  
-  
-    React.useEffect(()=>{
-
-      console.log("Start Date\n\n")
-      console.log("start day",value.start.day);
-      console.log("start month",value.start.month);
-      console.log("start year",value.start.year);
-      console.log("-----------\n\n");
-
-      console.log("End Date\n\n")
-      console.log("end day",value.end.day);
-      console.log("end month",value.start.month);
-      console.log("end year",value.end.year);
-      console.log("-----------\n\n");
-      
-      
-      // console.log("Date",(formatedDate(1714377797)));
-      console.log("Date",(formatedDate(1714638847)));
-
-  
-    },[value])
   
     document.addEventListener("fullscreenchange",()=>{
   
       FirebaseContext.toggleMinMaxIcon()
   
     })
-  
-    const createUser=(ev)=>{
-  
-  try{
-  
-  ev.preventDefault();
-  
-  
-  if(state.email === "" && state.password !== "" ){
-  
-  toast.error("Please enter email address!",{
-    position: "top-center",
-   autoClose: 1500,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
-   transition: Bounce,
-   });
-   return 
-  } else if(state.email !== "" && state.password === "" ){
-  
-  toast.error("Please enter password !",{
-    position: "top-center",
-   autoClose: 1500,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
-   transition: Bounce,
-   });
-  
-   return 
-  
-  } else if(state.email === "" && state.password === "" ){
-  
-  toast.error("Please fill proper form !",{
-    position: "top-center",
-   autoClose: 1500,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
-   transition: Bounce,
-   });
-  
-  
-   return 
-  }
-  
-  
-  if(state?.email && state?.email){
-  
-  createUserWithEmailAndPassword(firebaseAuth,state?.email,state?.password).then((cred)=>{
-  
-  
-  setState({email:""});
-  setState({password:""});
-  setState({isEmailValid:false});
-  setState({isPasswordValid:false});
-  setState({isEmailAllowed : false});
-  setState({isPasswordAllowed : false});
-  setState({emailErorrMsg:""});
-  setState({passwordErorrMsg:""});
-  
-  toast.success("User created successfully !",{
-  position: "top-center",
-  autoClose: 1200,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  theme: "light",
-  transition: Slide,
-  });
-  
-  setTimeout(()=> navigate("/app") ,1500)
-  
-  }).catch((error => {
-  
-    const errorMsg = error.message;
-  
-    console.log("Error Msg",errorMsg)
-  
-  if(errorMsg == "Firebase: Error (auth/email-already-in-use)."){
-  
-  
-  toast.error("This user already exsist!",{
-    position: "top-center",
-   autoClose: 1500,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
-   transition: Bounce,
-   });
-  
-  }
-  if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
-  
-  toast.error("Check your network connection",{
-    position: "top-center",
-   autoClose: 1500,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
-   transition: Bounce,
-   });
-  
-  }
-  
-  }))
-  
-  }
-  
-  }catch(error){
-  console.log("Error while Creating user Account",error)
-  }
-  
-  }
-  
 
-  return (
+    // async function fetchTimeStamp (){
+
+    //   try{
+        
+    //     const snapshot = await get(child(DB_REF,'data/'));
+    
+    //     if(snapshot.exists()){
+       
+    //       const timeStamps = Object.keys(snapshot.val() || {});
+    
+    //       if(timeStamps){
+    
+    //         setOptions({
+    //           minDateRange: parseDate(formatedDate(timeStamps[0])),
+    //           maxDateRange: parseDate(formatedDate(timeStamps.length-1)),
+    //             })
+
+    //         setValue(
+    //           {
+    //             start: parseDate(formatedDate(timeStamps[0])),
+    //             end: parseDate(formatedDate(timeStamps[timeStamps.length-1])),
+    //           } 
+
+    //         )
+
+    //         // console.log("StartDate",formatedDate(timeStamps[0]))
+    //        // console.log("XZXZXZ",value.start.toString())
+    //       // console.log("StartDateX",dateToEpochTime())
+    //      // console.log("EndDate",timeStamps[timeStamps.length-1])
+
+           
+            
+    //       }else{
+          
+    //         setValue({
+    //           start: parseDate(formatedDate(1714377797)),
+    //           end: parseDate(formatedDate(1714377765)),
+    //       } )
+          
+    //       }
+    //   }else{
+    //     console.log("TIMESTAMP DATA NOT FOUND")
+    //   }
+    
+    
+    //   }catch(error){
+    //     console.log(error,"Error while fetching timestamp...")
+    //   }
+    // }
+
+    return (
     <div className="flex flex-col w-full">
       <Card className="max-w-full w-[340px] h-[310px]">
         <CardBody className="overflow-hidden">
@@ -288,23 +154,24 @@ React.useEffect(()=>{
               <form className="flex flex-col gap-4 h-[300px]">
             
             <DateRangePicker
+            
+            minValue={options?.minDateRange}
+            // maxValue={options?.maxDateRange}
             key={'inside'}
             label="Date Duration"
-            // labelPlacement={"placement"}
-            // description={"hello"}
+       
             style={{paddingTop:"30px",paddingBottom:"20px"}}
             className="max-w-xs"
           value={value}
           onChange={setValue}
                 />
-
       <Checkbox       
       aria-label={user.name}
       classNames={{
         base: cn(
           "inline-flex max-w-md bg-content1 alig-self",
           "hover:bg-content2 items-center justify-start",
-          "cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent",
+          "cursor-pointer rounded-lg gap-2 p-2 border-2 border-transparent",
           "data-[selected=true]:border-primary",
         ),
         label: "w-full",
@@ -355,27 +222,6 @@ React.useEffect(()=>{
                           Download
                            </Button>
               
-         
-
-                {/* <Input isRequired label="Name" placeholder="Enter your name" type="password" />
-                <Input isRequired label="Email" placeholder="Enter your email" type="email" />
-                <Input
-                  isRequired
-                  label="Password"
-                  placeholder="Enter your password"
-                  type="password"
-                />
-                <p className="text-center text-small">
-                  Already have an account?{" "}
-                  <Link size="sm" onPress={() => setSelected("login")}>
-                    Login
-                  </Link>
-                </p>
-                <div className="flex gap-2 justify-end">
-                  <Button fullWidth color="primary">
-                    Sign up
-                  </Button>
-                </div> */}
               </form>
             </Tab>
           </Tabs>

@@ -49,13 +49,14 @@ document.addEventListener("DOMContentLoaded",function(){
 })
 
 
+
 return (
 
 <Routes>
 
 <Route path='/' element={ <AuthProtection> <LoginForm/> </AuthProtection> }/>    
 
-<Route path='/app' element={ <RouteProtection>  <Home/>  </RouteProtection> }/>
+<Route path='/app' element={ <RouteProtection> <Home/> </RouteProtection> }/>
 
 <Route path='/add-user' element={<RouteProtection Protection>  <SignupForm/>  </RouteProtection>}/>
 

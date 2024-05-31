@@ -42,7 +42,7 @@ const DownloadModal = () => {
 
                             </div>  
 
-<div className='w-full h-auto grid place-content-center pb-6 pt-4 '>
+<div className='w-full h-auto grid place-content-center pb-6 pt-4' >
 
 
 {FirebaseContext.isDownloadTabSelected  == "all-data"  ? (<ByAllDataForm/>) : FirebaseContext.isDownloadTabSelected  == "by-date"  ? (<ByDateForm/>) : FirebaseContext.isDownloadTabSelected  == "by-time"  ? (<ByTimeForm/>) : "" }

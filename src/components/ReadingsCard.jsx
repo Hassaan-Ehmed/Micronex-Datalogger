@@ -4,6 +4,20 @@ import { useFirebaseContext } from '../context/FirebaseApp';
 
 function MyProgress({source,title,readings}) {
   
+
+//   const FirebaseContext = useFirebaseContext();
+
+
+// if(readings !==0){
+
+//   FirebaseContext.setIsDataLodead(false)
+  
+// }else{
+  
+//   FirebaseContext.setIsDataLodead(true)
+// }
+
+
   return (
         <div className='z-[3] '>
           <div className="flex items-center justify-center h-full ">

@@ -49,21 +49,25 @@ export default function Home() {
             console.log("Length",newArr.length)
        const {humidity,temperature,timestamp} = {...newArr[newArr.length-120]}; 
 
-       console.log("TIMESTAMP:::::",timestamp);
-       console.log("After Conversion > ",ConvertEpochTimeStamp(timestamp).split(":").slice(0,2).join(":"));
+      //  console.log("TIMESTAMP:::::",timestamp);
+      //  console.log("After Conversion > ",ConvertEpochTimeStamp(timestamp).split(":").slice(0,2).join(":"));
 
        // Send humidity & temperature (packet)
       FirebaseContext.setDataPacket({humidity,temperature});
-      console.log("Hello Data",newArr);
-      console.log("Length",newArr.length);
+      // console.log("Hello Data",newArr);
+      // console.log("Length",newArr.length);
       // Send latest 48 records
       // FirebaseContext.setDataRecords(newArr.slice(-48));
       FirebaseContext.setDataRecords(newArr.splice(120,150));
-      
+      FirebaseContext.setIsDataLoaded(true);
+
     }catch(err){
+
+      FirebaseContext.setIsDataLoaded(false);
       console.log("Error when reading data from Firebase",err);
 
       
+ 
     }
     
   })
@@ -76,14 +80,35 @@ export default function Home() {
         }
     
   },[]);
-  
-  
 
+
+
+// React.useEffect(()=>{
+
+// if('humidity' in FirebaseContext.dataPacket){
+
+
+//   console.log("in he!!",true)
+//   FirebaseContext.setIsDataLodead(false)
   
+// }else{
+//   console.log("out he!!",true)
+//   FirebaseContext.setIsDataLodead(true)
+
+// }
+
+
+// console.log(FirebaseContext.dataPacket);
+
+
+// },[FirebaseContext.dataPacket]);
+
+
+
   return (
 <>
 
-
+{(FirebaseContext.isDataLoaded) ? (
 
 <div style={{position:"relative h-full" ,zIndex:"-10"}}>
   
@@ -104,7 +129,8 @@ export default function Home() {
   
   </section>
   
-  </div> 
+  </div> ) : (<LoadingScreen/>)}
+
 
 
 </>

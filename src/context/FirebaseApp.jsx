@@ -58,7 +58,7 @@ const [dataRecords,setDataRecords] = useState([]);
   const [slectedLineChart,setSlectedLineChart] = useState("Humidity");
   const [slectedBarChart,setSlectedBarChart] = useState("Humidity");
   const [slectedGauge,setSlectedGauge] = useState("Both");
-
+  const [isDataLoaded,setIsDataLoaded] = useState(false);
   const [isUserAdmin,setIsUserAdmin] = useState(false); 
 
   const lineChartRef = useRef(null);
@@ -119,7 +119,6 @@ const resetZoomChart=()=>{
     console.log("Oops Error occured while reseting zoom!")
   }
 }
-
 
 // 🔥 Maximize / Minimize Fucntions!!
 
@@ -290,7 +289,7 @@ function executeDownloadProcess(file_format,data){
 
 // console.log("..........................",data_packet);
 
-return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateDataLogs,downloadFile,executeDownloadProcess}}>
+return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded}}>
   {props.children}
 </FirebaseContext.Provider>
 

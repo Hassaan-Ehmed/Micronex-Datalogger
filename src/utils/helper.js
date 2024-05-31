@@ -40,6 +40,7 @@ return readableTime;
 }
 
 
+
 const formatedDate=(epochTime)=>{
 
     // Create a new Date object from the epoch time in milliseconds
@@ -53,8 +54,30 @@ let date = new Date(epochTime * 1000); // convert seconds to mileseconds
 
 }
 
+const dateToEpochTime=(date)=>{
+
+    // Array Destructuring on date string "2024-05-19"
+const [year,month,day] = date.split("-");
+
+// create new instance of Date Obj where i pass year month day (month is indexed based)
+// so normalize that i subtract 1 to ensure it's indexed based now
+
+const dateObj = new Date(year, month - 1, day);
+
+// date obj with my date i get miliseconds
+const epochTimeMS = dateObj.getTime();
+
+// to convert mileseconds to seconds 
+
+const epochTime = Math.floor(epochTimeMS / 1000)
+
+// console.log("Helloooooooo",epochTime)
+return `${epochTime}`;
+
+}
+
 // helper functions are export here!
-export { Encrypt,Decrypt, ConvertEpochTimeStamp , formatedDate};
+export { Encrypt,Decrypt, ConvertEpochTimeStamp , formatedDate,dateToEpochTime};
 
 
 

@@ -6,7 +6,7 @@ import { useFirebaseContext } from "../context/FirebaseApp";
 import {parseAbsoluteToLocal, Time,parseDate} from "@internationalized/date";
 
 import { Checkbox, Chip, cn } from "@nextui-org/react";
-import { getDatabase, ref , get, child } from "firebase/database";
+import { getDatabase, ref , get, child, Database } from "firebase/database";
 import { ConvertEpochTimeStamp, formatedDate } from "../utils/helper";
 
 
@@ -30,7 +30,8 @@ export default function App() {
     selected : "sign-up",
     selectedOption:"Text format",
     isCheckboxSelected:false,
-    isButtonDisabled:true
+    isButtonDisabled:true,
+    
   })
 
 
@@ -107,6 +108,7 @@ export default function App() {
 
 React.useEffect(()=>{
 
+
   // console.log("value start",value.start);
   // console.log("value end",value.end);
   // console.log(new Time(2,18).toString());
@@ -117,23 +119,24 @@ React.useEffect(()=>{
   console.log("startvalue",startValue.toString().split("").slice(11,16).join(""));
   console.log("date",date.toDate());
 
+},[endValue,startValue,date]);
 
 
-},[endValue,startValue,date])
-    return (
-    <div className="flex flex-col w-full">
-      <Card className="max-w-full w-[340px] h-[310px]">
-        <CardBody className="overflow-hidden">
+return (
+    <div className="flex flex-col w-full ">
+      <Card className="max-w-full w-[340px] h-[340px]">
+        <CardBody className="overflow-hidden ">
           <Tabs
             fullWidth
             size="md"
             aria-label="Tabs form"
             selectedKey={options?.selected}
             onSelectionChange={setOptions}
+            
           >
 
             <Tab key="sign-up" title="Select Time period"  className="cursor-default">
-              <form className="flex flex-col gap-4 h-[300px]">
+              <form className="flex flex-col gap-4 h-[310px]">
 
 
               <div className="w-full flex justify-between gap-2">
@@ -187,7 +190,7 @@ React.useEffect(()=>{
                            isLoading={FirebaseContext.isLoading}
                            spinner={
                               <svg
-                                className="animate-spin h-5 w-5 text-current"
+                                className="animate-spin h-5 w-5 text-current mb-2"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"
