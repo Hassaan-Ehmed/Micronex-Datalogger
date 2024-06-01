@@ -69,15 +69,15 @@ document.addEventListener("fullscreenchange",()=>{
       
       <NavbarContent as="div" className="items-center LM425:hidden" justify="end">
 
-        <Dropdown placement="bottom-start" className="bg-[#FF0000] text-white ml-[3vh] z-[9999999] relative top-[-0.30em]" >
+        <Dropdown placement="bottom-start" className="bg-[#FF0000]  text-white ml-[3vh] z-[9999999] relative top-[-0.30em]" >
           <DropdownTrigger>
-                {isBurgerOpen  ?  <MdOutlineClose className="
+                {isBurgerOpen ?  <MdOutlineClose className="
                 text-[#FF0000] cursor-pointertransition-all 0.3s" fontSize={25} onClick={()=>setIsBurgerOpen(false)}/> : <CgMenu className="
                 text-[#FF0000] cursor-pointer" fontSize={26} onClick={()=>setIsBurgerOpen(true)}/>
                 }
  
           </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat"  className="z-[10]">
+          <DropdownMenu aria-label="Profile Actions" variant="flat"  className="z-[10] ">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{user_packet?.email}</p>

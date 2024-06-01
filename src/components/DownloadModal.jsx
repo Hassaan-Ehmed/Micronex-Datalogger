@@ -21,7 +21,7 @@ const DownloadModal = () => {
       return (
         <div>
             { FirebaseContext.isDownloadModalOpen && (
-                <div className="main-modal fixed w-full h-full inset-0 z-[200] overflow-hidden flex justify-center items-center animated fadeIn faster"
+                <div className="hidden tablet:flex main-modal fixed w-full h-full inset-0 z-[200] overflow-hidden justify-center items-center animated fadeIn faster"
                     style={{ background: 'rgba(0,0,0,.7)' }}>
                     <div className=" modal-container w-11/12  max-w-md mx-auto   z-50 overflow-y-auto shadow-2xl p-2 rounded-2xl border-2 border-gray-50 bg-white">
                         <div className="modal-content py-4 text-left px-6">

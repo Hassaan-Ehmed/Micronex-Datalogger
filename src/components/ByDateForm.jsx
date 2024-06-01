@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Tabs, Tab, Input, Button, Card, CardBody, DateRangePicker, Checkbox, } from "@nextui-org/react";
+import {Tabs, Tab, Input, Button, Card, CardBody, DateRangePicker, Checkbox, Select, SelectItem, } from "@nextui-org/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ref,onValue, getDatabase, query, orderByChild, child, get } from "firebase/database";
 import { firebaseApp, firebaseAuth, useFirebaseContext } from "../context/FirebaseApp";
@@ -20,6 +20,8 @@ export default function App() {
   const FirebaseContext = useFirebaseContext();
   const DB_REF = ref(getDatabase());
 
+  const fileFormats = ["Text format","Excel format","PDF format"];
+
   const user = {
     name: "Download all data",
     role: "Data Logs",
@@ -38,6 +40,7 @@ export default function App() {
 
   const [options,setOptions] = React.useReducer((state,newState)=>({...state,...newState}),{
     selected : "sign-up",
+    selectedOption:"Text format",
     isCheckboxSelected:false,
     isButtonDisabled:true,
 
@@ -140,7 +143,7 @@ React.useEffect(()=>{
 
     return (
     <div className="flex flex-col w-full">
-      <Card className="max-w-full w-[340px] h-[310px]">
+      <Card className="max-w-full w-[340px] h-[340px]">
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth
@@ -153,6 +156,29 @@ React.useEffect(()=>{
             <Tab key="sign-up" title="Select Date range"  className="cursor-default">
               <form className="flex flex-col gap-4 h-[300px]">
             
+
+
+              <Select
+      label="Select File format"
+      placeholder="Text Format"
+      defaultSelectedKeys={["Text format"]}
+      className="max-w-xs"
+      selectedKeys={[options?.selectedOption]}
+      onChange={(e)=>setOptions({selectedOption:e.target.value})}
+      
+    >
+      {fileFormats.map((format)=>{
+
+      return(
+      <SelectItem key={format} value={format}>
+      {format}
+    </SelectItem>)
+   
+
+        })}
+        
+    </Select>
+
             <DateRangePicker
             
             minValue={options?.minDateRange}
@@ -165,32 +191,7 @@ React.useEffect(()=>{
           value={value}
           onChange={setValue}
                 />
-      <Checkbox       
-      aria-label={user.name}
-      classNames={{
-        base: cn(
-          "inline-flex max-w-md bg-content1 alig-self",
-          "hover:bg-content2 items-center justify-start",
-          "cursor-pointer rounded-lg gap-2 p-2 border-2 border-transparent",
-          "data-[selected=true]:border-primary",
-        ),
-        label: "w-full",
-      }}
-
-      isSelected={options?.isCheckboxSelected}
-      onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})}
-    >
-
-<div className="w-full flex justify-between gap-2">
-   
-   <div className="flex flex-col items-end gap-1">
-     <span className="text-tiny text-default-500">{user.role}</span>
-     <Chip color="success" size="sm" variant="flat">
-       {user.status}
-     </Chip>
-   </div>
- </div>
-</Checkbox>
+     
  
       
                 <Button isDisabled={options?.isButtonDisabled} id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}

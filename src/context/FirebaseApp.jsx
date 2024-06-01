@@ -43,7 +43,7 @@ export const FirebaseProvider=(props)=>{
   // const [isTabSelected,setIsTabSelected] = useState(0)
   const [isTabSelected,setIsTabSelected] = useState("readings");
   const [isGraphTabSelected,setIsGraphTabSelected] = useState("line-graph");
-  const [isDownloadTabSelected,setIsDownloadTabSelected] = useState("all-data");
+  const [isDownloadTabSelected,setIsDownloadTabSelected] = useState("by-date");
   
   const [data,setData] = useState({});
 

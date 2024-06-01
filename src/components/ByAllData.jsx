@@ -94,9 +94,10 @@ export default function App() {
 
 
 
+  // h-[310px]
     return (
     <div className="flex flex-col w-full">
-      <Card className="max-w-full w-[340px] h-[310px]">
+      <Card className="max-w-full w-[340px] h-[340px]">
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth

@@ -23,10 +23,12 @@ import DownloadModal from '../components/DownloadModal';
 
 export default function Home() {
   
-  const FirebaseContext = useFirebaseContext();
-
   const navigate = useNavigate();
+  const FirebaseContext = useFirebaseContext();
+  
 
+
+  // for Data Fetching
   React.useEffect(()=>{
     
     let user = JSON.parse(localStorage.getItem("User_ID"));
@@ -83,6 +85,7 @@ export default function Home() {
 
 
 
+
 // React.useEffect(()=>{
 
 // if('humidity' in FirebaseContext.dataPacket){
@@ -108,10 +111,12 @@ export default function Home() {
   return (
 <>
 
-{(FirebaseContext.isDataLoaded) ? (
+  {(FirebaseContext.isDataLoaded) ? (
+
 
 <div style={{position:"relative h-full" ,zIndex:"-10"}}>
-  
+
+
   <MyFullScreenModal/>
   
   <DownloadModal/>
@@ -129,7 +134,12 @@ export default function Home() {
   
   </section>
   
-  </div> ) : (<LoadingScreen/>)}
+
+  </div> ) : (<LoadingScreen/>)} 
+    
+
+
+
 
 
 

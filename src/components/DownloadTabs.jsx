@@ -35,26 +35,8 @@ const FirebaseContext = useFirebaseContext();
           >
 
 
-        <Tab
-         key="all-data"
-          title={<div className="flex items-center space-x-2">
-                  <FaDatabase/>
-                    <span>All Data</span>
-                  </div>}
-          ></Tab> 
-
-
-           <Tab 
-           key="by-time"
-            title={<div
-                    className="flex items-center space-x-2">
-                  <MdOutlineAccessTimeFilled className="text-xl"/>
-                    <span>By Time</span>
-                    </div>
-                  }>
-           </Tab>
-
-          <Tab 
+        
+<Tab 
             key="by-date"
              title={<div
               className="flex items-center space-x-2"
@@ -66,6 +48,25 @@ const FirebaseContext = useFirebaseContext();
             >
           </Tab>
            
+
+           <Tab 
+           key="by-time"
+            title={<div
+                    className="flex items-center space-x-2">
+                  <MdOutlineAccessTimeFilled className="text-xl"/>
+                    <span>By Time</span>
+                    </div>
+                  }>
+           </Tab>
+
+        
+          <Tab
+         key="all-data"
+          title={<div className="flex items-center space-x-2">
+                  <FaDatabase/>
+                    <span>All Data</span>
+                  </div>}
+          ></Tab>
            
 
         </Tabs>

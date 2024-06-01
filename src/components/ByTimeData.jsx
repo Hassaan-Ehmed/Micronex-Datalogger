@@ -139,17 +139,27 @@ return (
               <form className="flex flex-col gap-4 h-[310px]">
 
 
-              <div className="w-full flex justify-between gap-2">
+              <Select
+      label="Select File format"
+      placeholder="Text Format"
+      defaultSelectedKeys={["Text format"]}
+      className="max-w-xs"
+      selectedKeys={[options?.selectedOption]}
+      onChange={(e)=>setOptions({selectedOption:e.target.value})}
+      
+    >
+      {fileFormats.map((format)=>{
 
-              <TimeInput hideTimeZone={true} label="Start Time" defaultValue={new Time(12,15)} value={startValue} onChange={setStartValue} className="w-[50%]" />
+      return(
+      <SelectItem key={format} value={format}>
+      {format}
+    </SelectItem>)
+   
 
-              <TimeInput hideTimeZone={true} label="End Time" defaultValue={new Time(5,30)} value={endValue} onChange={setEndValue}  className="w-[50%]" />
-            
-              </div>
-
-              
-    
-            <DatePicker
+        })}
+        
+    </Select>
+              <DatePicker
             key={'inside'}
             label="Select Date"
             // labelPlacement={"placement"}
@@ -159,31 +169,15 @@ return (
           value={date}
           onChange={setDate}
                 />
-      <Checkbox       
-      aria-label={user.name}
-      classNames={{
-        base: cn(
-          "inline-flex max-w-md bg-content1 alig-self",
-          "hover:bg-content2 items-center justify-start",
-          "cursor-pointer rounded-lg gap-2 p-2 border-2 border-transparent",
-          "data-[selected=true]:border-primary",
-        ),
-        label: "w-full",
-      }}
-      isSelected={options?.isCheckboxSelected}
-      onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})}
-    >
-      <div className="w-full flex justify-between gap-2">
-   
-        <div className="flex flex-col items-end gap-1">
-          <span className="text-tiny text-default-500">{user.role}</span>
-          <Chip color="success" size="sm" variant="flat">
-            {user.status}
-          </Chip>
-        </div>
-      </div>
-    </Checkbox>
-      
+
+              <div className="w-full flex justify-between gap-2">
+
+              <TimeInput hideTimeZone={true} label="Start Time" defaultValue={new Time(12,15)} value={startValue} onChange={setStartValue} className="w-[50%]" />
+
+              <TimeInput hideTimeZone={true} label="End Time" defaultValue={new Time(5,30)} value={endValue} onChange={setEndValue}  className="w-[50%]" />
+            
+              </div>
+
            
               <Button onClick={DownloadAllData} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
                            
