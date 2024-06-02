@@ -142,8 +142,8 @@ React.useEffect(()=>{
     // }
 
     return (
-    <div className="flex flex-col w-full">
-      <Card className="max-w-full w-[340px] h-[340px]">
+    <div className="flex flex-col w-full mb-[3.45rem]">
+      <Card className="max-w-full w-[340px] h-[285px] ">
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth

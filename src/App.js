@@ -1,27 +1,25 @@
 
-import React,{useEffect, useState} from 'react'
+import React from 'react';
 import './App.css';
 // import Card from './components/Card';
+import { Route, Routes } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
-import { BrowserRouter as Router, Routes , Route, useNavigate  } from 'react-router-dom';
 import Home from './pages/Home';
 // import { useEffect } from 'react';
-import { firebaseApp, firebaseAuth, setupUI, useFirebaseContext } from './context/FirebaseApp';
-import {getAuth, onAuthStateChanged} from 'firebase/auth' 
-import { getDatabase, onValue, ref } from 'firebase/database';
-import firebase from 'firebase/compat/app';
-import Svg from './components/SVGS/Svg';
-import { SVG_ICON } from './components/SVGS/Svg';
-import MyTabs from './components/Tabs';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
+import NetworkErrorScreen from './components/NetworkErrorScreen';
 import SignupForm from './components/SignupForm.';
+import ErrorPage from './pages/Error404';
 import AuthProtection from './utils/AuthProtection';
 import RouteProtection from './utils/RouteProtection';
-import ErrorPage from './pages/Error404';
-import LoadingScreen from './components/LoadingScreen';
-import NetworkErrorScreen from './components/NetworkErrorScreen';
 
 
 function App() {
+
+  const DB =  getDatabase();
+  const DB_REF_REALTIME = ref(DB,'data/');  
+  const DB_REF_DATA_LOGS = ref(DB,'dataLogs/');  
 
   const [isOnline,setIsOnline] = React.useState(window.navigator.onLine);
 
@@ -32,7 +30,21 @@ React.useEffect(()=>{
 
     setIsOnline(window.navigator.onLine)
   }
+  
+  // IIFE (iffy)
 
+  (()=>{
+
+    // for realtime data monitoring (every second)
+    // set(DB_REF_REALTIME,realtime_data);
+
+
+    // for data logs that create every 30 min interval  (every 30 min)
+    // set(DB_REF_DATA_LOGS,data_logs)
+
+
+  })()
+  
 
   window.addEventListener('online',updateOnlineStatus);
   window.addEventListener('offline',updateOnlineStatus);

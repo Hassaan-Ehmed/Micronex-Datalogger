@@ -36,20 +36,23 @@ export default function Home() {
     if (user) {
 
       const DB = getDatabase();
-      const DB_PATH =  'data/';
+      const REALTIME_DB_PATH =  'data/';
+      // const LOGS_DB_PATH =  'dataLogs/';
       
-      const Database_Credentials = ref(DB,DB_PATH);
+      const Database_Credentials = ref(DB,REALTIME_DB_PATH);
       
       onValue(Database_Credentials,(snapshot)=>{
   
         try{    
             
             const data = snapshot.val();
+
+            console.log("data",data); 
             
             const newArr = Object.values(data);
 
-            console.log("Length",newArr.length)
-       const {humidity,temperature,timestamp} = {...newArr[newArr.length-120]}; 
+       console.log("Length",newArr.length)
+       const {humidity,temperature,timestamp} = {...newArr[newArr.length-1]}; 
 
       //  console.log("TIMESTAMP:::::",timestamp);
       //  console.log("After Conversion > ",ConvertEpochTimeStamp(timestamp).split(":").slice(0,2).join(":"));
@@ -57,10 +60,10 @@ export default function Home() {
        // Send humidity & temperature (packet)
       FirebaseContext.setDataPacket({humidity,temperature});
       // console.log("Hello Data",newArr);
-      // console.log("Length",newArr.length);
-      // Send latest 48 records
-      // FirebaseContext.setDataRecords(newArr.slice(-48));
-      FirebaseContext.setDataRecords(newArr.splice(120,150));
+     
+      // Send latest 30 records     
+      FirebaseContext.setDataRecords(newArr.slice(-30));
+      // FirebaseContext.setDataRecords(newArr.splice(120,150));
       FirebaseContext.setIsDataLoaded(true);
 
     }catch(err){
@@ -82,8 +85,6 @@ export default function Home() {
         }
     
   },[]);
-
-
 
 
 // React.useEffect(()=>{

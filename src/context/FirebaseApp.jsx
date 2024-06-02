@@ -1,8 +1,7 @@
-import React, { useReducer, useRef, useState } from 'react'
-import { initializeApp } from 'firebase/app'
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
-import { getDatabase, ref ,onValue} from 'firebase/database';
-import { createContext, useContext } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
+import React, { createContext, useContext, useRef, useState } from 'react';
 
     export const firebaseConfig = {
       apiKey: "AIzaSyDhKjL0gWRz5Vy4ibMDFJAT0b72AfF5EkE",
@@ -23,32 +22,16 @@ const FirebaseContext = createContext(null);
 export const useFirebaseContext = ()=> useContext(FirebaseContext);
 
 
-let data_packet;
-
-// MANAGE LOGIN/LOGOUT UI
-
-
 export const FirebaseProvider=(props)=>{
 
-
-  // const [isTabSelected,setIsTabSelected] = useReducer((state,newState)=>({...state,...newState}),{
-
-  //   tab1:true,
-  //   tab2:false,
-  //   tab3:false,
-
-    
-  // })
-
-  // const [isTabSelected,setIsTabSelected] = useState(0)
   const [isTabSelected,setIsTabSelected] = useState("readings");
   const [isGraphTabSelected,setIsGraphTabSelected] = useState("line-graph");
   const [isDownloadTabSelected,setIsDownloadTabSelected] = useState("by-date");
   
   const [data,setData] = useState({});
 
-const [dataPacket,setDataPacket] = useState({});
-const [dataRecords,setDataRecords] = useState([]);
+  const [dataPacket,setDataPacket] = useState({});
+  const [dataRecords,setDataRecords] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
@@ -59,8 +42,7 @@ const [dataRecords,setDataRecords] = useState([]);
   const [slectedBarChart,setSlectedBarChart] = useState("Humidity");
   const [slectedGauge,setSlectedGauge] = useState("Both");
   const [isDataLoaded,setIsDataLoaded] = useState(false);
-  const [isUserAdmin,setIsUserAdmin] = useState(false); 
-
+  const [isUserAdmin,setIsUserAdmin] = useState(false);
   const lineChartRef = useRef(null);
   const barChartRef = useRef(null);
   
@@ -97,7 +79,6 @@ const closeModal = (isFor) => {
   }
 
 };
-
 
 // 🔥 Chart Zooming Functionalies!!
 
@@ -199,7 +180,6 @@ const toggleMinMaxIcon = ()=>{
 
 
 }
-
 
 
 //🔥 Download Data Logs file!!

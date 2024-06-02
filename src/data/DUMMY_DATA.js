@@ -3,7 +3,7 @@ import { ConvertEpochTimeStamp } from "../utils/helper";
 export function HumiditylineChartsData(Data_Records){
 try{
 
-    if((Array.isArray(Data_Records)) && Data_Records.length >= 48){
+    if((Array.isArray(Data_Records)) && Data_Records.length >= 30){
 
         return( {
 
@@ -53,7 +53,7 @@ try{
 export function TemperaturelineChartsData(Data_Records){
 try{
 
-    if((Array.isArray(Data_Records)) && Data_Records.length >= 48){
+    if((Array.isArray(Data_Records)) && Data_Records.length >= 30){
 
         return( {
 
@@ -103,7 +103,7 @@ try{
 export function BothlineChartsData(Data_Records){
 try{
 
-    if((Array.isArray(Data_Records)) && Data_Records.length >= 48){
+    if((Array.isArray(Data_Records)) && Data_Records.length >= 30){
 
         return( {
 
@@ -164,11 +164,10 @@ try{
 
 
 }
-
 export function HumidityBarChartsData(Data_Records){
     try{
     
-        if((Array.isArray(Data_Records)) && Data_Records.length >= 48){
+        if((Array.isArray(Data_Records)) && Data_Records.length >= 30){
     
             return( {
     
@@ -220,7 +219,7 @@ export function HumidityBarChartsData(Data_Records){
 export function TemperatureBarChartsData(Data_Records){
     try{
     
-        if((Array.isArray(Data_Records)) && Data_Records.length >= 48){
+        if((Array.isArray(Data_Records)) && Data_Records.length >= 30){
     
             return( {
     
@@ -272,7 +271,7 @@ export function TemperatureBarChartsData(Data_Records){
 export function BothBarChartsData(Data_Records){
     try{
     
-        if((Array.isArray(Data_Records)) && Data_Records.length >= 48){
+        if((Array.isArray(Data_Records)) && Data_Records.length >= 30){
     
             return( {
     
@@ -332,5 +331,4 @@ export function BothBarChartsData(Data_Records){
     
     
  }
-
 
