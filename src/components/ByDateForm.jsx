@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Tabs, Tab, Input, Button, Card, CardBody, DateRangePicker, Checkbox, Select, SelectItem, } from "@nextui-org/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ref,onValue, getDatabase, query, orderByChild, child, get } from "firebase/database";
+import { ref,onValue, getDatabase, query, orderByChild, child, get, startAt, endAt } from "firebase/database";
 import { firebaseApp, firebaseAuth, useFirebaseContext } from "../context/FirebaseApp";
 import {getAuth, signInWithEmailAndPassword,createUserWithEmailAndPassword} from 'firebase/auth'
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -148,36 +148,42 @@ React.useEffect(()=>{
   
       try{
         
-        const snapshot  = await get(child(DB_REF,'dataLogs/'));
+        const snapshot = await get(query(
+                          ref(getDatabase(),'dataLogs/'),
+                          orderByChild('datepoint'),
+                            startAt(`${value?.start}`),
+                          endAt(`${value?.end}`),
+                        ));
     
+ 
           if(snapshot.exists()){
             
             console.log("Data: ",snapshot.val());
     
             const data = snapshot.val();
     
-            console.log("data",data);
-            // setTimeout(()=>{
+            console.log("dataLogs Date Range DATA::",data);
+            setTimeout(()=>{
                 
-            // // Download File Main Function!! 
-            // const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
+            // Download File Main Function!! 
+            const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
             
-            // if(isFileDownloaded){
+            if(isFileDownloaded){
               
-            //   // if file downloaded so it can reset all the states
+              // if file downloaded so it can reset all the states
               
-            //   setOptions(
-            //     {selectedOption:"Text format",
-            //     isCheckboxSelected:false,
-            //     isButtonDisabled:true}
-            //   )
+              setOptions(
+                {selectedOption:"Text format",
+                isCheckboxSelected:false,
+                isButtonDisabled:true}
+              )
               
-            //   FirebaseContext.setIsLoading(false);
-            //   }
+              FirebaseContext.setIsLoading(false);
+              }
     
-            // },2000)
+            },2000)
     
-            // FirebaseContext.setIsLoading(true);
+            FirebaseContext.setIsLoading(true);
     
           }else{
             console.log("No Data Available"); 
@@ -251,7 +257,7 @@ React.useEffect(()=>{
     &nbsp;&nbsp;&nbsp;Yes, I want to download datalogs
       </Checkbox>
       
-                <Button isDisabled={options?.isButtonDisabled} id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
+                <Button onClick={DownloadDateRangeData} isDisabled={options?.isButtonDisabled} id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
 
                            isLoading={FirebaseContext.isLoading}
                            spinner={
