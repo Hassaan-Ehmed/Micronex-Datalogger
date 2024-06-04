@@ -48,7 +48,7 @@ export default function App() {
   
   try{
     
-    const snapshot  = await get(child(DB_REF,'data/'));
+    const snapshot  = await get(child(DB_REF,'dataLogs/'));
 
       if(snapshot.exists()){
         
@@ -56,10 +56,9 @@ export default function App() {
 
         const data = snapshot.val();
 
-
+        console.log("data",data);
         setTimeout(()=>{
-          
-  
+            
         // Download File Main Function!! 
         const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
         

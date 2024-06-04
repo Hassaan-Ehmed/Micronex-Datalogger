@@ -9,18 +9,25 @@ try{
 
             labels:Data_Records?.map( (packet) =>{
 
-               let TIME =  ConvertEpochTimeStamp(packet?.timestamp);
-               
-               let integerHour = +TIME.split(":")[0];
+               let timeArr =  packet?.timestamp.split("_")[1].split("");
 
-               if(integerHour > 12){  
-
-                return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
+               timeArr.splice(2,0,":");
                
-            } else {
-                return `${TIME} AM`
-               }
-            }
+               let TIME = timeArr.join("");
+
+               return `${TIME}`
+            //    let integerHour = +TIME.split(":")[0];
+
+            //    if(integerHour > 12){  
+
+                // return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
+               
+            // } else {
+                // return `${TIME}`
+            //    }
+
+
+        }
 
                                 )
 
@@ -59,17 +66,13 @@ try{
 
             labels:Data_Records?.map( (packet) =>{
 
-               let TIME =  ConvertEpochTimeStamp(packet?.timestamp);
-               
-               let integerHour = +TIME.split(":")[0];
+                let timeArr =  packet?.timestamp.split("_")[1].split("");
 
-               if(integerHour > 12){  
-
-                return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
-               
-            } else {
-                return `${TIME} AM`
-               }
+                timeArr.splice(2,0,":");
+                
+                let TIME = timeArr.join("");
+ 
+                return `${TIME}`
             }
 
                                 )
@@ -109,17 +112,13 @@ try{
 
             labels:Data_Records?.map( (packet) =>{
 
-               let TIME =  ConvertEpochTimeStamp(packet?.timestamp);
-               
-               let integerHour = +TIME.split(":")[0];
+                let timeArr =  packet?.timestamp.split("_")[1].split("");
 
-               if(integerHour > 12){  
-
-                return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
-               
-            } else {
-                return `${TIME} AM`
-               }
+                timeArr.splice(2,0,":");
+                
+                let TIME = timeArr.join("");
+ 
+                return `${TIME}`
             }
 
                                 )
@@ -173,17 +172,13 @@ export function HumidityBarChartsData(Data_Records){
     
                 labels:Data_Records?.map( (packet) =>{
     
-                   let TIME =  ConvertEpochTimeStamp(packet?.timestamp);
-                   
-                   let integerHour = +TIME.split(":")[0];
-    
-                   if(integerHour > 12){  
-    
-                    return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
-                   
-                } else {
-                    return `${TIME} AM`
-                   }
+                    let timeArr =  packet?.timestamp.split("_")[1].split("");
+
+                    timeArr.splice(2,0,":");
+                    
+                    let TIME = timeArr.join("");
+     
+                    return `${TIME}`
                 }
     
                                     )
@@ -224,18 +219,14 @@ export function TemperatureBarChartsData(Data_Records){
             return( {
     
                 labels:Data_Records?.map( (packet) =>{
-    
-                   let TIME =  ConvertEpochTimeStamp(packet?.timestamp);
-                   
-                   let integerHour = +TIME.split(":")[0];
-    
-                   if(integerHour > 12){  
-    
-                    return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
-                   
-                } else {
-                    return `${TIME} AM`
-                   }
+
+                    let timeArr =  packet?.timestamp.split("_")[1].split("");
+
+                    timeArr.splice(2,0,":");
+                    
+                    let TIME = timeArr.join("");
+     
+                    return `${TIME}`
                 }
     
                                     )
@@ -277,17 +268,13 @@ export function BothBarChartsData(Data_Records){
     
                 labels:Data_Records?.map( (packet) =>{
     
-                   let TIME =  ConvertEpochTimeStamp(packet?.timestamp);
-                   
-                   let integerHour = +TIME.split(":")[0];
-    
-                   if(integerHour > 12){  
-    
-                    return `${+integerHour-12}:${TIME.split(":").splice(1).join(":")} PM`
-                   
-                } else {
-                    return `${TIME} AM`
-                   }
+            let timeArr =  packet?.timestamp.split("_")[1].split("");
+
+               timeArr.splice(2,0,":");
+               
+               let TIME = timeArr.join("");
+
+               return `${TIME}`
                 }
     
                                     )

@@ -30,10 +30,11 @@ export default function App() {
 
   
   const [selected, setSelected] = React.useState("sign-up");
+   
   const [value, setValue] = React.useState(
     {
-        start: parseDate(formatedDate(1714377797)),
-        end: parseDate(formatedDate(1714377765)),
+        start: parseDate(FirebaseContext?.dateLimits?.minimumDate) ,
+        end: parseDate(FirebaseContext?.dateLimits?.maximumDate) ,
     } 
 );
     
@@ -43,12 +44,10 @@ export default function App() {
     selectedOption:"Text format",
     isCheckboxSelected:false,
     isButtonDisabled:true,
-
-
+  
   })
   
   React.useEffect(()=>{
-
 
     // console.log("Start Date\n\n")
     // console.log("start day",value.start.day);
@@ -64,10 +63,11 @@ export default function App() {
     
     // fetchTimeStamp();  
     // console.table("Hmm...",parseDate(formatedDate(1714377797)))   
-    console.log("StartDateConv..",value.start.toString())   
-    console.log("StartDateConv.XZY",dateToEpochTime(value.start.toString() || ""))   
-    console.log("EndDateConv..",value.end)   
+    console.log("StartDateConv..",value.start)   
+    // console.log("StartDateConv.XZY",dateToEpochTime(value.start.toString() || ""))   
+    console.log("EndDateConv..",value.end.toString())   
 
+    
   },[])
   
 
@@ -95,18 +95,21 @@ React.useEffect(()=>{
 
     //   try{
         
-    //     const snapshot = await get(child(DB_REF,'data/'));
+    //     const snapshot = await get(child(DB_REF,'dataLogs/'));
     
     //     if(snapshot.exists()){
        
     //       const timeStamps = Object.keys(snapshot.val() || {});
     
     //       if(timeStamps){
-    
-    //         setOptions({
-    //           minDateRange: parseDate(formatedDate(timeStamps[0])),
-    //           maxDateRange: parseDate(formatedDate(timeStamps.length-1)),
-    //             })
+
+          
+    //         console.log("timestamps in Download modal !!",timeStamps);
+
+    //         console.log("dateStart",formatedDate(timeStamps[0]))
+    //         console.log("dateEnd",formatedDate(timeStamps[timeStamps.length-1]));
+
+
 
     //         setValue(
     //           {
@@ -126,8 +129,8 @@ React.useEffect(()=>{
     //       }else{
           
     //         setValue({
-    //           start: parseDate(formatedDate(1714377797)),
-    //           end: parseDate(formatedDate(1714377765)),
+    //           start: parseDate(formatedDate("2024-01-01")),
+    //           end: parseDate(formatedDate("2024-04-06")),
     //       } )
           
     //       }
@@ -141,9 +144,57 @@ React.useEffect(()=>{
     //   }
     // }
 
+    const DownloadDateRangeData = async ()=>{
+  
+      try{
+        
+        const snapshot  = await get(child(DB_REF,'dataLogs/'));
+    
+          if(snapshot.exists()){
+            
+            console.log("Data: ",snapshot.val());
+    
+            const data = snapshot.val();
+    
+            console.log("data",data);
+            // setTimeout(()=>{
+                
+            // // Download File Main Function!! 
+            // const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
+            
+            // if(isFileDownloaded){
+              
+            //   // if file downloaded so it can reset all the states
+              
+            //   setOptions(
+            //     {selectedOption:"Text format",
+            //     isCheckboxSelected:false,
+            //     isButtonDisabled:true}
+            //   )
+              
+            //   FirebaseContext.setIsLoading(false);
+            //   }
+    
+            // },2000)
+    
+            // FirebaseContext.setIsLoading(true);
+    
+          }else{
+            console.log("No Data Available"); 
+          }
+       
+        }catch(error){
+    
+          console.log(error,"Error While Downloading (All Data)");
+    
+        }
+        
+      }
+    
+
     return (
-    <div className="flex flex-col w-full mb-[3.45rem]">
-      <Card className="max-w-full w-[340px] h-[285px] ">
+    <div className="flex flex-col w-full mb-[2.45rem]">
+      <Card className="max-w-full w-[340px] h-[310px] ">
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth
@@ -157,8 +208,23 @@ React.useEffect(()=>{
               <form className="flex flex-col gap-4 h-[300px]">
             
 
+              <DateRangePicker
+            minValue={parseDate(FirebaseContext?.dateLimits?.minimumDate)}
+            maxValue={parseDate(FirebaseContext?.dateLimits?.maximumDate)}
+            
+            // minValue={options?.minDateRange}
+            // maxValue={options?.maxDateRange}
+            key={'inside'}
+            label="Date Duration"
+       
+            style={{paddingTop:"30px",paddingBottom:"20px"}}
+            className="max-w-xs"
+          value={value}
+          onChange={setValue}
+                />
+     
 
-              <Select
+        <Select
       label="Select File format"
       placeholder="Text Format"
       defaultSelectedKeys={["Text format"]}
@@ -179,20 +245,11 @@ React.useEffect(()=>{
         
     </Select>
 
-            <DateRangePicker
-            
-            minValue={options?.minDateRange}
-            // maxValue={options?.maxDateRange}
-            key={'inside'}
-            label="Date Duration"
-       
-            style={{paddingTop:"30px",paddingBottom:"20px"}}
-            className="max-w-xs"
-          value={value}
-          onChange={setValue}
-                />
-     
+          {/* isSelected={options?.isCheckboxSelected} */}
  
+    <Checkbox  value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1`}>
+    &nbsp;&nbsp;&nbsp;Yes, I want to download datalogs
+      </Checkbox>
       
                 <Button isDisabled={options?.isButtonDisabled} id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
 

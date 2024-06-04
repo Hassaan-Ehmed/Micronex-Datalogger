@@ -40,17 +40,19 @@ return readableTime;
 }
 
 
-
-const formatedDate=(epochTime)=>{
-
-    // Create a new Date object from the epoch time in milliseconds
-let date = new Date(epochTime * 1000); // convert seconds to mileseconds
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-indexed
-    const day = String(date.getDate()).padStart(2, '0');
+const formatedDate=(timestamp)=>{
     
-    return `${year}-${month}-${day}`;
+    // timestamp -> "010624_HHMM"
+
+    // date elements [0,1,0,6,24];
+    let dateArr = timestamp.split("_")[0].split(""); 
+    let day = dateArr.slice(0,2).join("");
+    let month = dateArr.slice(2,4).join("");
+    let year = dateArr.slice(4).join("");
+
+
+    // console.log(typeof year,month,day);
+    return `20${year}-${month}-${day}`;
 
 }
 

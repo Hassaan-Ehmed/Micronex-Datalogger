@@ -16,7 +16,7 @@ import LineChart from '../components/LineChart'
 import { HumidityBarChartsData } from '../data/DUMMY_DATA'
 import NextDropDown from '../components/LineDropDown'
 import MyFullScreenModal from '../components/FullScreenModal'
-import { ConvertEpochTimeStamp } from '../utils/helper'
+import { ConvertEpochTimeStamp, formatedDate } from '../utils/helper'
 import LoadingScreen from '../components/LoadingScreen'
 import NetworkErrorScreen from '../components/NetworkErrorScreen'
 import DownloadModal from '../components/DownloadModal';
@@ -26,64 +26,118 @@ export default function Home() {
   const navigate = useNavigate();
   const FirebaseContext = useFirebaseContext();
   
+const FetchRealtimeData = ()=>{
+
+  let user = JSON.parse(localStorage.getItem("User_ID"));
+    
+  if (user) {
+
+    const DB = getDatabase();
+    const REALTIME_DB_PATH =  'data/';
+
+    const Database_Credentials = ref(DB,REALTIME_DB_PATH);
+    
+    onValue(Database_Credentials,(snapshot)=>{
+
+      try{    
+          
+          const data = snapshot.val();
+
+          console.log("realtime data",data); 
+          
+          const newPacket = Object.values(data);
+
+     const {humidity,temperature} = {...newPacket[0]}; 
+
+    FirebaseContext.setDataPacket({humidity,temperature});
+
+    FirebaseContext.setIsDataLoaded(true);
+
+  }catch(err){
+
+    FirebaseContext.setIsDataLoaded(false);
+    console.log("Error when reading realtime data from Firebase",err);
+
+    
+
+  }
+  
+})
+
+
+} else{
+    
+        navigate("/");
+       
+      }
+  
+  
+
+}
+
+const FetchDataLogs = ()=>{
+
+  let user = JSON.parse(localStorage.getItem("User_ID"));
+    
+  if (user) {
+
+    const DB = getDatabase();
+    const LOGS_DB_PATH =  'dataLogs/';
+    
+    const Database_Credentials = ref(DB,LOGS_DB_PATH);
+    
+    onValue(Database_Credentials,(snapshot)=>{
+
+      try{    
+          
+          const data = snapshot.val();
+
+          console.log("dataLogs",data); 
+          
+          const newArr = Object.values(data);
+        
+        
+        
+          // FirebaseContext.setDataRecords(newArr.slice(-48));
+          FirebaseContext.setDataRecords(newArr.slice(-48));
+            console.log("length of logs data",newArr.slice(-48).length)
+
+          FirebaseContext.setDateLimits({
+            minimumDate:formatedDate(newArr[0].timestamp),
+            maximumDate:formatedDate(newArr[newArr.length-1].timestamp),
+          })
+
+  }catch(err){
+
+
+    console.log("Error when reading data logs from Firebase",err);
+
+    
+
+  }
+  
+})
+
+
+} else{
+    
+        navigate("/");
+       
+      }
+  
+  
+
+}
+
 
 
   // for Data Fetching
   React.useEffect(()=>{
     
-    let user = JSON.parse(localStorage.getItem("User_ID"));
-    
-    if (user) {
+    FetchRealtimeData();
+    FetchDataLogs();
 
-      const DB = getDatabase();
-      const REALTIME_DB_PATH =  'data/';
-      // const LOGS_DB_PATH =  'dataLogs/';
-      
-      const Database_Credentials = ref(DB,REALTIME_DB_PATH);
-      
-      onValue(Database_Credentials,(snapshot)=>{
-  
-        try{    
-            
-            const data = snapshot.val();
-
-            console.log("data",data); 
-            
-            const newArr = Object.values(data);
-
-       console.log("Length",newArr.length)
-       const {humidity,temperature,timestamp} = {...newArr[newArr.length-1]}; 
-
-      //  console.log("TIMESTAMP:::::",timestamp);
-      //  console.log("After Conversion > ",ConvertEpochTimeStamp(timestamp).split(":").slice(0,2).join(":"));
-
-       // Send humidity & temperature (packet)
-      FirebaseContext.setDataPacket({humidity,temperature});
-      // console.log("Hello Data",newArr);
-     
-      // Send latest 30 records     
-      FirebaseContext.setDataRecords(newArr.slice(-30));
-      // FirebaseContext.setDataRecords(newArr.splice(120,150));
-      FirebaseContext.setIsDataLoaded(true);
-
-    }catch(err){
-
-      FirebaseContext.setIsDataLoaded(false);
-      console.log("Error when reading data from Firebase",err);
-
-      
- 
-    }
-    
-  })
-
-  
-} else{
-      
-          navigate("/");
-         
-        }
-    
+   
   },[]);
 
 
