@@ -155,7 +155,6 @@ React.useEffect(()=>{
                           endAt(`${value?.end}`),
                         ));
     
- 
           if(snapshot.exists()){
             
             console.log("Data: ",snapshot.val());

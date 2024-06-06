@@ -3,17 +3,23 @@ import React from "react";
 import '../App.css';
 import { useFirebaseContext } from "../context/FirebaseApp";
 
-import {parseAbsoluteToLocal, Time,parseDate} from "@internationalized/date";
+import {parseAbsoluteToLocal, Time,parseDate, parseTime} from "@internationalized/date";
 
 import { Checkbox, Chip, cn } from "@nextui-org/react";
-import { getDatabase, ref , get, child, Database } from "firebase/database";
-import { ConvertEpochTimeStamp, formatedDate } from "../utils/helper";
+import { getDatabase, ref , get, child, Database, query, orderByChild, equalTo, startAt } from "firebase/database";
+import { ConvertEpochTimeStamp, formatedDate, timeFormatedArray } from "../utils/helper";
+import { HiOutlineSelector } from "react-icons/hi";
+
 
 
 export default function App() {
 
+  const FirebaseContext = useFirebaseContext();
 
-  
+  const [value, setValue] = React.useState(parseDate(FirebaseContext?.dateLimits.minimumDate));
+  const [startValue, setStartValue] = React.useState([]);
+  const [endValue, setEndValue] = React.useState(new Time(11,30));
+
   const fileFormats = ["Text format","Excel format","PDF format"]
 
   const user = {
@@ -22,7 +28,7 @@ export default function App() {
     status: "Available"
   }
 
-  const FirebaseContext = useFirebaseContext();
+  let arrayPacket = [];
 
   const DB_REF = ref(getDatabase());
   
@@ -31,7 +37,10 @@ export default function App() {
     selectedOption:"Text format",
     isCheckboxSelected:false,
     isButtonDisabled:true,
-    
+    startTimeSelection:"",
+    endTimeSelection:"",
+    startTimeIsInValid:false,
+    endTimeIsInValid:false,
   })
 
 
@@ -40,10 +49,8 @@ export default function App() {
   //   endTime: new Time(5,30),
   // });
   
- 
-  let [startValue, setStartValue] = React.useState(parseAbsoluteToLocal("2024-04-08T18:45:22Z"));
-  let [endValue, setEndValue] = React.useState(parseAbsoluteToLocal("2024-04-08T18:45:22Z"));
-  let [date, setDate] = React.useState(parseDate("2024-04-04"));
+
+  // let [date, setDate] = React.useState(parseDate("2024-04-04"));
 
   React.useEffect(()=>{
 
@@ -58,24 +65,132 @@ export default function App() {
   },[options?.isCheckboxSelected,options?.selectedOption]);
 
 
-  const DownloadAllData = async ()=>{
+
+  React.useEffect(()=>{
+
+    const fetchingForTimeStamps  = async()=>{
+     
+      try{
+        
+        const snapshot = await get(query(ref(getDatabase(),"dataLogs/"),orderByChild("datepoint"),equalTo(value?.toString())))
+    
+          if(snapshot.exists()){
+    
+            const data = snapshot.val();
+    
+            FirebaseContext.setTimesArr(timeFormatedArray(Object.keys(data)));
   
+            const timesArr = timeFormatedArray(Object.keys(data));
+  
+            setOptions({startTimeSelection:timesArr[0],endTimeSelection:timesArr[timesArr.length-1]});
+  
+            // console.log("Data in ByTimeForm ....: ",  Object.values(data));
+          }else{
+            console.log("No Data Available"); 
+          }
+       
+        }catch(error){
+    
+          console.log(error,"Error While Downloading (date range for intial tim limit drop down )");
+    
+        }
+        
+      }
+  
+  
+      fetchingForTimeStamps();
+  
+  
+  },[value]);
+
+
+  React.useEffect(()=>{
+
+
+      let startTimee =   options.startTimeSelection.split(":").join("");
+      let endTimee =   options.startTimeSelection.split(":").join("");
+    if(startTimee > endTimee){
+
+      setOptions({startTimeIsInValid:true})
+    }
+
+  },[options?.startTimeIsInValid,options?.endTimeIsInValid]);
+
+    const DownloadDataUponDtime = async ()=>{
+
+   
   try{
     
-    const snapshot  = await get(child(DB_REF,'data/'));
+    const snapshot = await get(query(ref(getDatabase(),"dataLogs/"),orderByChild("datepoint"),equalTo(value?.toString())))
+
 
       if(snapshot.exists()){
-        
-        console.log("Data: ",snapshot.val());
 
         const data = snapshot.val();
+        
+        // if(dataPacket.timestamp.split("_")[1] == options?.startTimeSelection.split(":").join("")){
+        //    }
+
+        
+        let startTime = options?.startTimeSelection.split(":").join("");
+        let endTime = options?.endTimeSelection.split(":").join("");
+        let filteredTimeRange;
+        
+        if(startTime < endTime){
+          
+          
+          startTime = options?.startTimeSelection.split(":").join("");
+        endTime = options?.endTimeSelection.split(":").join("");
+
+        }else if(startTime > endTime){
+          
+           startTime = options?.endTimeSelection.split(":").join("");
+            endTime = options?.startTimeSelection.split(":").join("");
+          }
+          else if(startTime == endTime){
+          
+            startTime = options?.startTimeSelection.split(":").join("");
+             endTime = options?.startTimeSelection.split(":").join("");
+           }
+          
+
+if(startTime !== endTime){
+  
+       filteredTimeRange  = Object.values(data).filter((dataPacket)=>{
+
+        const time = dataPacket.timestamp.split("_")[1];
+
+// When comparing strings that represent numerical values in the format "HHMM", the comparison operators >= and <= work as intended because the strings are directly comparable in lexicographical order. Here's why this works:
+
+// Lexicographical Order: Lexicographical order for strings works similarly to numerical order when the strings have the same length and are composed of digits. For example, "0400" is less than "1200" because '0' < '1' in the first position where they differ.
 
 
+  return  time >= startTime && time <= endTime; // Compare times lexicographically
+
+
+        });
+}  
+        else{
+  
+       filteredTimeRange =  Object.values(data).filter((dataPacket)=>{
+
+            const time  = dataPacket.timestamp.split("_")[1];
+
+            // i use start time but i also use  endTime cause startTime isequl to endTime
+            // so i just want to check and catch 
+            return time == startTime;
+
+          })
+
+}
+        
+        console.log("filteredTimeRange Array", filteredTimeRange);
+        console.log("Data in ByTimeForm ....: ",  Object.values(data));
         setTimeout(()=>{
           
   
         // Download File Main Function!! 
-        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
+        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,filteredTimeRange);
         
         if(isFileDownloaded){
           
@@ -88,7 +203,8 @@ export default function App() {
           )
           
           FirebaseContext.setIsLoading(false);
-          }
+        console.log(">>>>>>>>>>...",options?.isCheckboxSelected)  
+        }
 
         },2000)
 
@@ -100,31 +216,15 @@ export default function App() {
    
     }catch(error){
 
-      console.log(error,"Error While Downloading (All Data)");
+      console.log(error,"Error While Downloading (Dtime Data)");
 
     }
     
   }
 
-React.useEffect(()=>{
-
-
-  // console.log("value start",value.start);
-  // console.log("value end",value.end);
-  // console.log(new Time(2,18).toString());
-
-
-  // Epoch Time 11:35://03
-  console.log("endvalue",endValue.toString().split("").slice(11,16).join(""));
-  console.log("startvalue",startValue.toString().split("").slice(11,16).join(""));
-  console.log("date",date.toDate());
-
-},[endValue,startValue,date]);
-
-
 return (
     <div className="flex flex-col w-full ">
-      <Card className="max-w-full w-[340px] h-[340px]">
+      <Card className="max-w-full w-[340px] h-[380px]">
         <CardBody className="overflow-hidden ">
           <Tabs
             fullWidth
@@ -139,7 +239,91 @@ return (
               <form className="flex flex-col gap-4 h-[310px]">
 
 
-              <Select
+
+              <DatePicker
+            key={'inside'}
+            label="Select Date"
+            // labelPlacement={"placement"}
+            // description={"hello"}
+            style={{paddingTop:"30px",paddingBottom:"20px"}}
+            className="max-w-md"
+            value={value} 
+            onChange={setValue}
+            minValue={parseDate(FirebaseContext?.dateLimits.minimumDate)}
+            maxValue={parseDate(FirebaseContext?.dateLimits.maximumDate)}
+            defaultValue={parseDate(FirebaseContext?.dateLimits.minimumDate)}
+                />
+
+
+<div className="w-full flex justify-between gap-2">
+
+{/* Start Time */}
+      <Select
+
+errorMessage={options?.startTimeIsInValid  ? "" : "Greater than end time"}
+isInvalid={options?.startTimeIsInValid  ? true : false}
+         disableSelectorIconRotation
+         selectorIcon={<HiOutlineSelector />}
+      label="Start Start time"
+      placeholder="Text Format"
+      defaultSelectedKeys={["Text format"]}
+      className="w-[50%]"
+      selectedKeys={[options?.startTimeSelection]}
+      onChange={(e)=>setOptions({startTimeSelection:e.target.value})}
+      
+    >
+      {FirebaseContext.timesArr.map((format)=>{
+
+      return(
+      <SelectItem key={format} value={format}>
+      {format}
+    </SelectItem>)
+   
+
+        })}
+        
+    </Select>  
+    
+    {/* End Time */}
+    <Select
+    errorMessage={options?.endTimeIsInValid  ? "" : "Less than start time"}
+    isInvalid={options?.endTimeIsInValid  ? true : false}
+    disableSelectorIconRotation
+    selectorIcon={<HiOutlineSelector />}
+      label="Select End time"
+      placeholder="Text Format"
+      defaultSelectedKeys={["Text format"]}
+      className="w-[50%]"
+      selectedKeys={[options?.endTimeSelection]}
+      onChange={(e)=>setOptions({endTimeSelection:e.target.value})}
+      
+      
+    >
+      {FirebaseContext.timesArr.map((format)=>{
+
+      return(
+      <SelectItem key={format} value={format}>
+      {format}
+    </SelectItem>)
+   
+
+        })}
+        
+    </Select>
+
+
+
+
+
+{/* <TimeInput isRequired  hourCycle={24} hideTimeZone={true} label="Start Time"  value={startValue} onChange={setStartValue} className="w-[50%]" /> */}
+{/* 
+<TimeInput isRequired  hourCycle={24} hideTimeZone={true} label="End Time"  value={endValue} onChange={setEndValue}  className="w-[50%]" /> */}
+
+</div>
+
+
+{/* File Format */}
+     <Select
       label="Select File format"
       placeholder="Text Format"
       defaultSelectedKeys={["Text format"]}
@@ -159,27 +343,14 @@ return (
         })}
         
     </Select>
-              <DatePicker
-            key={'inside'}
-            label="Select Date"
-            // labelPlacement={"placement"}
-            // description={"hello"}
-            style={{paddingTop:"30px",paddingBottom:"20px"}}
-            className="max-w-md"
-          value={date}
-          onChange={setDate}
-                />
-
-              <div className="w-full flex justify-between gap-2">
-
-              <TimeInput hideTimeZone={true} label="Start Time" defaultValue={new Time(12,15)} value={startValue} onChange={setStartValue} className="w-[50%]" />
-
-              <TimeInput hideTimeZone={true} label="End Time" defaultValue={new Time(5,30)} value={endValue} onChange={setEndValue}  className="w-[50%]" />
             
-              </div>
-
+             
+    <Checkbox isSelected={options?.isCheckboxSelected}  value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1`}>
+    &nbsp;&nbsp;&nbsp;Yes, I want to download datalogs
+      </Checkbox>
+      
            
-              <Button onClick={DownloadAllData} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
+              <Button onClick={DownloadDataUponDtime} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
                            
                            isLoading={FirebaseContext.isLoading}
                            spinner={

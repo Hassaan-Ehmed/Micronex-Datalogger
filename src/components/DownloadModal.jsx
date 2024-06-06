@@ -23,10 +23,10 @@ const DownloadModal = () => {
             { FirebaseContext.isDownloadModalOpen && (
                 <div className="hidden tablet:flex main-modal fixed w-full h-full inset-0 z-[200] overflow-hidden justify-center items-center animated fadeIn faster"
                     style={{ background: 'rgba(0,0,0,.7)' }}>
-                    <div className=" modal-container w-11/12  max-w-md mx-auto   z-50 overflow-y-auto shadow-2xl p-2 rounded-2xl border-2 border-gray-50 bg-white">
+                    <div className=" modal-container w-11/12  max-w-lg mx-auto  z-50 overflow-y-auto shadow-2xl p-2 rounded-2xl border-2 border-gray-50 bg-white">
                         <div className="modal-content py-4 text-left px-6">
                             <div className="flex justify-between items-center pb-3">
-                                <p className="text-2xl font-bold">Download</p>
+                                <p className="text-2xl font-bold">Download Data Logs</p>
                                 <div className="modal-close cursor-pointer z-50" onClick={pleaseCloseTheModal}>
                                     <svg className="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                         viewBox="0 0 18 18">

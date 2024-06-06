@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import React, { createContext, useContext, useRef, useState } from 'react';
+import { getFormatedDateByTimestamp, getFormatedTimeByTimestamp } from '../utils/helper';
 
     export const firebaseConfig = {
       apiKey: "AIzaSyDhKjL0gWRz5Vy4ibMDFJAT0b72AfF5EkE",
@@ -46,7 +47,9 @@ export const FirebaseProvider=(props)=>{
   const [dateLimits,setDateLimits] = useState({
     minimumDate : "",
     maximumDate : ""
-  }) 
+  });
+  const [timesArr,setTimesArr] = useState([]); 
+
   const lineChartRef = useRef(null);
   const barChartRef = useRef(null);
   
@@ -191,7 +194,7 @@ const toggleMinMaxIcon = ()=>{
 // Formated Log
 function formateDataLogs(data){
 
-  let logs  = 'Humidity and Temperature Data Logs\n\n';
+  let logs  = '⫷ Humidity and Temperature Data Logs ⫸\n\n\n\nDate\t\t\tTime\t\tHumidity\t\tTemperature\n\n';
 
   for(const key in data){
     
@@ -201,7 +204,7 @@ function formateDataLogs(data){
       const record = data[key];
 
     // collect in logs variable using assignment op    
-      logs += `Timestamp: ${record.timestamp}, Humidity: ${record.humidity}%, Temperature: ${record.temperature}°C\n`;
+      logs += `${getFormatedDateByTimestamp(record?.timestamp)}\t\t${getFormatedTimeByTimestamp(record?.timestamp)}\t\t${record.humidity}%\t\t${record.temperature}°C\n`;
     }
   }
 
@@ -273,7 +276,7 @@ function executeDownloadProcess(file_format,data){
 
 // console.log("..........................",data_packet);
 
-return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits}}>
+return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr}}>
   {props.children}
 </FirebaseContext.Provider>
 

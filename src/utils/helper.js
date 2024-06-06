@@ -78,8 +78,56 @@ return `${epochTime}`;
 
 }
 
+const timeFormatedArray = (timesArray)=>{
+
+    let formatedTimesArrayPacket = [];
+    
+    // 070124_0000 = timesArray each index contain
+    timesArray.map((packet)=>{
+
+        let TA = packet.split("_")[1].split(""); // ["0","0","0","0"]
+
+        TA.splice(2,0,":"); // add colon into 3rd element (["0","0",":","0","0"])
+
+    
+        formatedTimesArrayPacket.push(TA.join("")) // after with the help of join method i join string and push into seperaate array
+
+    });
+
+
+    return formatedTimesArrayPacket;
+}
+
+
+function getFormatedDateByTimestamp( timestamp ){
+
+    let dateArr = timestamp.toString().split("_")[0].split("") // ['0','7','0','1','2','4'];
+    const day = dateArr.slice(0,2).join(""); //07
+    const month =  dateArr.slice(2,4).join(""); //01
+    const year = `${20}${dateArr.slice(4).join("")}`; //20+24 = 2024
+    
+    const readyString =  `${day}-${month}-${year}`; // 07-01-2024
+    
+    return readyString;
+    
+    }
+    
+    
+    
+function getFormatedTimeByTimestamp( timestamp ){
+    
+    let timeArr = timestamp.toString().split("_")[1].split("") // ['0','0','0','0'];
+    const hour = timeArr.slice(0,2).join(""); //"HH"
+    const min =  timeArr.slice(2).join(""); //"MM"
+    
+    const readyString =  `${hour}:${min}`; // HH:MM
+    
+    return readyString;
+    
+    }
+    
 // helper functions are export here!
-export { Encrypt,Decrypt, ConvertEpochTimeStamp , formatedDate,dateToEpochTime};
+export { Encrypt,Decrypt, ConvertEpochTimeStamp , formatedDate,dateToEpochTime,timeFormatedArray,getFormatedDateByTimestamp,getFormatedTimeByTimestamp};
 
 
 

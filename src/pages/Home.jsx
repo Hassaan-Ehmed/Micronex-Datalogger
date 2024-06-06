@@ -16,7 +16,7 @@ import LineChart from '../components/LineChart'
 import { HumidityBarChartsData } from '../data/DUMMY_DATA'
 import NextDropDown from '../components/LineDropDown'
 import MyFullScreenModal from '../components/FullScreenModal'
-import { ConvertEpochTimeStamp, formatedDate } from '../utils/helper'
+import { ConvertEpochTimeStamp, formatedDate, timeFormatedArray } from '../utils/helper'
 import LoadingScreen from '../components/LoadingScreen'
 import NetworkErrorScreen from '../components/NetworkErrorScreen'
 import DownloadModal from '../components/DownloadModal';
@@ -71,8 +71,6 @@ const FetchRealtimeData = ()=>{
        
       }
   
-  
-
 }
 
 const FetchDataLogs = ()=>{
@@ -96,16 +94,23 @@ const FetchDataLogs = ()=>{
           
           const newArr = Object.values(data);
         
-        
-        
+          // FirebaseContext.setTimesArr();
+          
+          if(newArr.length <= 48){
+            
+            FirebaseContext.setDataRecords(newArr);
+          }else{
+            
+            FirebaseContext.setDataRecords(newArr.slice(-48));
+          }
+          
           // FirebaseContext.setDataRecords(newArr.slice(-48));
-          FirebaseContext.setDataRecords(newArr.slice(-48));
-            console.log("length of logs data",newArr.slice(-48).length)
+            // console.log("length of logs data",newArr.slice(-48).length)
 
           FirebaseContext.setDateLimits({
             minimumDate:formatedDate(newArr[0].timestamp),
             maximumDate:formatedDate(newArr[newArr.length-1].timestamp),
-          })
+          });
 
   }catch(err){
 
