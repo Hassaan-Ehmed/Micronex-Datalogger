@@ -134,21 +134,22 @@ document.addEventListener("fullscreenchange",()=>{
 
 
         { FirebaseContext.isUserAdmin  ? ( 
-          
+          <>
+<PiDownloadSimpleBold className="text-2xl block tablet:hidden text-[#FF0000] cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/>
            <Tooltip placement="center" showArrow={true} content="Download Data Logs" closeDelay={1}>
-
 
 
 <Button as={Link}  variant="shadow" className="bg-[#FF0000] hidden tablet:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}} onClick={()=>FirebaseContext.openModal("DL")}>
 
-  <PiDownloadSimpleBold className="text-xl"/>
+<PiDownloadSimpleBold className="text-xl"/>
 
-  </Button>
+</Button>
 
 </Tooltip> 
+</>
 )  :(
 
-  <Button as={Link}  variant="shadow" className="bg-[#FF0000] hidden tablet:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}} onClick={()=>FirebaseContext.openModal("DL")}>
+  <Button as={Link}  variant="shadow" className="bg-[#FF0000]  hidden tablet:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}} onClick={()=>FirebaseContext.openModal("DL")}>
 
 Download Data Logs <PiDownloadSimpleBold className="text-xl"/>
 

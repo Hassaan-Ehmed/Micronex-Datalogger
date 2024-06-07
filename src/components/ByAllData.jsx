@@ -72,12 +72,12 @@ export default function App() {
             isButtonDisabled:true}
           )
           
-          FirebaseContext.setIsLoading(false);
+          FirebaseContext.setAllDataLoading(false);
           }
 
         },2000)
 
-        FirebaseContext.setIsLoading(true);
+        FirebaseContext.setAllDataLoading(true);
 
       }else{
         console.log("No Data Available"); 
@@ -162,7 +162,7 @@ export default function App() {
            
               <Button onClick={DownloadAllData} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
                            
-                           isLoading={FirebaseContext.isLoading}
+                           isLoading={FirebaseContext.allDataLoading}
                            spinner={
                               <svg
                                 className="animate-spin h-5 w-5 text-current"

@@ -165,8 +165,8 @@ React.useEffect(()=>{
             setTimeout(()=>{
                 
             // Download File Main Function!! 
-            const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
-            
+            const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
+
             if(isFileDownloaded){
               
               // if file downloaded so it can reset all the states
@@ -177,12 +177,12 @@ React.useEffect(()=>{
                 isButtonDisabled:true}
               )
               
-              FirebaseContext.setIsLoading(false);
+              FirebaseContext.setDateDurationLoading(false);
               }
     
             },2000)
     
-            FirebaseContext.setIsLoading(true);
+            FirebaseContext.setDateDurationLoading(true);
     
           }else{
             console.log("No Data Available"); 
@@ -198,7 +198,7 @@ React.useEffect(()=>{
     
 
     return (
-    <div className="flex flex-col w-full mb-[2.45rem]">
+    <div className="flex flex-col w-full mb-[2.45rem] ">
       <Card className="max-w-full w-[340px] h-[310px] ">
         <CardBody className="overflow-hidden">
           <Tabs
@@ -253,12 +253,12 @@ React.useEffect(()=>{
           {/* isSelected={options?.isCheckboxSelected} */}
  
     <Checkbox  value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1`}>
-    &nbsp;&nbsp;&nbsp;Yes, I want to download datalogs
+    &nbsp;&nbsp;&nbsp;Yes,I want to download datalogs
       </Checkbox>
       
                 <Button onClick={DownloadDateRangeData} isDisabled={options?.isButtonDisabled} id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
 
-                           isLoading={FirebaseContext.isLoading}
+                           isLoading={FirebaseContext.dateDurationLoading}
                            spinner={
                               <svg
                                 className="animate-spin h-5 w-5 text-current"

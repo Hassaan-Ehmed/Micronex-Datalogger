@@ -3,6 +3,9 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import React, { createContext, useContext, useRef, useState } from 'react';
 import { getFormatedDateByTimestamp, getFormatedTimeByTimestamp } from '../utils/helper';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable'; // Import jsPDF autoTable plugin
+
 
     export const firebaseConfig = {
       apiKey: "AIzaSyDhKjL0gWRz5Vy4ibMDFJAT0b72AfF5EkE",
@@ -38,6 +41,9 @@ export const FirebaseProvider=(props)=>{
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [minMaxIcon,setMinMaxIcon] = useState("max");
   const [isLoading,setIsLoading] = useState(false);
+  const [dateDurationLoading,setDateDurationLoading] = useState(false);
+  const [timeDurationLoading,setTimeDurationLoading] = useState(false);
+  const [allDataLoading,setAllDataLoading] = useState(false);
   const [isUserActive,setIsUserActive] = useState(false);
   const [slectedLineChart,setSlectedLineChart] = useState("Humidity");
   const [slectedBarChart,setSlectedBarChart] = useState("Humidity");
@@ -192,9 +198,11 @@ const toggleMinMaxIcon = ()=>{
 //🔥 Download Data Logs file!!
 
 // Formated Log
-function formateDataLogs(data){
+function formateTextDataLogs(data){
 
-  let logs  = '⫷ Humidity and Temperature Data Logs ⫸\n\n\n\nDate\t\t\tTime\t\tHumidity\t\tTemperature\n\n';
+  let logs = '';
+  
+  logs  = '⫷ Humidity and Temperature Data Logs ⫸\n\n\n\nDate\t\t\tTime\t\tHumidity\t\tTemperature\n\n';
 
   for(const key in data){
     
@@ -212,13 +220,82 @@ function formateDataLogs(data){
 
 }
 
+// Data Formation for Excel File
+function formateExcelDataLogs(data){
+
+  let logs = '';
+  
+  logs  = 'Humidity, and, Temperature, Data, Logs, \n\n\n\nDate,Time,Humidity,Temperature\n\n';
+
+  for(const key in data){
+    
+    if(data.hasOwnProperty(key)){
+
+      ///Grab each object/record/packet
+      const record = data[key];
+
+    // collect in logs variable using assignment op    
+      // logs += `${getFormatedDateByTimestamp(record?.timestamp)}\t\t${getFormatedTimeByTimestamp(record?.timestamp)}\t\t${record.humidity}%\t\t${record.temperature}°C\n`;
+      logs += `${getFormatedDateByTimestamp(record?.timestamp)},${getFormatedTimeByTimestamp(record?.timestamp)},${record.humidity},${record.temperature}\n`;
+    }
+  }
+
+  return logs
+
+}
+
+// Data Formation for Text File
+// function formatDataLogsToPDF(data) {
+//   // const { jsPDF } = window.jspdf;
+//   const doc = new jsPDF();
+
+//   doc.setFontSize(12);
+//   doc.text('Humidity and Temperature Data Logs', 14, 22);
+//   doc.setFontSize(10);
+//   doc.text('Date', 14, 32);
+//   doc.text('Time', 44, 32);
+//   doc.text('Humidity', 74, 32);
+//   doc.text('Temperature', 104, 32);
+
+//   let y = 40;
+//   data.forEach(record => {
+//     doc.text(getFormattedDate(record.timestamp), 14, y);
+//     doc.text(getFormattedTime(record.timestamp), 44, y);
+//     doc.text(`${record.humidity}%`, 74, y);
+//     doc.text(`${record.temperature}°C`, 104, y);
+//     y += 10;
+//   });
+
+//   return doc;
+// }
+
+// Data Formation for PDF File
+
+
 //File Download logic
-function downloadFile(content,fileName){
+function  downloadFile(content,fileName){
 
-// create a Blob Objec to store raw data , MIME type/propBag 
-  const blob = new Blob([content],{type:'text/plain'});
+// create a Blob Object to store raw data , MIME type/propBag 
 
-  // create temporary link 
+let blob ;
+
+if(fileName.split(".")[1] == "txt"){
+  
+  blob = new Blob([content],{type:'text/plain'});
+  
+}
+else if(fileName.split(".")[1] == "csv"){
+  
+  blob = new Blob([content],{type:'text/csv;charset=utf-8;'});
+  
+}else{
+
+  blob = new Blob([content],{type:'text/plain'});
+}
+
+
+  // create temporary link `
+
     const link = document.createElement('a');
   
     //i assign href attr in anchor tag and the value of attr is path/url of a raw data/file
@@ -242,12 +319,60 @@ function downloadFile(content,fileName){
   return true;
 }
 
+//PDF File Download Function
+
+  const DownloadPDFFile = (data) => {
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(18);
+    doc.text('Humidity and Temperature Data Logs', 14, 20);
+
+    // Define the columns and rows for the table
+    const columns = [
+      { header: 'Date', dataKey: 'date' },
+      { header: 'Time', dataKey: 'time' },
+      { header: 'Humidity', dataKey: 'humidity' },
+      { header: 'Temperature', dataKey: 'temperature' },
+    ];
+
+    const rows = data?.map((record) => ({
+      date: getFormatedDateByTimestamp(record?.timestamp),
+      time: getFormatedTimeByTimestamp(record?.timestamp),
+      humidity: `${record?.humidity}%`,
+      temperature: `${record?.temperature}°C`,
+    }));
+
+    // Add the table to the document
+    doc.autoTable({
+      columns: columns,
+      body: rows,
+      startY: 30, // start the table below the title
+    });
+
+    // Save the PDF
+    doc.save('humidity_temperature_data.pdf');
+
+    return true;
+  };
 
 function executeDownloadProcess(file_format,data){
 
-  const logs = formateDataLogs(data);
+  let logs;
 
-        if(file_format == "Text format" ){
+  if(file_format == "Text format"){
+    
+    logs = formateTextDataLogs(data);
+
+  }else if(file_format == "Excel format"){
+    
+    logs = formateExcelDataLogs(data);
+    
+    }   
+
+
+
+  if(file_format == "Text format"){
               
          const isFileDownloaded =  downloadFile(logs,'micronex_data_logs.txt');
             
@@ -260,15 +385,16 @@ function executeDownloadProcess(file_format,data){
           return isFileDownloaded
  
           
-        }else if(file_format == "PDF format"){
-          
-          const isFileDownloaded = downloadFile(logs,'micronex_data_logs.pdf');
+        }
+        else if(file_format == "PDF format"){
+
+          const isFileDownloaded = DownloadPDFFile(data);
 
           return isFileDownloaded
  
+          
         }
 }
-
 
 //Login logic in Form.jsx
 //Logout Logic in Home.jsx
@@ -276,7 +402,7 @@ function executeDownloadProcess(file_format,data){
 
 // console.log("..........................",data_packet);
 
-return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr}}>
+return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr}}>
   {props.children}
 </FirebaseContext.Provider>
 

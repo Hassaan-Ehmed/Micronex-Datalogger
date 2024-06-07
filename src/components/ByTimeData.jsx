@@ -130,7 +130,6 @@ export default function App() {
         
         // if(dataPacket.timestamp.split("_")[1] == options?.startTimeSelection.split(":").join("")){
         //    }
-
         
         let startTime = options?.startTimeSelection.split(":").join("");
         let endTime = options?.endTimeSelection.split(":").join("");
@@ -179,8 +178,7 @@ if(startTime !== endTime){
             // i use start time but i also use  endTime cause startTime isequl to endTime
             // so i just want to check and catch 
             return time == startTime;
-
-          })
+          });
 
 }
         
@@ -202,13 +200,13 @@ if(startTime !== endTime){
             isButtonDisabled:true}
           )
           
-          FirebaseContext.setIsLoading(false);
+          FirebaseContext.setTimeDurationLoading(false);
         console.log(">>>>>>>>>>...",options?.isCheckboxSelected)  
         }
 
         },2000)
 
-        FirebaseContext.setIsLoading(true);
+        FirebaseContext.setTimeDurationLoading(true);
 
       }else{
         console.log("No Data Available"); 
@@ -237,8 +235,6 @@ return (
 
             <Tab key="sign-up" title="Select Time period"  className="cursor-default">
               <form className="flex flex-col gap-4 h-[310px]">
-
-
 
               <DatePicker
             key={'inside'}
@@ -352,7 +348,7 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
            
               <Button onClick={DownloadDataUponDtime} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
                            
-                           isLoading={FirebaseContext.isLoading}
+                           isLoading={FirebaseContext.timeDurationLoading}
                            spinner={
                               <svg
                                 className="animate-spin h-5 w-5 text-current mb-2"
