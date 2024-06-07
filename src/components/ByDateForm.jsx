@@ -252,7 +252,7 @@ React.useEffect(()=>{
 
           {/* isSelected={options?.isCheckboxSelected} */}
  
-    <Checkbox  value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1`}>
+    <Checkbox isSelected={options?.isCheckboxSelected} value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1`}>
     &nbsp;&nbsp;&nbsp;Yes,I want to download datalogs
       </Checkbox>
       

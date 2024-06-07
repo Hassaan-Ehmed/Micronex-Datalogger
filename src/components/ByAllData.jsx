@@ -60,7 +60,7 @@ export default function App() {
         setTimeout(()=>{
             
         // Download File Main Function!! 
-        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,data);
+        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
         
         if(isFileDownloaded){
           
