@@ -57,7 +57,7 @@ return (
 
          <div className='w-full h-[100vh] z-[500]  text-white bg-white flex flex-col laptop:flex-row justify-center gap-3 laptop:gap-5 items-center' >
         
-        <img src="/images/network-error.png" alt=""  className='w-[25rem] h-[50%] tablet:w-[22rem] tablet:h-[50%] laptop:w-[30rem] laptop:h-[70%]  '/>
+        <img src="/images/network-error.png" alt="Network Error :("  className='w-[25rem] h-[50%] tablet:w-[22rem] tablet:h-[50%] laptop:w-[30rem] laptop:h-[70%]  '/>
 
         <div className='h-[17vh] tablet:h-[25vh] laptop:h-[30vh] flex flex-col justify-around items-center '>
 
