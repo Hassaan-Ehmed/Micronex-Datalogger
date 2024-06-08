@@ -172,8 +172,6 @@ const FetchDataLogs = ()=>{
 <>
 
   {(FirebaseContext.isDataLoaded) ? (
-
-
 <div style={{position:"relative h-full" ,zIndex:"-10"}}>
 
 
@@ -190,18 +188,15 @@ const FetchDataLogs = ()=>{
   
   <section className='w-[100%] flex justify-center items-center flex-col absolute z-50' style={{height:"calc(100vh - 60px)"}}>
   
-  <Monitor/> 
+   <Monitor/> 
   
-  </section>
+   </section>
   
 
-  </div> ) : (<LoadingScreen/>)} 
+  </div> 
+
+) : (<LoadingScreen/>)} 
     
-
-
-
-
-
 
 </>
 )}

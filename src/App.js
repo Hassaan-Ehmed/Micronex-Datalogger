@@ -13,6 +13,7 @@ import SignupForm from './components/SignupForm.';
 import ErrorPage from './pages/Error404';
 import AuthProtection from './utils/AuthProtection';
 import RouteProtection from './utils/RouteProtection';
+import Login from './pages/Login';
 
 
 function App() {
@@ -335,7 +336,7 @@ return (
 
 <Routes>
 
-<Route path='/' element={ <AuthProtection> <LoginForm/> </AuthProtection> }/>    
+<Route path='/' element={ <AuthProtection> <Login/> </AuthProtection> }/>    
 
 <Route path='/app' element={ <RouteProtection> {isOnline ?  <Home/>  : <NetworkErrorScreen/>} </RouteProtection> }/>
 
