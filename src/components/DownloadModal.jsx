@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react';
+import { Button, Modal } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFirebaseContext } from '../context/FirebaseApp';
@@ -13,17 +13,27 @@ const DownloadModal = () => {
 
     const FirebaseContext = useFirebaseContext();
 
+
+React.useEffect(()=>{
+
+return ()=> FirebaseContext.setIsDownloadTabSelected('by-date');
+
+},[])
+
+
       const pleaseCloseTheModal=()=>{
 
         FirebaseContext.closeModal("DL");
     
     }
+
     
       return (
         <div>
+            
             { FirebaseContext.isDownloadModalOpen && (
-                <div className=" main-modal fixed w-full h-full inset-0 z-[200] overflow-hidden justify-center items-center animated fadeIn faster" style={{ background: 'rgba(0,0,0,.7)' }}>
-                    <div className="modal-container w-full tablet:w-11/12  h-full tablet:h-auto max-w-lg mx-auto tablet:my-6 z-50 overflow-y-auto shadow-2xl p-1 rounded-2xl border-2 border-gray-50 bg-white">
+                <div  className=" main-modal fixed w-full h-full inset-0 z-[200] overflow-hidden justify-center items-center animated fadeIn faster" style={{ background: 'rgba(0,0,0,.7)' }}>
+                    <div className="modal-container w-full tablet:w-11/12  h-full tablet:h-auto max-w-lg mx-auto tablet:my-6 z-50 overflow-y-auto shadow-2xl p-1 rounded-none LM425:rounded-2xl border-2 border-gray-50 bg-white">
                         <div className="modal-content py-4 text-left px-6">
                             <div className="flex justify-between items-center pb-3">
                                 <p className="text-2xl font-bold">Download Data Logs</p>

@@ -164,6 +164,8 @@ React.useEffect(()=>{
             console.log("dataLogs Date Range DATA::",data);
             setTimeout(()=>{
                 
+
+              // console.log("options?.selectedOption",typeof options?.selectedOption)
             // Download File Main Function!! 
             const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
 

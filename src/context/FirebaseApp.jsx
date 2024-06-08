@@ -356,8 +356,11 @@ else if(fileName.split(".")[1] == "csv"){
     return true;
   };
 
-function executeDownloadProcess(file_format,data){
+function executeDownloadProcess(file_format, data){
 
+  if(!file_format) file_format = "Text format";
+
+  
   let logs;
 
   if(file_format == "Text format"){
