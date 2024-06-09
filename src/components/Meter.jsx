@@ -8,7 +8,7 @@ export default function MyMeter({title,reading,fromColor,toColor}) {
     <div className="flex items-center justify-center h-full">
       <div className="shadow-2xl  rounded-2xl border-2 border-gray-50 bg-white p-2">
         <div className="flex flex-col">
-    <Card className={`w-[180px] h-[180px] tablet:w-[240px] tablet:h-[240px] border-none `} style={{ background: `linear-gradient(to bottom right, #${fromColor}, #${toColor})` }}>
+    <Card className={`w-[200px] h-[200px] tablet:w-[240px] tablet:h-[240px] border-none `} style={{ background: `linear-gradient(to bottom right, #${fromColor}, #${toColor})` }}>
     <CardBody className="justify-center items-center pb-0">
       <CircularProgress
         classNames={window.innerWidth > 768 ? {

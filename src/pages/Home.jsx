@@ -20,6 +20,7 @@ import { ConvertEpochTimeStamp, formatedDate, timeFormatedArray } from '../utils
 import LoadingScreen from '../components/LoadingScreen'
 import NetworkErrorScreen from '../components/NetworkErrorScreen'
 import DownloadModal from '../components/DownloadModal';
+import { Bounce, toast } from 'react-toastify'
 
 export default function Home() {
   
@@ -47,7 +48,7 @@ const FetchRealtimeData = ()=>{
           
           const newPacket = Object.values(data);
 
-     const {humidity,temperature} = {...newPacket[0]}; 
+     const {humidity,temperature} = {...newPacket[newPacket?.length -1]}; 
 
     FirebaseContext.setDataPacket({humidity,temperature});
 
@@ -61,6 +62,24 @@ const FetchRealtimeData = ()=>{
     
 
   }
+  
+},(error)=>{
+
+  //Show Error While Fetching Realtime Data From Firebase
+
+  toast.error(`${error.message}!`,{
+    position: "top-center",
+   autoClose: 3500,
+   hideProgressBar: false,
+   closeOnClick: true,
+   pauseOnHover: true,
+   draggable: true,
+   progress: undefined,
+   theme: "light",
+   transition: Bounce,
+   });
+   
+   window.location.reload();
   
 })
 
@@ -114,12 +133,28 @@ const FetchDataLogs = ()=>{
 
   }catch(err){
 
-
     console.log("Error when reading data logs from Firebase",err);
 
     
 
   }
+  
+},(error)=>{
+
+  //Show Error While Fetching Data Logs From Firebase
+  toast.error(`${error.message}!`,{
+    position: "top-center",
+   autoClose: 3500,
+   hideProgressBar: false,
+   closeOnClick: true,
+   pauseOnHover: true,
+   draggable: true,
+   progress: undefined,
+   theme: "light",
+   transition: Bounce,
+   });
+   
+   window.location.reload();
   
 })
 
@@ -133,8 +168,6 @@ const FetchDataLogs = ()=>{
   
 
 }
-
-
 
   // for Data Fetching
   React.useEffect(()=>{
@@ -172,21 +205,20 @@ const FetchDataLogs = ()=>{
 <>
 
   {(FirebaseContext.isDataLoaded) ? (
-<div style={{position:"relative h-full" ,zIndex:"-10"}}>
 
+<div style={{position:"relative h-[80%]" ,zIndex:"-10"}} >
 
   <MyFullScreenModal/>
-  
   <DownloadModal/>
   <LogoutModal />
-
-
   
-  <img src="/images/bg12.jpg" alt="background image"  style={{position:"absolute",height:"105%",width:"100%",objectFit:"cover", top:0,zIndex:0}}/> 
+  {/* calc(100vh - 90px) */}
+  {/* bg12.jpg */}
+  <img src="/images/bg12.jpg" alt="background image"  style={{position:"absolute",height:"100vh",width:"100%",objectFit:"cover", top:0,zIndex:0}}/> 
    
   <MyNavbar/> 
-  
-  <section className='w-[100%] flex justify-center items-center flex-col absolute z-50' style={{height:"calc(100vh - 60px)"}}>
+
+  <section className='w-[100%] flex justify-center items-center flex-col absolute z-50' style={{height:"calc(100vh - 75px)"}}>
   
    <Monitor/> 
   

@@ -31,26 +31,14 @@ export default function BarGraphLineChart({chartsData}) {
 
 const FirebaseContext = useFirebaseContext();
 
+const chartInstance = FirebaseContext?.lineChartRef?.current;
+
+// FirebaseContext?.lineChartRef?.current.resetZoom();
+
+
 React.useEffect(()=>{
-
-  if(FirebaseContext.isTabSelected === "line"){
-    
-    FirebaseContext.lineChartRef.current.zoom(0);
-    
-    if(window.innerWidth < 500){
   
-      // console.log("width",window.innerWidth)
-      
-      FirebaseContext.lineChartRef.current.zoom(1.9);
-    }else if(window.innerWidth > 500){
-      
-      // console.log("width",window.innerWidth)
-      FirebaseContext.lineChartRef.current.zoom(1.8);
-    }
-
-  }
-
-//  return ()=> FirebaseContext.lineChartRef.current.zoom(0);
+  FirebaseContext?.lineChartRef?.current.zoom(1.85)  ;
 
 },[FirebaseContext.isTabSelected,FirebaseContext.slectedLineChart])
 
@@ -83,14 +71,25 @@ React.useEffect(()=>{
               plugins: {
               legend:{ display : false },
                 zoom: {
-                  y: {min: 10, max: 30},
-                  x: {min: 50, max: 30},
+                  // y: {min: 10, max: 30},
+                  // x: {min: 50, max: 30},
                   pan: {
                     enabled: true,
                     mode: 'x'
                 },
                 limits: {
                   //  minRange:10
+
+                  x: {
+                    // min: 10, // Minimum zoom limit for x-axis
+                    max: 50, // Maximum zoom limit for x-axis
+                    minRange: 5 // Minimum range for zoom to avoid over-zooming
+                  },
+                  y: {
+                    // min: 10, // Minimum zoom limit for y-axis
+                    max: 30, // Maximum zoom limit for y-axis
+                    minRange: 5 // Minimum range for zoom to avoid over-zooming
+                  }
                 },
                   zoom: {
                     wheel: {
@@ -101,11 +100,11 @@ React.useEffect(()=>{
                     },
                     mode: 'x',
 
-                    limits: {
-                      x: {
-                          minRange: 15
-                      },
-                    }
+                    // limits: {
+                    //   x: {
+                    //       minRange: 10
+                    //   },
+                    // }
                   }
                 }
               }

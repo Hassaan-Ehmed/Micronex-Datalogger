@@ -82,7 +82,7 @@ document.addEventListener("fullscreenchange",()=>{
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold text-black">Signed in as</p>
               <p className="font-semibold text-[#FF0000]">{user_packet?.email}</p>
-            </DropdownItem>
+            </DropdownItem> 
             {FirebaseContext.isUserAdmin && ( <DropdownItem key="add-user" color="default" className="text-black"><Link to={'/add-user'}>Add User</Link></DropdownItem> ) }
             <DropdownItem key="logout" color="default"  onClick={pleaseOpenTheModal} className="text-black">
               Log Out

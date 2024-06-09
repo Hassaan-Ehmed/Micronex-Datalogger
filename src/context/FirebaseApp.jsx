@@ -45,15 +45,12 @@ export const FirebaseProvider=(props)=>{
   const [timeDurationLoading,setTimeDurationLoading] = useState(false);
   const [allDataLoading,setAllDataLoading] = useState(false);
   const [isUserActive,setIsUserActive] = useState(false);
-  const [slectedLineChart,setSlectedLineChart] = useState("Humidity");
-  const [slectedBarChart,setSlectedBarChart] = useState("Humidity");
+  const [slectedLineChart,setSlectedLineChart] = useState("Both");
+  const [slectedBarChart,setSlectedBarChart] = useState("Both");
   const [slectedGauge,setSlectedGauge] = useState("Both");
   const [isDataLoaded,setIsDataLoaded] = useState(false);
   const [isUserAdmin,setIsUserAdmin] = useState(false);
-  const [dateLimits,setDateLimits] = useState({
-    minimumDate : "",
-    maximumDate : ""
-  });
+  const [dateLimits,setDateLimits] = useState({minimumDate : "",maximumDate : ""});
   const [timesArr,setTimesArr] = useState([]); 
 
   const lineChartRef = useRef(null);

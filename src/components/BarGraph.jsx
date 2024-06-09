@@ -31,12 +31,10 @@ const FirebaseContext = useFirebaseContext();
 
 React.useEffect(()=>{
 
-  if(FirebaseContext.isTabSelected === "gauges"){
-    
-    FirebaseContext.barChartRef.current.zoom(0);
-    FirebaseContext.barChartRef.current.zoom(1.4);
 
-  }
+    FirebaseContext.barChartRef.current.zoom(1.7);
+
+  
 
 },[FirebaseContext.isTabSelected,FirebaseContext.slectedBarChart])
 
@@ -73,8 +71,19 @@ React.useEffect(()=>{
                     mode: 'x'
                 },
                 limits: {
-                  min:0,
-                  max:'original',
+                  // min:0,
+                  // max:'original',
+
+                  x: {
+                    // min: 10, // Minimum zoom limit for x-axis
+                    max: 50, // Maximum zoom limit for x-axis
+                    minRange: 5 // Minimum range for zoom to avoid over-zooming
+                  },
+                  y: {
+                    // min: 10, // Minimum zoom limit for y-axis
+                    max: 30, // Maximum zoom limit for y-axis
+                    minRange: 5 // Minimum range for zoom to avoid over-zooming
+                  }
                 },
                   zoom: {
                     wheel: {

@@ -155,46 +155,76 @@ React.useEffect(()=>{
                           endAt(`${value?.end}`),
                         ));
     
-          if(snapshot.exists()){
-            
-            console.log("Data: ",snapshot.val());
-    
-            const data = snapshot.val();
-    
-            console.log("dataLogs Date Range DATA::",data);
-            setTimeout(()=>{
+                      if(snapshot.exists()){
+                        
+                        console.log("Data: ",snapshot.val());
                 
+                        const data = snapshot.val();
+                
+                        console.log("dataLogs Date Range DATA::",data);
+                        setTimeout(()=>{
+                            
 
-              // console.log("options?.selectedOption",typeof options?.selectedOption)
-            // Download File Main Function!! 
-            const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
+                          // console.log("options?.selectedOption",typeof options?.selectedOption)
+                        // Download File Main Function!! 
+                        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
 
-            if(isFileDownloaded){
-              
-              // if file downloaded so it can reset all the states
-              
-              setOptions(
-                {selectedOption:"Text format",
-                isCheckboxSelected:false,
-                isButtonDisabled:true}
-              )
-              
-              FirebaseContext.setDateDurationLoading(false);
-              }
-    
-            },2000)
-    
-            FirebaseContext.setDateDurationLoading(true);
-    
-          }else{
-            console.log("No Data Available"); 
+                        if(isFileDownloaded){
+                          
+                          // if file downloaded so it can reset all the states
+                          
+                          setOptions(
+                            {selectedOption:"Text format",
+                            isCheckboxSelected:false,
+                            isButtonDisabled:true}
+                          )
+                          
+                          FirebaseContext.setDateDurationLoading(false);
+                          }
+                
+                        },2000)
+                
+                        FirebaseContext.setDateDurationLoading(true);
+                
+                      }else{
+
+                        //Show Error If Data is not available in  From Firebase
+                        toast.error(`No Data Available !`,{
+                          position: "top-center",
+                        autoClose: 3500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        transition: Bounce,
+                        });
+                        
+                        window.location.reload();
+
           }
        
-        }catch(error){
-    
-          console.log(error,"Error While Downloading (All Data)");
-    
-        }
+        }catch(error) {
+
+            //Show Error While Downloading ( Data by Range ) From Firebase
+            toast.error(`${error.message}!`,{
+              position: "top-center",
+             autoClose: 3500,
+             hideProgressBar: false,
+             closeOnClick: true,
+             pauseOnHover: true,
+             draggable: true,
+             progress: undefined,
+             theme: "light",
+             transition: Bounce,
+             });
+             
+             window.location.reload();
+            
+          }
+     
+        
         
       }
     

@@ -6,6 +6,7 @@ import { useFirebaseContext } from "../context/FirebaseApp";
 
 import { Checkbox, Chip, cn } from "@nextui-org/react";
 import { getDatabase, ref , get, child } from "firebase/database";
+import { Bounce , toast } from "react-toastify";
 
 
 
@@ -48,7 +49,7 @@ export default function App() {
   
   try{
     
-    const snapshot  = await get(child(DB_REF,'dataLogs/'));
+    const snapshot = await get(child(DB_REF,'dataLogs/')) ?? {};
 
       if(snapshot.exists()){
         
@@ -80,12 +81,43 @@ export default function App() {
         FirebaseContext.setAllDataLoading(true);
 
       }else{
-        console.log("No Data Available"); 
+
+        
+     //Show Error If Data is not available in  From Firebase
+toast.error(`No Data Available !`,{
+  position: "top-center",
+ autoClose: 3500,
+ hideProgressBar: false,
+ closeOnClick: true,
+ pauseOnHover: true,
+ draggable: true,
+ progress: undefined,
+ theme: "light",
+ transition: Bounce,
+ });
+ 
+ window.location.reload();
+
       }
    
     }catch(error){
-
-      console.log(error,"Error While Downloading (All Data)");
+      
+      //Show Error While Downloading (All Data) From Firebase
+        toast.error(`${error.message}!`,{
+          position: "top-center",
+         autoClose: 3500,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         transition: Bounce,
+         });
+         
+         window.location.reload();
+        
+    
 
     }
     

@@ -9,6 +9,7 @@ import { Checkbox, Chip, cn } from "@nextui-org/react";
 import { getDatabase, ref , get, child, Database, query, orderByChild, equalTo, startAt } from "firebase/database";
 import { ConvertEpochTimeStamp, formatedDate, timeFormatedArray } from "../utils/helper";
 import { HiOutlineSelector } from "react-icons/hi";
+import { Bounce, toast } from "react-toastify";
 
 
 
@@ -86,12 +87,42 @@ export default function App() {
   
             // console.log("Data in ByTimeForm ....: ",  Object.values(data));
           }else{
-            console.log("No Data Available"); 
+
+          
+            //Show Error If Timestamp Data is not available in Firebase
+         toast.error(`No Data Available !`,{
+          position: "top-center",
+         autoClose: 3500,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         transition: Bounce,
+         });
+         
+         window.location.reload();
+      
           }
        
         }catch(error){
     
-          console.log(error,"Error While Downloading (date range for intial tim limit drop down )");
+
+           //Show Error While Downloading (date range for intial tim limit drop down ) From Firebase
+           toast.error(`${error.message}!`,{
+            position: "top-center",
+           autoClose: 3500,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+           transition: Bounce,
+           });
+           
+           window.location.reload();
     
         }
         
@@ -209,12 +240,39 @@ if(startTime !== endTime){
         FirebaseContext.setTimeDurationLoading(true);
 
       }else{
-        console.log("No Data Available"); 
+        
+         //Show Error If Data is not available in Firebase
+         toast.error(`No Data Available !`,{
+          position: "top-center",
+         autoClose: 3500,
+         hideProgressBar: false,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         theme: "light",
+         transition: Bounce,
+         });
+         
+         window.location.reload();
       }
    
     }catch(error){
 
-      console.log(error,"Error While Downloading (Dtime Data)");
+      //Show Error While Downloading ( Data by Time ) From Firebase
+      toast.error(`${error.message}!`,{
+        position: "top-center",
+       autoClose: 3500,
+       hideProgressBar: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       theme: "light",
+       transition: Bounce,
+       });
+       
+       window.location.reload();
 
     }
     
