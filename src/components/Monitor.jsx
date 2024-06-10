@@ -18,6 +18,7 @@ import RadioGroup from './RadioGroup'
 import NextRadioGroup from './RadioGroup'
 import MyGaugesMini from './GaugesMini'
 import BarGraph from './BarGraph'
+import MyChip from './Chip'
 // import IconTabs from './IconTabs'
 
 export default function Monitor() {
@@ -32,15 +33,19 @@ return (
      <Text family='Jost' className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-[#FF0000] z-[3]'>Data Logger</Text>    
     
     {/* h-10% */}
-            <div className='h-[5%] w-[90%]  flex justify-center items-center'>
+            <div className='h-[5%] w-[90%]  flex justify-center items-center  relative'>
+  <div className='LM425:hidden absolute bottom-[3.2rem]'><MyChip/></div>
+  {/* {((FirebaseContext.isTabSelected == "readings") || (FirebaseContext.isTabSelected == "gauges")) &&                */}
                 <Tabs/> 
             </div>
 
             {
-                 FirebaseContext.isTabSelected == "readings"  ? (
-        <>  
-              <div className='hidden w-full h-[90%] LM425:flex  justify-center items-center gap-[8vw] mt-5'>
+              FirebaseContext.isTabSelected == "readings"  ? (
+                <>  
+              <div className='hidden w-full h-[90%] LM425:flex  justify-center items-center gap-[8vw] mt-5 relative'>
     
+                {((FirebaseContext.isTabSelected == "readings") || (FirebaseContext.isTabSelected == "gauges")) && (<div className='hidden LM425:block absolute bottom-14 top-2'><MyChip/></div>)}
+              
                     <ReadingsCard source="https://cdn3d.iconscout.com/3d/premium/thumb/thermometer-4869739-4051728.png?f=webp" title={"Temperature"} readings={FirebaseContext.dataPacket?.temperature ?? 36.89}/>
                 
                     <ReadingsCard source="https://cdn3d.iconscout.com/3d/premium/thumb/humidity-8165662-6551904.png?f=webp" title={"Humidity"} readings={FirebaseContext.dataPacket?.humidity ?? 45.71} />

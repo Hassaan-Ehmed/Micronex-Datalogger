@@ -8,20 +8,10 @@ function MyProgress({source,title,readings}) {
 //   const FirebaseContext = useFirebaseContext();
 
 
-// if(readings !==0){
-
-//   FirebaseContext.setIsDataLodead(false)
-  
-// }else{
-  
-//   FirebaseContext.setIsDataLodead(true)
-// }
-
-
   return (
-        <div className='z-[3] '>
-          <div className="flex items-center justify-center h-full ">
-            <div className="shadow-2xl p-6 rounded-2xl border-2 border-gray-50 bg-white">
+        <div className='z-[3]'>
+          <div className="flex items-center justify-center h-full LM425:mt-8 tablet:mt-12 laptop:mt-[3.2rem]">
+            <div className="shadow-2xl p-6  rounded-2xl border-2 border-gray-50 bg-white">
               <div className="flex flex-col">
                 <div>
                   <Text family='Jost' className="font-bold text-gray-600 text-center text-2xl">{title}</Text>

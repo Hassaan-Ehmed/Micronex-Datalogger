@@ -43,7 +43,7 @@ const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
     return (
         <div className='z-[3]'>
           <div className="flex items-center justify-center h-[90%]">
-            <div className="shadow-2xl shadow-[#FF0000]  p-4 rounded-2xl  border-2 border-gray-50 flex  flex-col gap-3  ">
+            <div className="shadow-2xl  p-4 rounded-2xl  border-2 border-gray-50 flex  flex-col gap-3  ">
 
             <MiniGaugeCard title={"Temperature"} reading={readings?.humidity ?? 45.71}  fromColor={"FF0000"} toColor={"ff6b6b"} />              
 

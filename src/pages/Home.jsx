@@ -21,6 +21,8 @@ import LoadingScreen from '../components/LoadingScreen'
 import NetworkErrorScreen from '../components/NetworkErrorScreen'
 import DownloadModal from '../components/DownloadModal';
 import { Bounce, toast } from 'react-toastify'
+// import MyChip from '../components/Chip'
+
 
 export default function Home() {
   
@@ -49,6 +51,11 @@ const FetchRealtimeData = ()=>{
           const newPacket = Object.values(data);
 
      const {humidity,temperature} = {...newPacket[newPacket?.length -1]}; 
+
+     const TimeStamp = newPacket[newPacket?.length -1]?.timestamp
+
+    //  console.log("YYY",TimeStamp)
+     FirebaseContext.setLastTimestamp(TimeStamp);
 
     FirebaseContext.setDataPacket({humidity,temperature});
 
@@ -136,7 +143,6 @@ const FetchDataLogs = ()=>{
     console.log("Error when reading data logs from Firebase",err);
 
     
-
   }
   
 },(error)=>{
@@ -218,7 +224,7 @@ const FetchDataLogs = ()=>{
    
   <MyNavbar/> 
 
-  <section className='w-[100%] flex justify-center items-center flex-col absolute z-50' style={{height:"calc(100vh - 75px)"}}>
+  <section className='w-[100%] flex justify-center items-center flex-col absolute  z-50' style={{height:"calc(100vh - 75px)"}}>
   
    <Monitor/> 
   
