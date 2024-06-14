@@ -19,7 +19,7 @@ export default function NextDropDown() {
 
 
   return (
-    <Dropdown  className='shadow-2xl rounded-2xl border-2 border-gray-50 bg-white z-50 mb-5'>
+    <Dropdown  className='shadow-2xl rounded-2xl border-2 border-gray-50 bg-white z-50'>
       <DropdownTrigger className="z-50">
         <Button 
           variant="shadow" 

@@ -30,7 +30,7 @@ return (
     
     <div className='h-[80%] w-[100%] flex flex-col justify-center items-center z-[3]'>
      
-     <Text family='Jost' className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-[#FF0000] z-[3]'>Data Logger</Text>    
+     <Text family='Jost' className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-[#FF0000] z-[3] ' style={{textShadow:"white 1px 1px 0px, white 0px 0px 2.5em, white 0px 0px 0.2em"}}>Data Logger</Text>    
     
     {/* h-10% */}
             <div className='h-[5%] w-[90%]  flex justify-center items-center  relative'>
@@ -122,7 +122,7 @@ return (
                     <GaugesDropDown/>
 
 
-                      <div className='flex  w-full h-[90%] justify-center  items-center gap-[8vw] relative '>
+                      <div className='flex -mt-2 w-full h-[90%] justify-center  items-center gap-[8vw] relative '>
 
                       {/* {((FirebaseContext.isTabSelected == "readings") || (FirebaseContext.isTabSelected == "gauges")) && (<div className='hidden LM425:block absolute bottom-14 top-2'><MyChip/></div>)} */}
 
@@ -149,7 +149,7 @@ return (
   ) : "" 
 }
 
-<div className='absolute -bottom-[40px]'><MyChip/></div>
+<div className='absolute -bottom-[28px]  tablet:-bottom-[27px] min-[850px]:-bottom-[28px] laptop:-bottom-[23px] desktop:-bottom-[19px]'><MyChip/></div>
 
                            
    </div>

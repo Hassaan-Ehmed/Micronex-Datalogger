@@ -50,7 +50,7 @@ const FetchRealtimeData = ()=>{
           
           const newPacket = Object.values(data);
 
-     const {humidity,temperature} = {...newPacket[newPacket?.length -1]}; 
+     const {humidity,temperature} = {...newPacket[newPacket?.length -3]}; 
 
      const TimeStamp = newPacket[newPacket?.length -1]?.timestamp
 
