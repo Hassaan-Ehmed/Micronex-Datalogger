@@ -16,7 +16,7 @@ root.render(
   <React.StrictMode>
         <NextUIProvider>
             <FirebaseProvider>
-                    <main className="purple-dark text-foreground bg-background">
+                    <main className="purple-dark text-foreground bg-primary">
                       <Router>
                         <App />
                           <ToastContainer

@@ -15,15 +15,15 @@ import { Text } from "react-font";
       <div className="flex items-center justify-center h-full ">
         <div className="shadow-2xl  rounded-2xl border-2 border-gray-50 bg-white h-full min-[950px]:h-[90%] laptop:h-[85%] tablet:w-[90%] laptop:w-[85%] relative">
         
-        <div className="absolute top-2  right-3 p-1 shadow-2xl   rounded-2xl border-2 border-gray-50 bg-white  flex justify-center items-center">
+        <div className="absolute top-2  right-3 p-1 shadow-2xl   rounded-2xl border-2 border-gray-50 bg-primary  flex justify-center items-center">
     <Text family="Jost"  className="text-[13px] tablet:text-[16px]">{title}</Text>
     
     </div> 
    
         <GaugeComponent
                 
-        className="h-[100%]  rounded-2xl LM425:w-[42vw] min-[540px]:w-[38vw] min-[600px]:w-[33vw] min-[670px]:w-[29vw] tablet:w-[100%] "
-        style={{ background: `linear-gradient(to bottom right, #${fromColor}, #${toColor})`}}
+        className="h-[100%]  rounded-2xl LM425:w-[42vw] min-[540px]:w-[38vw] min-[600px]:w-[33vw] min-[670px]:w-[29vw] tablet:w-[100%] bg-white"
+//         style={{ background: `linear-gradient(to bottom right, #${fromColor}, #${toColor})`}}
 
         // style={{width:"20vw"}}
         type="radial"
@@ -113,7 +113,7 @@ import { Text } from "react-font";
       
       pointer={{
         type:"needle",
-        color: 'white', //4f4f4f
+        color: 'text-primary', //4f4f4f
         length: 1,//0.80,
         width: 20,
         elastic: true,
@@ -123,7 +123,7 @@ import { Text } from "react-font";
       labels={{
 
         // ,textShadow:"black 1px 1px 0px, black 0px 0px 2.5em, black 0px 0px 0.2em"
-        valueLabel: { formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}` , style:{fontSize: `${window.innerWidth > 600   ? '25rem' : '20rem'}`,fill:"white",fontWeight:"bolder",textShadow:"none"}},
+        valueLabel: { formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}` , style:{fontSize: `${window.innerWidth > 600   ? '25rem' : '20rem'}`,fill:"#0f172a",fontWeight:"bolder",textShadow:"none"}},
         tickLabels: {
 
           
@@ -131,7 +131,7 @@ import { Text } from "react-font";
           defaultTickValueConfig:{
 
             formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}`,
-            style:{fontSize: '0.6rem', fill: "white",fontWeight:"bolder"},
+            style:{fontSize: '0.6rem', fill: "#0f172a",fontWeight:"bolder"},
           },
           defaultTickLineConfig:{
             distanceFromArc:5,

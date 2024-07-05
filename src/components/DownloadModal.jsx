@@ -36,8 +36,8 @@ return ()=> FirebaseContext.setIsDownloadTabSelected('by-date');
                     <div className="modal-container w-full tablet:w-11/12  h-full tablet:h-auto max-w-lg mx-auto tablet:my-6 z-50 overflow-y-auto shadow-2xl p-1 rounded-none LM425:rounded-2xl border-2 border-gray-50 bg-white">
                         <div className="modal-content py-4 text-left px-6">
                             <div className="flex justify-between items-center pb-3">
-                                <p className="text-2xl font-bold">Download Data Logs</p>
-                                <div className="modal-close cursor-pointer inline-block                                                                                                                                                                                                                       n z-50" onClick={pleaseCloseTheModal}>
+                                <p className="text-2xl font-bold text-primary">Download Data Logs</p>
+                                <div className="modal-close cursor-pointer inline-block n z-50" onClick={pleaseCloseTheModal}>
                                     <svg className="fill-current text-black hover:text-[#FF0000] hover:font-bold h-16 transition-transform duration-300 ease-in-out transform hover:scale-125" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewBox="0 0 18 18">
                                         <path

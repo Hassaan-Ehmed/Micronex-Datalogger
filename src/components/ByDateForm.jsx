@@ -241,8 +241,8 @@ React.useEffect(()=>{
             onSelectionChange={setSelected}
           >
 
-            <Tab key="sign-up" title="Select Date range"  className="cursor-default">
-              <form className="flex flex-col gap-4 h-[300px]">
+            <Tab key="sign-up" title="Select Date range"  className="cursor-default bg-foreground text-primary">
+              <form className="flex flex-col gap-4 h-[300px] bg-foreground text-primary" >
             
 
               <DateRangePicker

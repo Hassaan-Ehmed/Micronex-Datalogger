@@ -30,8 +30,9 @@ return (
     
     <div className='h-[80%] w-[100%] flex flex-col justify-center items-center z-[3]'>
      
-     <Text family='Jost' className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-[#FF0000] z-[3] ' style={{textShadow:"white 1px 1px 0px, white 0px 0px 2.5em, white 0px 0px 0.2em"}}>Data Logger</Text>    
+     <Text family='Jost' className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-foreground z-[3] ' style={{}}>Data Logger</Text>    
     
+    {/* textShadow:"white 1px 1px 0px, white 0px 0px 2.5em, white 0px 0px 0.2em" */}
     {/* h-10% */}
             <div className='h-[5%] w-[90%]  flex justify-center items-center  relative'>
   {/* {((FirebaseContext.isTabSelected == "readings") || (FirebaseContext.isTabSelected == "gauges")) &&                */}

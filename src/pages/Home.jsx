@@ -21,6 +21,7 @@ import LoadingScreen from '../components/LoadingScreen'
 import NetworkErrorScreen from '../components/NetworkErrorScreen'
 import DownloadModal from '../components/DownloadModal';
 import { Bounce, toast } from 'react-toastify'
+import ThemeModal from '../components/ThemeModal'
 // import MyChip from '../components/Chip'
 
 
@@ -212,19 +213,23 @@ const FetchDataLogs = ()=>{
 
   {(FirebaseContext.isDataLoaded) ? (
 
-<div style={{position:"relative h-[80%]" ,zIndex:"-10"}} >
+// backgroundColor:"#CED3FD"
+<div style={{position:"relative h-[80%]" ,zIndex:"-10", }}  className='bg-primary'>
 
   <MyFullScreenModal/>
   <DownloadModal/>
+  <ThemeModal/>
   <LogoutModal />
   
   {/* calc(100vh - 90px) */}
   {/* bg12.jpg */}
-  <img src="/images/bg12.jpg" alt="background image"  style={{position:"absolute",height:"100vh",width:"100%",objectFit:"cover", top:0,zIndex:0}}/> 
+  {/* <img src="/images/bg12.jpg" alt="background image"  style={{position:"absolute",height:"100vh",width:"100%",objectFit:"cover", top:0,zIndex:0}}/>  */}
    
+
   <MyNavbar/> 
 
-  <section className='w-[100%] flex justify-center items-center flex-col absolute  z-50' style={{height:"calc(100vh - 75px)"}}>
+  <section className='w-[100%] bg-primary flex justify-center items-center flex-col absolute  z-50' style={{height:"calc(100vh - 90px)",}}>
+  
   
    <Monitor/> 
   

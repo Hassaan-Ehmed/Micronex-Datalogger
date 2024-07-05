@@ -25,7 +25,7 @@ function MyProgress({source,title,readings}) {
                       </span>
                     </div>
                     <div id="temp">
-                      <h4 className="text-4xl">{readings}{title == "Temperature" ? "℃" : "%"}</h4>
+                      <h4 className="text-4xl text-primary">{readings}{title == "Temperature" ? "℃" : "%"}</h4>
                       {/* <p className="text-xs text-gray-500">Feels like {title == "Temperature" ? `${readings+2}℃` : `${readings+4.5}%`}</p> */}
                     </div>
                   </div>

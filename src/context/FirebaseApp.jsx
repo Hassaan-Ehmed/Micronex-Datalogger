@@ -40,6 +40,7 @@ export const FirebaseProvider=(props)=>{
   const [isOpen, setIsOpen] = useState(false);
   const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
   const [minMaxIcon,setMinMaxIcon] = useState("max");
   const [isLoading,setIsLoading] = useState(false);
   const [dateDurationLoading,setDateDurationLoading] = useState(false);
@@ -73,8 +74,14 @@ const openModal = (isFor) => {
 
     setIsDownloadModalOpen(true);
   }
+  else if (isFor === "CT"){
 
+    setIsThemeModalOpen(true);
+  }
+
+  
 };
+
 const closeModal = (isFor) => {
 
   if(isFor === "LO"){
@@ -87,6 +94,10 @@ const closeModal = (isFor) => {
   }else if (isFor === "DL"){
 
     setIsDownloadModalOpen(false);
+  }
+  else if (isFor === "CT"){
+
+    setIsThemeModalOpen(false);
   }
 
 };
@@ -403,7 +414,7 @@ function executeDownloadProcess(file_format, data){
 
 // console.log("..........................",data_packet);
 
-return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,lastTimestamp,setLastTimestamp,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr}}>
+return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,lastTimestamp,setLastTimestamp,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsThemeModalOpen,isThemeModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr}}>
   {props.children}
 </FirebaseContext.Provider>
 

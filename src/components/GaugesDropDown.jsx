@@ -19,12 +19,12 @@ export default function NextDropDown() {
 
 
   return (
-    <Dropdown  className='shadow-2xl rounded-2xl border-2 border-gray-50 bg-white z-50'>
+    <Dropdown  className='shadow-2xl rounded-2xl border-2 border-gray-50 bg-primary z-50'>
       <DropdownTrigger className="z-50">
         <Button 
           variant="shadow" 
           // className="capitalize"
-          className="z-50 bg-[#FF0000] LM425:flex theme-primary-color  text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
+          className="z-50 bg-primary LM425:flex  text-foreground shadow-sm shadow-foreground" 
         >
           {selectedValue}<HiOutlineSelector className='text-xl z-50'/>
         </Button>

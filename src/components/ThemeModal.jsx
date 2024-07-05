@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFirebaseContext } from '../context/FirebaseApp';
 import { getAuth, signOut } from 'firebase/auth';
+import ListBox from './ListBox';
+import NextListBox from './ListBox';
 
-const MyModal = () => {
+const ThemeModal = () => {
 
     const FirebaseContext = useFirebaseContext();
 
@@ -29,7 +31,7 @@ const MyModal = () => {
                 
             localStorage.removeItem("User_ID");
               FirebaseContext.setIsLoading(false);
-              FirebaseContext.closeModal("LO");
+              FirebaseContext.closeModal("CT");
 
 
             },1500);
@@ -46,21 +48,21 @@ const MyModal = () => {
 
       const pleaseCloseTheModal=()=>{
 
-        FirebaseContext.closeModal("LO");
+        FirebaseContext.closeModal("CT");
     
     }
     
       return (
         <div>
-            { FirebaseContext.isOpen && (
+            { FirebaseContext.isThemeModalOpen && (
                 <div className="main-modal fixed w-full h-full inset-0 z-[200] overflow-hidden flex justify-center items-center animated fadeIn faster"
                     style={{ background: 'rgba(0,0,0,.7)' }}>
-                    <div className=" modal-container w-11/12  max-w-md mx-auto z-50 overflow-y-auto shadow-2xl p-2 rounded-2xl border-2 border-gray-50 bg-white">
+                    <div className=" modal-container w-full  tablet:w-11/12  h-full tablet:h-auto max-w-sm  mx-auto   z-50 overflow-y-auto shadow-2xl p-2 rounded-r-none LM425:rounded-2xl border-2 border-gray-50 bg-white ">
                         <div className="modal-content py-4 text-left px-6">
                             <div className="flex justify-between items-center pb-3">
-                                <p className="text-2xl font-bold text-primary">Logout</p>
+                                <p className="text-2xl font-bold text-primary">Change Theme</p>
                                 <div className="modal-close cursor-pointer z-50" onClick={pleaseCloseTheModal}>
-                                    <svg className="fill-current text-black hover:font-bold h-16 transition-transform duration-300 ease-in-out transform hover:scale-125" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    <svg className="fill-current text-black hover:font-bold transition-transform duration-300 ease-in-out transform hover:scale-125" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                         viewBox="0 0 18 18">
                                         <path
                                             d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -69,18 +71,21 @@ const MyModal = () => {
                                 </div>
                             </div>
                             <div className="my-5">
-                                <p className='text-primary'>If you want to Log Out your Account ?</p>
+                               
+                               <NextListBox/>
+                               
+                                {/* <p>If you want to Log Out your Account ?</p> */}
                             </div>
                             <div className="flex justify-end pt-2 gap-4">
                              <Button  variant="light" className="LM425:flex text-primary"  onClick={pleaseCloseTheModal}>
-                                Cancel
+                                Discard
                              </Button>
                                 {/* <button className="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">
                                     Confirm
                                 </button> */}
 
-                                <Button id='logout-btn' variant="shadow" className="bg-primary LM425:flex  text-white shadow-lg shadow-primary" 
-                                onClick={logoutUser}
+                                <Button id='logout-btn' variant="shadow" className="bg-primary LM425:flex  text-white shadow-lg shadow-primary"
+                                // onClick={logoutUser}
                                 isLoading={FirebaseContext.isLoading}
                                 spinner={
                                    <svg
@@ -105,7 +110,7 @@ const MyModal = () => {
                                    </svg>
                                  }
                                 >
-                               Confirm
+                               Apply
                                 </Button>
                             </div>
                         </div>
@@ -116,4 +121,4 @@ const MyModal = () => {
     );
 };
 
-export default MyModal;
+export default ThemeModal;
