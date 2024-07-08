@@ -40,14 +40,13 @@ Light Grey ( bg-light / text-dark )
           onSelectionChange={setSelectedKeys}
         >
           <ListboxItem key="default" className="text-[#0f172a] ">Default</ListboxItem>
-          <ListboxItem key="red" className="text-[#0f172a]">Red</ListboxItem>
-          <ListboxItem key="green" className="text-[#0f172a]">Green</ListboxItem>
-          <ListboxItem key="purple" className="text-[#0f172a]">Purple</ListboxItem>
-          <ListboxItem key="almond" className="text-[#0f172a]">Almond</ListboxItem>
-          <ListboxItem key="light-grey" className="text-[#0f172a]">Light Grey</ListboxItem>
+          <ListboxItem key="red" className="text-[#FF0000]">Red</ListboxItem>
+          <ListboxItem key="green" className="text-[#08816E]">Green</ListboxItem>
+          <ListboxItem key="purple" className="text-[#8308FF]">Purple</ListboxItem>
+          <ListboxItem key="blue" className="text-[#FFEBCD]">Blue</ListboxItem>
         </Listbox>
       </div>
-      <p className="text-small text-default-500">Selected value: {selectedValue}</p>
-    </div>
+
+      </div>
   );
 }

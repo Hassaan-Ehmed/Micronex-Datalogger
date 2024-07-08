@@ -123,7 +123,7 @@ import { Text } from "react-font";
       labels={{
 
         // ,textShadow:"black 1px 1px 0px, black 0px 0px 2.5em, black 0px 0px 0.2em"
-        valueLabel: { formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}` , style:{fontSize: `${window.innerWidth > 600   ? '25rem' : '20rem'}`,fill:"#0f172a",fontWeight:"bolder",textShadow:"none"}},
+        valueLabel: { formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}` , style:{fontSize: `${window.innerWidth > 600   ? '25rem' : '20rem'}`,fill:"black",fontWeight:"bolder",textShadow:"none"}},
         tickLabels: {
 
           
@@ -131,7 +131,7 @@ import { Text } from "react-font";
           defaultTickValueConfig:{
 
             formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}`,
-            style:{fontSize: '0.6rem', fill: "#0f172a",fontWeight:"bolder"},
+            style:{fontSize: '0.6rem', fill: "black",fontWeight:"bolder"},
           },
           defaultTickLineConfig:{
             distanceFromArc:5,

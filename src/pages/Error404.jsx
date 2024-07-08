@@ -17,19 +17,19 @@ const goBackUrl=()=>{
 }
 
 return (
-        <div className='h-[100%] w-[100%]'>
+        <div className='h-[100%] w-[100%]' style={{backgroundColor:"  "}}>
 
 {TOKEN == null ? (
 
-<Button className='absolute top-5 left-5 bg-[#FF0000]  theme-primary-color text-white z-10' style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px",display:"ruby",}}>
-<Link to={'/'}><IoMdArrowRoundBack className="text-[4vh] text-white cursor-pointer"/> <Text family='Jost'>Back</Text></Link>
+<Button className='absolute top-5 left-5 bg-white  text-primary z-10' style={{boxShadow:"rgb(255, 255, 255) 0px 7px 15px -7px",display:"ruby"}}>
+<Link to={'/'}><IoMdArrowRoundBack className="text-[4vh] text-primary cursor-pointer"/> <Text family='Jost'>Back</Text></Link>
 </Button>
 
 ) : (
 
-<Button className='absolute top-5 left-5 bg-[#FF0000]  theme-primary-color text-white z-10' style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px",display:"ruby",}} onClick={goBackUrl}>
+<Button className='absolute top-5 left-5 bg-white  text-primary z-10' style={{boxShadow:"rgb(255, 255, 255) 0px 7px 15px -7px",display:"ruby",}} onClick={goBackUrl}>
 
-<IoMdArrowRoundBack className="text-[4vh] text-white cursor-pointer"/> <Text family='Jost'>Back</Text>
+<IoMdArrowRoundBack className="text-[4vh] text-primary cursor-pointer"/> <Text family='Jost'>Back</Text>
 </Button>
 
 )}

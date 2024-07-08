@@ -295,12 +295,13 @@ return (
               <form className="flex flex-col gap-4 h-[310px]">
 
               <DatePicker
+              color="default"
             key={'inside'}
             label="Select Date"
             // labelPlacement={"placement"}
             // description={"hello"}
-            style={{paddingTop:"30px",paddingBottom:"20px"}}
-            className="max-w-md"
+            style={{paddingTop:"30px",paddingBottom:"20px",color:"black",backgroundColor:"hsl(0deg 0% 77.01%)"}}
+            className="max-w-md text-foreground hover:text-foreground selection:bg-gray-400"
             value={value} 
             onChange={setValue}
             minValue={parseDate(FirebaseContext?.dateLimits.minimumDate)}
@@ -315,10 +316,13 @@ return (
       <Select
 
 errorMessage={options?.startTimeIsInValid  ? "" : "Greater than end time"}
+
 isInvalid={options?.startTimeIsInValid  ? true : false}
-         disableSelectorIconRotation
-         selectorIcon={<HiOutlineSelector />}
-      label="Start Start time"
+disableSelectorIconRotation
+selectorIcon={<HiOutlineSelector style={{color:
+  "black"
+}} />}
+label="Select Start time"
       placeholder="Text Format"
       defaultSelectedKeys={["Text format"]}
       className="w-[50%]"
@@ -329,7 +333,7 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
       {FirebaseContext.timesArr.map((format)=>{
 
       return(
-      <SelectItem key={format} value={format}>
+      <SelectItem key={format} value={format} className="text-primary">
       {format}
     </SelectItem>)
    
@@ -343,7 +347,9 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
     errorMessage={options?.endTimeIsInValid  ? "" : "Less than start time"}
     isInvalid={options?.endTimeIsInValid  ? true : false}
     disableSelectorIconRotation
-    selectorIcon={<HiOutlineSelector />}
+    selectorIcon={<HiOutlineSelector style={{color:
+      "black"
+    }}  />}
       label="Select End time"
       placeholder="Text Format"
       defaultSelectedKeys={["Text format"]}
@@ -356,7 +362,7 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
       {FirebaseContext.timesArr.map((format)=>{
 
       return(
-      <SelectItem key={format} value={format}>
+      <SelectItem key={format} value={format} className="text-primary">
       {format}
     </SelectItem>)
    
@@ -384,12 +390,12 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
       className="max-w-xs"
       selectedKeys={[options?.selectedOption]}
       onChange={(e)=>setOptions({selectedOption:e.target.value})}
-      
+
     >
       {fileFormats.map((format)=>{
 
       return(
-      <SelectItem key={format} value={format}>
+      <SelectItem key={format} value={format} className="text-primary">
       {format}
     </SelectItem>)
    
@@ -399,18 +405,17 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
     </Select>
             
              
-    <Checkbox isSelected={options?.isCheckboxSelected}  value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1`}>
+    <Checkbox isSelected={options?.isCheckboxSelected}  value={options?.isCheckboxSelected} onChange={(e)=>setOptions({isCheckboxSelected:e.target.checked})} color="secondary"  className={`${options?.isCheckboxSelected ? "opacity-[1]" : "opacity-80"} ml-1 `}>
     &nbsp;&nbsp;&nbsp;Yes, I want to download datalogs
       </Checkbox>
       
            
-              <Button onClick={DownloadDataUponDtime} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
-                           
+              <Button onClick={DownloadDataUponDtime} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-primary LM425:flex  text-foreground shadow-lg shadow-primary" 
                            isLoading={FirebaseContext.timeDurationLoading}
                            spinner={
                               <svg
-                                className="animate-spin h-5 w-5 text-current mb-2"
-                                fill="none"
+                                className="animate-spin h-5 w-5 text-primary mb-2"
+                                fill="white"
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
@@ -419,13 +424,13 @@ isInvalid={options?.startTimeIsInValid  ? true : false}
                                   cx="12"
                                   cy="12"
                                   r="10"
-                                  stroke="currentColor"
+                                  stroke="white"
                                   strokeWidth="4"
                                 />
                                 <path
                                   className="opacity-75"
                                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                  fill="currentColor"
+                                  fill="white"
                                 />
                               </svg>
                             }

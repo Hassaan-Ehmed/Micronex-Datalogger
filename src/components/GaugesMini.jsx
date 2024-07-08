@@ -10,12 +10,12 @@ function MyGaugesMini({readings}) {
 const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
     return (
       // h-27
-        <div className={`${title == "Humidity" ? 'mt-[25px]' :"mt-0" } w-[70vw] h-[30vw]  bg-border-none  shadow-2xl p-2 rounded-2xl flex justify-center items-center gap-1 overflow-hidden relative `} style={{ background: `linear-gradient(to bottom right, #${fromColor}, #${toColor})`}}>
-
+        <div className={`${title == "Humidity" ? 'mt-[25px]' :"mt-0" } w-[70vw] h-[30vw]  bg-border-none  shadow-2xl p-2 rounded-2xl flex justify-center items-center gap-1 overflow-hidden relative bg-white`} >
+{/* style={{ background: `linear-gradient(to bottom right, #${fromColor}, #${toColor})`}} */}
         <div className='w-full h-[20%] flex  justify-center items-center'>
             
             {/* <img src={source} alt="icon"  className='w-[35%]  object-contain'/> */}
-            <Text family='Jost' className={`left-0 absolute font-bold text-white text-center text-xl  flex justify-center items-center ml-2`}>{title}</Text>
+            <Text family='Jost' className={`left-0 absolute font-bold text-black text-center text-xl  flex justify-center items-center ml-2`}>{title}</Text>
         </div>     
 
 
@@ -113,7 +113,7 @@ const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
       
       pointer={{
         type:"needle",
-        color: 'white', //4f4f4f
+        color: 'text-primary', //4f4f4f
         length: 1,//0.80,
         width: 20,
         elastic: true,
@@ -123,7 +123,7 @@ const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
       labels={{
 
         // ,textShadow:"black 1px 1px 0px, black 0px 0px 2.5em, black 0px 0px 0.2em"
-        valueLabel: { formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}` , style:{fontSize: '34px',fill:"white",fontWeight:"bolder",textShadow:"none"}},
+        valueLabel: { formatTextValue: value => value + `${title === "Temperature" ? '℃' : '%'}` , style:{fontSize: '34px',fill:"black",fontWeight:"bolder",textShadow:"none"}},
         tickLabels: {
 
           
@@ -131,7 +131,7 @@ const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
           defaultTickValueConfig:{
 
             formatTextValue: value => value ,
-            style:{fontSize: '8px', fill: "white",fontWeight:"bolder"},
+            style:{fontSize: '8px', fill: "black",fontWeight:"bolder"},
           },
           defaultTickLineConfig:{
             distanceFromArc:5,

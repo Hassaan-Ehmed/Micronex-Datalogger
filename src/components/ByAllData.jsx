@@ -163,6 +163,7 @@ toast.error(`No Data Available !`,{
     </Select>
 
 <Checkbox       
+color="secondary"
       aria-label={user.name}
       classNames={{
         base: cn(
@@ -183,7 +184,7 @@ toast.error(`No Data Available !`,{
       <div className="w-full flex justify-between gap-2">
    
         <div className="flex flex-col items-end gap-1">
-          <span className="text-tiny text-default-500">{user.role}</span>
+          <span className="text-tiny text-primary ">{user.role}</span>
           <Chip color="success" size="sm" variant="flat">
             {user.status}
           </Chip>
@@ -192,13 +193,13 @@ toast.error(`No Data Available !`,{
     </Checkbox>
       
            
-              <Button onClick={DownloadAllData} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-[#FF0000] LM425:flex theme-primary-color text-white" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}}
+              <Button onClick={DownloadAllData} isDisabled={options?.isButtonDisabled}  id='logout-btn' variant="shadow" className="bg-primary LM425:flex  text-foreground shadow-lg shadow-primary" 
                            
                            isLoading={FirebaseContext.allDataLoading}
                            spinner={
                               <svg
-                                className="animate-spin h-5 w-5 text-current"
-                                fill="none"
+                                className="animate-spin h-5 w-5 text-primary"
+                                fill="white"
                                 viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
@@ -207,13 +208,13 @@ toast.error(`No Data Available !`,{
                                   cx="12"
                                   cy="12"
                                   r="10"
-                                  stroke="currentColor"
+                                  stroke="white"
                                   strokeWidth="4"
                                 />
                                 <path
                                   className="opacity-75"
                                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                  fill="currentColor"
+                                  fill="white"
                                 />
                               </svg>
                             }

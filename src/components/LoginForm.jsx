@@ -236,23 +236,23 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
 
 
   return (
-    <div style={{position:"relative"}}>
+    <div style={{position:"relative",backgroundColor:"white"}}>
 
       <MyFullScreenModal/>
     
-<img src="https://cdn3d.iconscout.com/3d/premium/thumb/humidity-10624965-8599068.png?f=webp" alt="Hum Icon" className="big-logo left-4 top-4 tablet:top-[unset] h-auto w-[20%] object-contain absolute z-[1]" />
+<img src="https://cdn3d.iconscout.com/3d/premium/thumb/security-setting-11767831-9591003.png" alt="Hum Icon" className="big-logo left-4 top-4 tablet:top-[unset] h-auto w-[20%] object-contain absolute z-[1] " />
 
-<img src="https://cdn3d.iconscout.com/3d/premium/thumb/temperature-6912337-5665190.png" alt="Temp Icon" className="big-logo right-4 top-4 tablet:bottom-[1.5rem] tablet:top-[unset]  h-auto w-[20%] object-contain absolute z-[1]" />
+<img src="https://cdn3d.iconscout.com/3d/premium/thumb/humidity-sensor-5108622-4285827.png?f=webp" alt="Temp Icon" className="big-logo right-4 top-4 tablet:bottom-[1.5rem] tablet:top-[unset]  h-auto w-[20%] object-contain absolute z-[1]" />
    
-    <img src="/images/bg3.jpg" alt="background image"  style={{position:"absolute",top:0,height:"100%",width:"100%",objectFit:"cover"}}/> 
+    <img src="/images/login-bg1.jpg" alt="background image"  style={{position:"absolute",top:0,height:"100%",width:"100%",objectFit:"cover"}}/> 
    
     <div className="flex flex-col w-full min-h-[100vh]  justify-center items-center">
-      <Card className="my-form max-w-full  w-[400px] h-[420px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
+      <Card className="my-form my-form-galassy max-w-full  w-[400px] h-[420px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
         <CardBody className="overflow-hidden">
 
         <div className='mb-4 flex justify-end items-center w-[100%]'>
             
-            {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
+            {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-white" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-white" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
   
               </div>
           <Tabs
@@ -300,7 +300,9 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
                 />
                 
                 <div className="flex gap-2 justify-end">
-                  <Button style={{backgroundColor:"#FF0000",color:"white",boxShadow:"0px 0px 0px 0px white"}}  fullWidth  type="submit" onClick={loginUser}>
+                  <Button className="bg-slate-500 LM425:flex  text-white  shadow-black shadow-md" fullWidth  type="submit" onClick={loginUser} 
+                  // style={{boxShadow:"0px 0px 0px 0px black"}}
+                  >
                     Login
                   </Button> 
                 

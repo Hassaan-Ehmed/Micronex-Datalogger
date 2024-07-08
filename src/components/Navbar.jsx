@@ -75,7 +75,7 @@ document.addEventListener("fullscreenchange",()=>{
       
       <NavbarContent as="div" className="items-center LM425:hidden " justify="end">
 
-        <Dropdown backdrop="blur" placement="bottom-start" className="bg-white  text-[#FF0000] ml-[3vh] z-[9999999] relative top-[-0.30em]" >
+        <Dropdown backdrop="blur" placement="bottom-start" className="bg-white  text-primary ml-[3vh] z-[9999999] relative top-[-0.30em]" >
           <DropdownTrigger>
                 
                 {/* {isBurgerOpen ?  <MdOutlineClose className="
@@ -87,17 +87,17 @@ document.addEventListener("fullscreenchange",()=>{
           <DropdownMenu aria-label="Profile Actions" variant="flat"  className="z-[10]  bg-white">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold text-black">Signed in as</p>
-              <p className="font-semibold text-[#FF0000]">{user_packet?.email}</p>
+              <p className="font-semibold text-primary">{user_packet?.email}</p>
             </DropdownItem> 
-            {FirebaseContext.isUserAdmin && ( <DropdownItem key="add-user" color="default" className="text-black"><Link className="flex justify-start items-center gap-3 " to={'/add-user'}><RiUserAddLine className="text-xl text-[#FF0000] cursor-pointer" /> Add User</Link> </DropdownItem> ) }
+            {FirebaseContext.isUserAdmin && ( <DropdownItem key="add-user" color="default" className="text-black"><Link className="flex justify-start items-center gap-3 " to={'/add-user'}><RiUserAddLine className="text-xl text-primary cursor-pointer" /> Add User</Link> </DropdownItem> ) }
             <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('LO')} className="text-black">
-            <Link className="flex justify-start items-center gap-3 ">   <TbLogout2 className="text-2xl text-[#FF0000] cursor-pointer" onClick={()=>FirebaseContext.openModal("LO")}/> Log Out </Link> 
+            <Link className="flex justify-start items-center gap-3 ">   <TbLogout2 className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("LO")}/> Log Out </Link> 
             </DropdownItem>
             <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('CT')} className="text-black ">
-            <Link className="flex justify-start items-center gap-3 ">   <MdOutlineColorLens className="text-2xl text-[#FF0000] cursor-pointer" onClick={()=>FirebaseContext.openModal("CT")}/> Theme </Link> 
+            <Link className="flex justify-start items-center gap-3 ">   <MdOutlineColorLens className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("CT")}/> Theme </Link> 
             </DropdownItem>
             <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('DL')} className="text-black ">
-            <Link className="flex justify-start items-center gap-3 ">   <PiDownloadSimpleBold className="text-2xl text-[#FF0000] cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/> Download </Link> 
+            <Link className="flex justify-start items-center gap-3 ">   <PiDownloadSimpleBold className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/> Download </Link> 
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

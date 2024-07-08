@@ -2,13 +2,87 @@
 
 /* body{background-color: rgb(60, 60, 60);} */
 
+/* Start Styles Overrides */
+.bg-background{
+
+	background-color:white;
+
+}
+	.data-\[selected\=true\]\:data-\[range-selection\=true\]\:text-primary[data-range-selection=true][data-selected=true] {
+
+	color: white;
+	
+}
+
+.data-\[selected\=true\]\:data-\[selection-start\=true\]\:data-\[range-selection\=true\]\:bg-primary[data-range-selection=true][data-selection-start=true][data-selected=true] {
+	background-color: hsl(0deg 0% 77.01%);
+}
+
+.data-\[selected\=true\]\:data-\[selection-end\=true\]\:data-\[range-selection\=true\]\:bg-primary[data-range-selection=true][data-selection-end=true][data-selected=true] {
+background-color: hsl(0deg 0% 77.01%);
+}
+
+
+.data-\[selected\=true\]\:shadow-none[data-selected=true] {
+
+	background-color: hsl(0deg 0% 77.01%);
+}
+
+	.tap-highlight-transparent  > span {
+			color: black;
+			/* background-color: white; */
+	}
+
+
+	.tap-highlight-transparent > span:active{
+
+		color:white;
+	}
+
+	.data-\[open\=true\]\:rotate-180{
+
+		color: black;
+	}
+
+	.data-\[editable\=true\]\:text-foreground[data-editable=true] {
+	
+	color: black;
+}
+.your-date-picker-class .date-picker-value {
+	color: #000000; /* Black color */
+}
+
+
+.dropdown{
+	color: white;
+}
+
+.dropdown:active{
+	color: black;
+}
+/* End Styles Overrides */
+
+
 
 .my-form{
 
    /* From https://css.glass */
+   background-color: white;
+/* background: rgba(255, 255, 255, 0.12); */
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(255, 255, 255);
+/* backdrop-filter: blur(3.9px); */
+/* -webkit-backdrop-filter: blur(3.9px); */
+border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.my-form-galassy{
+
+   /* From https://css.glass */
+   /* background-color: white; */
 background: rgba(255, 255, 255, 0.12);
 border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+box-shadow: 0 4px 30px rgba(255, 255, 255);
 backdrop-filter: blur(3.9px);
 -webkit-backdrop-filter: blur(3.9px);
 border: 1px solid rgba(255, 255, 255, 1);
@@ -101,10 +175,6 @@ backdrop-filter: blur(9.3px);
 		transform: translateY(-5.2px);
 	}
 }
-
-
-
-
 
 
 .chart-container {

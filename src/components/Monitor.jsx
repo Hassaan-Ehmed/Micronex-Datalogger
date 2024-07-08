@@ -61,7 +61,7 @@ return (
     
 <MyMiniCard source="https://cdn3d.iconscout.com/3d/premium/thumb/humidity-8165662-6551904.png?f=webp" title={"Humidity & Temperature"} readings={FirebaseContext?.dataPacket ?? {} } />
   
-  {/*  absolute bottom-[0.5rem] */}
+  {/*  absolute bottom-[0.5`rem] */}
   <div className='LM425:hidden -pt-2'><MyChip/></div>
     
     </div> 

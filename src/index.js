@@ -12,11 +12,13 @@ import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
 root.render(
   <React.StrictMode>
         <NextUIProvider>
             <FirebaseProvider>
-                    <main className="purple-dark text-foreground bg-primary">
+                    <main className="default-dark text-foreground bg-primary">
                       <Router>
                         <App />
                           <ToastContainer

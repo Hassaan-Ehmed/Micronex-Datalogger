@@ -14,7 +14,7 @@ const MiniCard = ({title,reading,source})=> {
             <Text family='Jost' className={`pr-3 font-bold text-gray-600 text-center text-xl w-[37vw] flex justify-center items-center`}>{title}</Text>
         </div>     
 
-        <div className='mt-2 flex justify-start items-center h-fit'><h5  className='font-bold text-[#FF0000] text-[6vw] leading-tight'>{reading}{title == "Temperature" ? "℃" : "%"}</h5></div>
+        <div className='mt-2 flex justify-start items-center h-fit'><h5  className='font-bold text-primary text-[6vw] leading-tight'>{reading}{title == "Temperature" ? "℃" : "%"}</h5></div>
          </div>
     )
 }

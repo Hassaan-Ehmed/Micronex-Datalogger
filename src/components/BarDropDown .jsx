@@ -19,7 +19,7 @@ export default function NextDropDown() {
 
 
   return (
-    <Dropdown  className='shadow-2xl rounded-2xl border-2 border-gray-50 bg-primary z-50 mb-5'>
+    <Dropdown  className='shadow-2xl rounded-2xl border-2 border-gray-50 bg-secondary z-50 mb-5'>
       <DropdownTrigger className="z-50">
         <Button 
           variant="shadow" 
@@ -36,12 +36,12 @@ export default function NextDropDown() {
         selectionMode="single"
         selectedKeys={selectedKeys}
         onSelectionChange={setSelectedKeys}
-        className="z-50 bg-primary"
+        className="z-50 bg-secondary"
       >
-        <DropdownItem key="Humidity"  className="z-50 text-foreground" onClick={()=>{FirebaseContext.setSlectedBarChart("Humidity")}}>Humidity</DropdownItem>
-        <DropdownItem key="Temperature" className="z-50 text-foreground" onClick={()=>{FirebaseContext.setSlectedBarChart("Temperature")}}>Temperature</DropdownItem>
+        <DropdownItem key="Humidity"  className="z-50 dropdown" onClick={()=>{FirebaseContext.setSlectedBarChart("Humidity")}}>Humidity</DropdownItem>
+        <DropdownItem key="Temperature" className="z-50 dropdown" onClick={()=>{FirebaseContext.setSlectedBarChart("Temperature")}}>Temperature</DropdownItem>
 
-        <DropdownItem key="Both" className="z-50 text-foreground" onClick={()=>{FirebaseContext.setSlectedBarChart("Both")}}>Both</DropdownItem>
+        <DropdownItem key="Both" className="z-50 dropdown" onClick={()=>{FirebaseContext.setSlectedBarChart("Both")}}>Both</DropdownItem>
 
 {/* 
         <DropdownItem key="Humidity"  className="z-50" onClick={()=>{FirebaseContext.setSlectedGauge("Humidity")}}>Humidity</DropdownItem>

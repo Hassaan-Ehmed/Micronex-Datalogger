@@ -241,14 +241,14 @@ console.log("Error while Creating user Account",error)
 
 <img src="https://cdn3d.iconscout.com/3d/premium/thumb/temperature-6912337-5665190.png" alt="Temp Icon" className="big-logo right-4 top-4 tablet:bottom-[1.5rem] tablet:top-[unset]  h-auto w-[20%] object-contain absolute z-[1]" />
    
-    <img src="/images/bg6.jpg" alt="background image"  style={{position:"absolute",top:0,height:"100%",width:"100%",objectFit:"cover"}}/> 
+    {/* <img src="/images/bg6.jpg" alt="background image"  style={{position:"absolute",top:0,height:"100%",width:"100%",objectFit:"cover"}}/>  */}
     <div className="flex flex-col w-full min-h-[100vh]  justify-center items-center">
       <Card className="my-form max-w-full  w-[400px] h-[420px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
         <CardBody className="overflow-hidden">
           {/* w-[22vh] */}
-          <div className='mb-4 flex justify-between items-center w-[100%]'><div className="flex justify-between items-center  w-[40%]"><Link to={'/app'}><IoMdArrowRoundBack className="text-[4vh] text-[#FF0000] cursor-pointer"/></Link><Text family="Jost"  className="text-[6vh] font-semibold">Back to home</Text></div><div>
+          <div className='mb-4 flex justify-between items-center w-[100%] '><div className="flex justify-between items-center  w-[40%] text-primary"><Link to={'/app'}><IoMdArrowRoundBack className="text-[4vh] text-primary  cursor-pointer"/></Link><Text family="Jost"  className="text-[6vh] font-semibold text-primary">Back to home</Text></div><div>
             
-          {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
+          {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
 
             </div></div>
           <Tabs
@@ -287,7 +287,7 @@ console.log("Error while Creating user Account",error)
                 />
                 
                 <div className="flex gap-2 justify-end">
-                  <Button style={{backgroundColor:"#FF0000",color:"white",boxShadow:"0px 0px 0px 0px white"}}  fullWidth  type="submit" onClick={createUser}>
+                  <Button className="bg-primary LM425:flex  text-white shadow-lg shadow-primary" fullWidth  type="submit" onClick={createUser}>
                     Create User
                   </Button> 
                 </div>
