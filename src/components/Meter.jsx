@@ -136,7 +136,7 @@ import { Text } from "react-font";
           defaultTickLineConfig:{
             distanceFromArc:5,
             width:2,
-            color:"white",
+            color:"black",
             length:9,
 
           },

@@ -9,8 +9,7 @@ const MyChip = () => {
     const FirebaseContext  = useFirebaseContext();
    
    const date =  getFormatedDateByTimestamp(FirebaseContext?.lastTimestamp);
-   
-   console.log("SSSSSSSSS",date);
+
 //07-01-24
 // const  formated_date = date?.split("-")[2].slice(0,2).join("-") + "-" + date?.split("-")[2].split("").slice(2).join("")  
 //    console.log("OYEEEEE",formated_date);

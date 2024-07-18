@@ -1,19 +1,17 @@
 
 import React from 'react';
 import './App.css';
-// import Card from './components/Card';
 import { Route, Routes } from 'react-router-dom';
-import LoginForm from './components/LoginForm';
 import Home from './pages/Home';
-// import { useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref } from 'firebase/database';
 import NetworkErrorScreen from './components/NetworkErrorScreen';
 import SignupForm from './components/SignupForm.';
 import ErrorPage from './pages/Error404';
+import Login from './pages/Login';
 import AuthProtection from './utils/AuthProtection';
 import RouteProtection from './utils/RouteProtection';
-import Login from './pages/Login';
+import DeviceConnection from './pages/DeviceConnection';
 
 
 function App() {
@@ -35,16 +33,16 @@ React.useEffect(()=>{
 
   // src/index.js or src/App.js
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((registration) => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      }, (error) => {
-        console.log('ServiceWorker registration failed: ', error);
-      });
-  });
-}
+// if ('serviceWorker' in navigator) {
+  // window.addEventListener('load', () => {
+    // navigator.serviceWorker.register('./service-worker.js')
+      // .then((registration) => {
+        // console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      // }, (error) => {
+        // console.log('ServiceWorker registration failed: ', error);
+      // });
+  // });
+// }
 
 
   // const data_logs = {
@@ -330,7 +328,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
 
 
-console.log("isOnline",isOnline)
 
 return (
 

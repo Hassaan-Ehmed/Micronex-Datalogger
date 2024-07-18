@@ -8,6 +8,7 @@ import { Bounce, toast ,Flip, Slide} from "react-toastify";
 import '../App.css'
 import MyFullScreenModal from "./FullScreenModal";
 import { CgMaximize, CgMinimizeAlt } from "react-icons/cg";
+import DeviceConnection from "../pages/DeviceConnection";
 
 
 export default function LoginForm() {
@@ -96,7 +97,8 @@ const navigate = useNavigate();
   
   })
   
- const loginUser=(ev)=>{
+  const loginUser=(ev)=>{
+    
 
   try{
 
@@ -157,10 +159,13 @@ console.log("Hey.........");
 
 
 signInWithEmailAndPassword(firebaseAuth,state?.email,state?.password).then((cred)=>{
-  
-  localStorage.setItem("User_ID",JSON.stringify(cred.user));
 
-console.log("userCredientials",cred.user);
+
+
+  FirebaseContext.setUserObj(cred.user);
+  
+  
+// console.log("userCredientials",cred.user);
 
 setState({email:""});
 setState({password:""});
@@ -183,7 +188,10 @@ toast.success("Login successfully !",{
  transition: Slide,
  });
 
-setTimeout(()=> navigate("/app") ,1500)
+  FirebaseContext.setIsConnectDeviceModalOpen(true);
+
+
+// setTimeout(()=> navigate("/connect-to-device") ,1500)
   
 }).catch((error => {
 
@@ -233,9 +241,10 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
 
  }
 
-
-
   return (
+      <>
+    {FirebaseContext.isConnectDeviceModalOpen ?  <DeviceConnection/> : (  
+    
     <div style={{position:"relative",backgroundColor:"white"}}>
 
       <MyFullScreenModal/>
@@ -247,23 +256,23 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
     <img src="/images/login-bg1.jpg" alt="background image"  style={{position:"absolute",top:0,height:"100%",width:"100%",objectFit:"cover"}}/> 
    
     <div className="flex flex-col w-full min-h-[100vh]  justify-center items-center">
-      <Card className="my-form my-form-galassy max-w-full  w-[400px] h-[420px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
+      <Card className="my-form my-form-galassy max-w-full  w-[400px] h-[430px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
         <CardBody className="overflow-hidden">
 
         <div className='mb-4 flex justify-end items-center w-[100%]'>
             
-            {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-white" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-white" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
+            {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
   
               </div>
           <Tabs
-           className="mb-10 "
+           className="mb-10 navglass"
             fullWidth
             size="lg"
             aria-label="Tabs form"
             selectedKey={selected}
             onSelectionChange={setSelected}
  >
-            <Tab key="login" title="Login"  style={{color:"#FF0000",fontWeight:"600",cursor:"default"}}>
+            <Tab key="login" title="Login" id="login-tab"  style={{color:"#FF0000",fontWeight:"600",cursor:"default",backgroundColor:'white'}}>
               <form className="flex flex-col gap-6 " id="login-form"  >
             
                 <Input
@@ -300,7 +309,8 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
                 />
                 
                 <div className="flex gap-2 justify-end">
-                  <Button className="bg-slate-500 LM425:flex  text-white  shadow-black shadow-md" fullWidth  type="submit" onClick={loginUser} 
+                  <Button className="bg-primary LM425:flex  text-white shadow-lg shadow-primary" fullWidth type="submit" 
+                  onClick={loginUser}
                   // style={{boxShadow:"0px 0px 0px 0px black"}}
                   >
                     Login
@@ -316,5 +326,7 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
     </div>
 
     </div>
+    )}  
+    </>
   );
 }

@@ -17,9 +17,6 @@ import { MdOutlineColorLens } from "react-icons/md";
 import { RiUserAddLine } from "react-icons/ri";
 
 
-
-
-
 export default function MyNavbar() {
 
   const FirebaseContext = useFirebaseContext();
@@ -71,7 +68,6 @@ document.addEventListener("fullscreenchange",()=>{
 {/* // header ?? */}
       <NavbarContent justify="center" className="1rem w-[50vw] justify-between"> 
 
-
       
       <NavbarContent as="div" className="items-center LM425:hidden " justify="end">
 
@@ -90,14 +86,16 @@ document.addEventListener("fullscreenchange",()=>{
               <p className="font-semibold text-primary">{user_packet?.email}</p>
             </DropdownItem> 
             {FirebaseContext.isUserAdmin && ( <DropdownItem key="add-user" color="default" className="text-black"><Link className="flex justify-start items-center gap-3 " to={'/add-user'}><RiUserAddLine className="text-xl text-primary cursor-pointer" /> Add User</Link> </DropdownItem> ) }
-            <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('LO')} className="text-black">
-            <Link className="flex justify-start items-center gap-3 ">   <TbLogout2 className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("LO")}/> Log Out </Link> 
+          
+      
+            <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('DL')} className="text-black ">
+            <Link className="flex justify-start items-center gap-3 ">   <PiDownloadSimpleBold className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/> Download </Link> 
             </DropdownItem>
             <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('CT')} className="text-black ">
             <Link className="flex justify-start items-center gap-3 ">   <MdOutlineColorLens className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("CT")}/> Theme </Link> 
             </DropdownItem>
-            <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('DL')} className="text-black ">
-            <Link className="flex justify-start items-center gap-3 ">   <PiDownloadSimpleBold className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/> Download </Link> 
+            <DropdownItem key="logout" color="default"  onClick={()=>pleaseOpenTheModal('LO')} className="text-black">
+            <Link className="flex justify-start items-center gap-3 ">   <TbLogout2 className="text-2xl text-primary cursor-pointer" onClick={()=>FirebaseContext.openModal("LO")}/> Log Out </Link> 
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

@@ -119,7 +119,6 @@ module.exports = {
         },
       },
 
-
       "red-dark": {
         // extend: "dark", // <- inherit default values from dark theme
         colors: {
@@ -158,6 +157,7 @@ module.exports = {
           },
         },
       },
+      
       "purple-dark": {
         // extend: "dark", // <- inherit default values from dark theme
         colors: {

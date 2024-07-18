@@ -19,7 +19,6 @@ const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
         </div>     
 
 
-
         {/* <div className="shadow-2xl  rounded-2xl border-2 border-gray-50 bg-white h-full  "> */}
         
         <GaugeComponent

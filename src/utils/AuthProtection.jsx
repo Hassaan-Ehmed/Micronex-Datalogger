@@ -5,8 +5,6 @@ export default function AuthProtection({children}) {
 
 const TOKEN = localStorage.getItem("User_ID");
 
-
-
 if(TOKEN) {
 
     return <Navigate to={'/app'} replace/>

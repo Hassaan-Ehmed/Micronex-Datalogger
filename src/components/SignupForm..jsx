@@ -246,7 +246,7 @@ console.log("Error while Creating user Account",error)
       <Card className="my-form max-w-full  w-[400px] h-[420px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
         <CardBody className="overflow-hidden">
           {/* w-[22vh] */}
-          <div className='mb-4 flex justify-between items-center w-[100%] '><div className="flex justify-between items-center  w-[40%] text-primary"><Link to={'/app'}><IoMdArrowRoundBack className="text-[4vh] text-primary  cursor-pointer"/></Link><Text family="Jost"  className="text-[6vh] font-semibold text-primary">Back to home</Text></div><div>
+          <div className='mb-4 flex justify-between items-center w-[100%] '><div className="flex justify-between items-center  w-[20%] text-primary"><Link to={'/app'}><IoMdArrowRoundBack className="text-[4vh] text-primary  cursor-pointer"/></Link><Text family="Jost"  className="text-[6vh] font-semibold text-primary">Back</Text></div><div>
             
           {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
 

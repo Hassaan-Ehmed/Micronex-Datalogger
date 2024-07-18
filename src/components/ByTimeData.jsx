@@ -65,15 +65,13 @@ export default function App() {
   
   },[options?.isCheckboxSelected,options?.selectedOption]);
 
-
-
   React.useEffect(()=>{
 
     const fetchingForTimeStamps  = async()=>{
      
       try{
         
-        const snapshot = await get(query(ref(getDatabase(),"dataLogs/"),orderByChild("datepoint"),equalTo(value?.toString())))
+        const snapshot = await get(query(ref(getDatabase(),"dataLogs/"),  ("datepoint"),equalTo(value?.toString())))
     
           if(snapshot.exists()){
     

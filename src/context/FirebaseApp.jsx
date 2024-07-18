@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import React, { createContext, useContext, useRef, useState } from 'react';
@@ -22,6 +23,7 @@ import 'jspdf-autotable'; // Import jsPDF autoTable plugin
 export const firebaseApp = initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth(firebaseApp);
 export const DB = getDatabase(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
 const FirebaseContext = createContext(null);
 export const useFirebaseContext = ()=> useContext(FirebaseContext);
 
@@ -41,6 +43,7 @@ export const FirebaseProvider=(props)=>{
   const [isFullScreenModalOpen, setIsFullScreenModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [isThemeModalOpen, setIsThemeModalOpen] = useState(false);
+  const [isConnectDeviceModalOpen, setIsConnectDeviceModalOpen] = useState(false);
   const [minMaxIcon,setMinMaxIcon] = useState("max");
   const [isLoading,setIsLoading] = useState(false);
   const [dateDurationLoading,setDateDurationLoading] = useState(false);
@@ -54,6 +57,19 @@ export const FirebaseProvider=(props)=>{
   const [isUserAdmin,setIsUserAdmin] = useState(false);
   const [dateLimits,setDateLimits] = useState({minimumDate : "",maximumDate : ""});
   const [timesArr,setTimesArr] = useState([]); 
+  const [userObj,setUserObj] = useState("");
+  const [themeName,setThemeName] = useState(()=>{
+    let isTheme  = JSON.parse(localStorage.getItem("theme"));
+
+    isTheme = (isTheme !== null) ?  isTheme  : 'default-dark';
+  
+    return String(isTheme);
+
+  });   
+
+
+//   tajkhan.dev@gmail.com  
+// 1q2w3e4r@#$%anime
 
   const lineChartRef = useRef(null);
   const barChartRef = useRef(null);
@@ -78,6 +94,10 @@ const openModal = (isFor) => {
 
     setIsThemeModalOpen(true);
   }
+  else if (isFor === "CD"){
+
+    setIsConnectDeviceModalOpen(true);
+  }
 
   
 };
@@ -99,8 +119,13 @@ const closeModal = (isFor) => {
 
     setIsThemeModalOpen(false);
   }
+  else if (isFor === "CD"){
+
+    setIsConnectDeviceModalOpen(false);
+  }
 
 };
+
 
 // 🔥 Chart Zooming Functionalies!!
 
@@ -408,13 +433,42 @@ function executeDownloadProcess(file_format, data){
         }
 }
 
+function settingTheme(){
+
+
+
+
+const isThemeExsist = JSON.parse(localStorage.getItem("theme"));
+
+if(isThemeExsist == null){
+
+  localStorage.setItem("theme",JSON.stringify('default-dark'));
+  document.getElementById('html-tag').setAttribute("data-theme","default-dark");
+  document.getElementById('main-tag').classList.remove("className","default-dark");
+  document.getElementById('main-tag').classList.add("className","default-dark");
+
+}else if ( isThemeExsist !== null){
+
+  
+  document.getElementById('html-tag').setAttribute("data-theme",`${isThemeExsist}`);
+  document.getElementById('main-tag').classList.remove("className",`${isThemeExsist}`);
+  document.getElementById('main-tag').classList.add("className",`${isThemeExsist}`);
+  
+  // console.log(isThemeExsist)
+  // setThemeName(isThemeExsist);
+}
+
+
+  
+}
+
 //Login logic in Form.jsx
 //Logout Logic in Home.jsx
 
 
 // console.log("..........................",data_packet);
 
-return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,lastTimestamp,setLastTimestamp,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsThemeModalOpen,isThemeModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr}}>
+return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,lastTimestamp,setLastTimestamp,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsThemeModalOpen,isThemeModalOpen,setIsConnectDeviceModalOpen,isConnectDeviceModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr,settingTheme,themeName,setThemeName,setUserObj,userObj}}>
   {props.children}
 </FirebaseContext.Provider>
 

@@ -1,15 +1,15 @@
+import { NextUIProvider } from "@nextui-org/system";
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import './App.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {NextUIProvider} from "@nextui-org/system";
-import {FirebaseProvider, setupUI, useFirebaseContext} from './context/FirebaseApp'
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import App from './App';
+import './App.css';
+import { FirebaseProvider } from './context/FirebaseApp';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -18,7 +18,7 @@ root.render(
   <React.StrictMode>
         <NextUIProvider>
             <FirebaseProvider>
-                    <main className="default-dark text-foreground bg-primary">
+                    <main id="main-tag" className="default-dark text-foreground bg-primary">
                       <Router>
                         <App />
                           <ToastContainer

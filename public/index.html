@@ -1,5 +1,5 @@
   <!DOCTYPE html>
-  <html lang="en" data-theme="default-dark" class="bg-primary">
+  <html lang="en" data-theme="default-dark" id="html-tag" class="bg-primary">
     <head>
       <meta charset="utf-8" />
       <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -19,17 +19,17 @@
 
 <script>
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('Service Worker registered:', registration);
-      })
-      .catch(error => {
-        console.error('Service Worker registration failed:', error);
-      });
-  });
-}
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/sw.js')
+//       .then(registration => {
+//         console.log('Service Worker registered:', registration);
+//       })
+//       .catch(error => {
+//         console.error('Service Worker registration failed:', error);
+//       });
+//   });
+// }
 
 </script>
 

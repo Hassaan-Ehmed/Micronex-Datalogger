@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 // import Card from '../components/Card'
 // import { Button } from '@nextui-org/react'
-import { AiOutlineLogout } from 'react-icons/ai'
-import { firebaseAuth, useFirebaseContext } from '../context/FirebaseApp'
-import {getAuth, signOut} from 'firebase/auth'
+import { firestore, useFirebaseContext } from '../context/FirebaseApp'
 // import Navbar from '../components/Navbar'
-import MyNavbar from '../components/Navbar'
-import Monitor from '../components/Monitor'
-import MyTabs from '../components/Tabs'
 import { getDatabase, onValue, ref } from 'firebase/database'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {collection, CollectionReference, doc,getDocs,onSnapshot} from 'firebase/firestore'
+import { useNavigate } from 'react-router-dom'
 import LogoutModal from '../components/LogoutModal'
-import LineChart from '../components/LineChart'
+import Monitor from '../components/Monitor'
+import MyNavbar from '../components/Navbar'
 // import Gauges from '../components/Gauges'
-import { HumidityBarChartsData } from '../data/DUMMY_DATA'
-import NextDropDown from '../components/LineDropDown'
-import MyFullScreenModal from '../components/FullScreenModal'
-import { ConvertEpochTimeStamp, formatedDate, timeFormatedArray } from '../utils/helper'
-import LoadingScreen from '../components/LoadingScreen'
-import NetworkErrorScreen from '../components/NetworkErrorScreen'
-import DownloadModal from '../components/DownloadModal';
 import { Bounce, toast } from 'react-toastify'
+import DownloadModal from '../components/DownloadModal'
+import MyFullScreenModal from '../components/FullScreenModal'
+import LoadingScreen from '../components/LoadingScreen'
 import ThemeModal from '../components/ThemeModal'
-// import MyChip from '../components/Chip'
-
+import { formatedDate } from '../utils/helper'
+// import MyChip from '../components/Chip'  
 
 export default function Home() {
   
@@ -32,28 +25,37 @@ export default function Home() {
   
 const FetchRealtimeData = ()=>{
 
+  FirebaseContext.settingTheme();
+
   let user = JSON.parse(localStorage.getItem("User_ID"));
-    
+  let DB_URL_PATH = JSON.parse(localStorage.getItem("Url_Path"));
+  const  COPMANY_NAME  =  DB_URL_PATH.split("/")[0]
+  const  DEVICE_NAME  =  DB_URL_PATH.split("/")[2]
+
+  console.log(DB_URL_PATH);
+  
   if (user) {
-
-    const DB = getDatabase();
-    const REALTIME_DB_PATH =  'data/';
-
-    const Database_Credentials = ref(DB,REALTIME_DB_PATH);
     
-    onValue(Database_Credentials,(snapshot)=>{
+    const collectionRef = collection(firestore, COPMANY_NAME, "devices", DEVICE_NAME, "data", "realtime");
 
-      try{    
-          
-          const data = snapshot.val();
+    onSnapshot(collectionRef, (snapshot) => {
+    
+      try{
 
-          console.log("realtime data",data); 
-          
-          const newPacket = Object.values(data);
+        const documents = snapshot.docs.map((doc) => ({
+          // id: doc.id,
+          ...doc.data() // Spread operator to get all document data fields
+      }));
+      console.log("URL PATH OF DB:", `${COPMANY_NAME} / devices / ${DEVICE_NAME} / data / realtime`);
+      console.log("Updated Documents:", documents);
 
-     const {humidity,temperature} = {...newPacket[newPacket?.length -3]}; 
+      
+     const {humidity,temperature} = {...documents[documents?.length -1]}; 
 
-     const TimeStamp = newPacket[newPacket?.length -1]?.timestamp
+     console.log("test :" ,{...documents[documents?.length - 1 ]})
+    //  console.log("hum :" ,humidity)
+    //  console.log("temp :" ,temperature)
+     const TimeStamp = documents[documents?.length -1]?.timestamp
 
     //  console.log("YYY",TimeStamp)
      FirebaseContext.setLastTimestamp(TimeStamp);
@@ -62,35 +64,38 @@ const FetchRealtimeData = ()=>{
 
     FirebaseContext.setIsDataLoaded(true);
 
-  }catch(err){
 
-    FirebaseContext.setIsDataLoaded(false);
-    console.log("Error when reading realtime data from Firebase",err);
+      }catch(err){
+
+        FirebaseContext.setIsDataLoaded(false);
+        console.log("Error when reading realtime data from Firebase",err);
+
+      }
+    
+      // Update your UI or application logic based on the latest data
+  },(error)=>{
+
+    //Show Error While Fetching Realtime Data From Firebase
+  
+    toast.error(`${error.message}!`,{
+      position: "top-center",
+     autoClose: 3500,
+     hideProgressBar: false,
+     closeOnClick: true,
+     pauseOnHover: true,
+     draggable: true,
+     progress: undefined,
+     theme: "light",
+     transition: Bounce,
+     });
+     
+     window.location.reload();
+    
+  })
+  ;
+  
 
     
-
-  }
-  
-},(error)=>{
-
-  //Show Error While Fetching Realtime Data From Firebase
-
-  toast.error(`${error.message}!`,{
-    position: "top-center",
-   autoClose: 3500,
-   hideProgressBar: false,
-   closeOnClick: true,
-   pauseOnHover: true,
-   draggable: true,
-   progress: undefined,
-   theme: "light",
-   transition: Bounce,
-   });
-   
-   window.location.reload();
-  
-})
-
 
 } else{
     
@@ -117,7 +122,6 @@ const FetchDataLogs = ()=>{
           
           const data = snapshot.val();
 
-          console.log("dataLogs",data); 
           
           const newArr = Object.values(data);
         
@@ -184,27 +188,6 @@ const FetchDataLogs = ()=>{
 
    
   },[]);
-
-
-// React.useEffect(()=>{
-
-// if('humidity' in FirebaseContext.dataPacket){
-
-
-//   console.log("in he!!",true)
-//   FirebaseContext.setIsDataLodead(false)
-  
-// }else{
-//   console.log("out he!!",true)
-//   FirebaseContext.setIsDataLodead(true)
-
-// }
-
-
-// console.log(FirebaseContext.dataPacket);
-
-
-// },[FirebaseContext.dataPacket]);
 
 
 

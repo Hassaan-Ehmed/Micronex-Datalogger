@@ -1,14 +1,21 @@
 import React from "react";
 import {Listbox, ListboxItem} from "@nextui-org/react";
+import { useFirebaseContext } from "../context/FirebaseApp";
 // import {ListboxWrapper} from "./ListboxWrapper";
 
 export default function NextListBox() {
-  const [selectedKeys, setSelectedKeys] = React.useState(new Set(["default"]));
+  
+  const FirebaseContext =   useFirebaseContext();
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set([FirebaseContext.themeName]));
 
-  const selectedValue = React.useMemo(
-    () => Array.from(selectedKeys).join(", "),
-    [selectedKeys]
-  );
+  const selectedValue = React.useMemo( () => {
+      
+      Array.from(selectedKeys).join(", ")
+
+      FirebaseContext.setThemeName(String(selectedKeys.currentKey));
+
+    },[selectedKeys]);
+  
 
   /*
   
@@ -39,11 +46,11 @@ Light Grey ( bg-light / text-dark )
           selectedKeys={selectedKeys}
           onSelectionChange={setSelectedKeys}
         >
-          <ListboxItem key="default" className="text-[#0f172a] ">Default</ListboxItem>
-          <ListboxItem key="red" className="text-[#FF0000]">Red</ListboxItem>
-          <ListboxItem key="green" className="text-[#08816E]">Green</ListboxItem>
-          <ListboxItem key="purple" className="text-[#8308FF]">Purple</ListboxItem>
-          <ListboxItem key="blue" className="text-[#FFEBCD]">Blue</ListboxItem>
+          <ListboxItem key="default-dark" className="text-[#0f172a]">Default</ListboxItem>
+          <ListboxItem key="red-dark" className="text-[#FF0000]">Red</ListboxItem>
+          <ListboxItem key="green-dark" className="text-[#08816E]">Green</ListboxItem>
+          <ListboxItem key="purple-dark" className="text-[#8308FF]">Purple</ListboxItem>
+          <ListboxItem key="blue-dark" className="text-[#FFEBCD]">Blue</ListboxItem>
         </Listbox>
       </div>
 

@@ -19,6 +19,71 @@ const MiniCard = ({title,reading,source})=> {
     )
 }
 
+
+/*
+// const   DB = getDatabase();
+    // const REALTIME_DB_PATH =  'data/';
+
+    const Database_Credentials = ref(DB,REALTIME_DB_PATH);
+    
+    onValue(Database_Credentials,(snapshot)=>{
+
+      try{    
+          
+          const data = snapshot.val();
+
+          // console.log("DATA: ",snapshot.val());
+          const newPacket = Object.values(data);
+
+          console.log("Realtime Database Data :",Object.values(data));
+
+     const {humidity,temperature} = {...newPacket[newPacket?.length -1]}; 
+
+     const TimeStamp = newPacket[newPacket?.length -1]?.timestamp
+
+    //  console.log("YYY",TimeStamp)
+     FirebaseContext.setLastTimestamp(TimeStamp);
+
+    FirebaseContext.setDataPacket({humidity,temperature});
+
+    FirebaseContext.setIsDataLoaded(true);
+
+  }catch(err){
+
+    FirebaseContext.setIsDataLoaded(false);
+    console.log("Error when reading realtime data from Firebase",err);
+
+    
+
+  }
+  
+},(error)=>{
+
+  //Show Error While Fetching Realtime Data From Firebase
+
+  toast.error(`${error.message}!`,{
+    position: "top-center",
+   autoClose: 3500,
+   hideProgressBar: false,
+   closeOnClick: true,
+   pauseOnHover: true,
+   draggable: true,
+   progress: undefined,
+   theme: "light",
+   transition: Bounce,
+   });
+   
+   window.location.reload();
+  
+})
+
+
+
+
+
+
+*/
+
     return (
         <div className='z-[3] '>
           <div className="flex items-center justify-center h-full">

@@ -28,6 +28,9 @@ const MyModal = () => {
                 navigate("/")
                 
             localStorage.removeItem("User_ID");
+            localStorage.removeItem("Url_Path");
+            localStorage.removeItem("theme");
+
               FirebaseContext.setIsLoading(false);
               FirebaseContext.closeModal("LO");
 
