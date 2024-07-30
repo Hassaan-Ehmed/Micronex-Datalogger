@@ -1,4 +1,5 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* body{background-color: rgb(60, 60, 60);} */
 
@@ -30,13 +31,36 @@ background-color: hsl(0deg 0% 77.01%);
 
 	.tap-highlight-transparent  > span {
 			color: black;
-			/* background-color: white;		 */
+			background-color: white;		
+	}
+
+	/* .tap-highlight-transparent  {
+		color: black !important;
+		background-color: white !important;		
+		} */
+		
+		.space-x-2 > :not([hidden]) ~ :not([hidden]){
+			
+			color: black !important;
 	}
 
 	#login-tab{
 		/* background-color: white !important; */
-		color: rgb(255, 255, 255) !important;
+		color: rgb(15 23 42) !important;
 	}
+
+	#form-heading{
+
+		color: black !important;
+		background-color: white !important;
+
+	}
+
+
+	/* .login-tab-class{
+		background-color: white !important;
+		color: black !important;
+	} */
 
 	.tap-highlight-transparent > span:active{
 
@@ -50,15 +74,28 @@ background-color: hsl(0deg 0% 77.01%);
 
 	.data-\[editable\=true\]\:text-foreground[data-editable=true] {
 	
-	color: black;
+	color: black !important;
 }
+
+
+.\[\&\:not\(\:first-child\)\]\:-ml-1:not(:first-child){
+	
+	color: black !important;
+	
+}
+
 .your-date-picker-class .date-picker-value {
 	color: #000000; /* Black color */
 }
 
 
-.group[data-selected=true] .group-data-\[selected\=true\]\:text-default-foreground {
+/* .group[data-selected=true] .group-data-\[selected\=true\]\:text-default-foreground {
 	color: white !important;
+
+} */
+
+.group[data-selected=true] .group-data-\[selected\=true\]\:text-default-foreground {
+	color: black !important;
 
 }
 .dropdown{

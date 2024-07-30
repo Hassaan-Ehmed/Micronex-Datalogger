@@ -5,7 +5,6 @@ import { TbLogout2 } from "react-icons/tb";
 import { CgMenu,CgMenuRight } from "react-icons/cg";
 import { HiMenuAlt2 } from "react-icons/hi"
 import { MdOutlineClose  } from "react-icons/md"; 
-import {Text} from 'react-font';
 import {Link, useNavigate} from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import { useFirebaseContext } from "../context/FirebaseApp";
@@ -105,16 +104,18 @@ document.addEventListener("fullscreenchange",()=>{
         {/* <Tooltip placement="right" showArrow={true} content="Logout" closeDelay={1}>    */}
        <TbLogout2 fontSize={25}  className="hidden LM425:block cursor-pointer text-foreground hover:text-primary" onClick={()=>pleaseOpenTheModal("LO")}/>
       {/* </Tooltip>  */}
-          <Text family="Jost" className="hidden ml-[3vh] LM425:block font-bold  tracking-tight">{user_packet?.email}</Text>
+      
+          <h1 style={{fontFamily:"Jost"}} className="hidden ml-[3vh] LM425:block font-bold  tracking-tight">{user_packet?.email}</h1>
         </NavbarBrand>
 
 
         <NavbarContent className="gap-3">
       
           <NavbarItem isActive className="block LM425:hidden">
-            <Text family="Jost"   href="#" aria-current="page" className="text-foreground text-center font-semibold text-xl leading-tight font">
+            
+            <h1  style={{fontFamily:"Jost"}}  href="#" aria-current="page" className="text-foreground text-center font-semibold text-xl leading-tight font">
               Datalogger 
-            </Text>
+            </h1>
           </NavbarItem>
         
         </NavbarContent>
@@ -157,12 +158,12 @@ document.addEventListener("fullscreenchange",()=>{
 )  :(
 <>
 
-<PiDownloadSimpleBold className="text-2xl block tablet:hidden text-[#FF0000] cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/>
+<PiDownloadSimpleBold className="text-2xl block tablet:hidden text-foreground cursor-pointer" onClick={()=>FirebaseContext.openModal("DL")}/>
 
 
 <Button as={Link}  variant="shadow" className="bg-primary shadow-lg shadow-primary hidden tablet:flex laptop:hidden  text-foreground" style={{boxShadow:"rgb(255, 0, 0) 0px 7px 15px -7px"}} onClick={()=>FirebaseContext.openModal("DL")}>
 
-<PiDownloadSimpleBold className="text-xl"/>
+<PiDownloadSimpleBold className="text-xl text-foreground"/>
 
 
     </Button>

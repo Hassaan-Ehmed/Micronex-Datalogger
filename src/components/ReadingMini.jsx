@@ -1,5 +1,4 @@
 import React from 'react'
-import { Text } from 'react-font';
 // import NextProfile from './NextProfile';
 
 function MyMiniCard({readings}) {
@@ -11,7 +10,7 @@ const MiniCard = ({title,reading,source})=> {
         <div className='w-full h-[30%] flex  justify-center items-center '>
             
             <img src={source} alt="icon"  className='w-[35%]  object-contain'/>
-            <Text family='Jost' className={`pr-3 font-bold text-gray-600 text-center text-xl w-[37vw] flex justify-center items-center`}>{title}</Text>
+            <h1 style={{fontFamily:"Jost"}} className={`pr-3 font-bold text-gray-600 text-center text-xl w-[37vw] flex justify-center items-center`}>{title}</h1>
         </div>     
 
         <div className='mt-2 flex justify-start items-center h-fit'><h5  className='font-bold text-primary text-[6vw] leading-tight'>{reading}{title == "Temperature" ? "℃" : "%"}</h5></div>

@@ -1,9 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore'
+import { doc, getDoc, getFirestore,addDoc, collection, setDoc } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 import React, { createContext, useContext, useRef, useState } from 'react';
-import { getFormatedDateByTimestamp, getFormatedTimeByTimestamp } from '../utils/helper';
+import { generateRandomUserId, getFormatedDateByTimestamp, getFormatedTimeByTimestamp } from '../utils/helper';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable'; // Import jsPDF autoTable plugin
 
@@ -54,6 +54,7 @@ export const FirebaseProvider=(props)=>{
   const [slectedBarChart,setSlectedBarChart] = useState("Both");
   const [slectedGauge,setSlectedGauge] = useState("Both");
   const [isDataLoaded,setIsDataLoaded] = useState(false);
+  const [isThemeLoading,setIsThemeLoading] = useState(false);
   const [isUserAdmin,setIsUserAdmin] = useState(false);
   const [dateLimits,setDateLimits] = useState({minimumDate : "",maximumDate : ""});
   const [timesArr,setTimesArr] = useState([]); 
@@ -435,9 +436,6 @@ function executeDownloadProcess(file_format, data){
 
 function settingTheme(){
 
-
-
-
 const isThemeExsist = JSON.parse(localStorage.getItem("theme"));
 
 if(isThemeExsist == null){
@@ -462,13 +460,89 @@ if(isThemeExsist == null){
   
 }
 
+async function settingUserTheme(){
+
+  try{
+
+  let isThemeSetted = JSON.parse(localStorage.getItem("theme"));
+
+  let urlPath = JSON.parse(localStorage.getItem("Url_Path")); // Get url path from Local Storage
+  const companyName = urlPath.split("/")[0]; // "birdschemotech" (Company Name)
+  
+  let userPacket =   JSON.parse(localStorage.getItem("User_ID")); // Get user object from Local Storage
+  const userEmail = userPacket?.email ?? "";
+  const userUID = userPacket?.uid ?? "";
+
+  // ( ye wala document ) is wale path se lao
+  // `companies_credentials/${companyName}/users/${userEmail}` 
+  
+  console.log("isThemeSetted",isThemeSetted);
+  console.log("companyName",companyName);
+  console.log("userPacket",userPacket);
+  console.log("userEmail",userEmail);
+
+  const docRef = doc(firestore,"companies_credentials",companyName,"users",userUID);
+
+  if(!isThemeSetted){
+    
+const docSnap = await getDoc(docRef);
+
+console.log("isDocExsistInDbOrNot ? ",docSnap.exists());
+
+if(docSnap.exists()){
+  
+        const res = docSnap.data();  
+
+   console.log("Res",res);
+   const myTheme = res.theme ?? "default-dark";
+   
+     localStorage.setItem("theme",JSON.stringify(myTheme));
+    document.getElementById('html-tag').setAttribute("data-theme",myTheme);
+   document.getElementById('main-tag').classList.remove("className",myTheme);
+  document.getElementById('main-tag').classList.add("className",myTheme);
+
+  window.location.reload();
+
+}else{
+
+  await setDoc(doc(firestore,"companies_credentials",companyName,"users",userUID),{
+    email:userEmail,
+    theme:"default-dark"
+  });
+
+  
+  localStorage.setItem("theme",JSON.stringify('default-dark'));
+  document.getElementById('html-tag').setAttribute("data-theme","default-dark");
+  document.getElementById('main-tag').classList.remove("className","default-dark");
+  document.getElementById('main-tag').classList.add("className","default-dark");
+  window.location.reload();
+
+
+}
+
+} else if(isThemeSetted !== null){
+
+  document.getElementById('html-tag').setAttribute("data-theme",`${isThemeSetted}`);
+  document.getElementById('main-tag').classList.remove("className",`${isThemeSetted}`);
+  document.getElementById('main-tag').classList.add("className",`${isThemeSetted}`);
+
+
+}
+  
+}catch(error){
+  console.log("Error: adding document",error);
+}
+
+    
+  }
+
 //Login logic in Form.jsx
 //Logout Logic in Home.jsx
 
 
 // console.log("..........................",data_packet);
 
-return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,lastTimestamp,setLastTimestamp,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsThemeModalOpen,isThemeModalOpen,setIsConnectDeviceModalOpen,isConnectDeviceModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr,settingTheme,themeName,setThemeName,setUserObj,userObj}}>
+return <FirebaseContext.Provider value={{setIsTabSelected,isTabSelected,data,setData,setIsOpen,isOpen,setIsLoading,isLoading,allDataLoading,setAllDataLoading,dateDurationLoading,setDateDurationLoading,timeDurationLoading,setTimeDurationLoading,closeModal,openModal,resetZoomChart,lineChartRef,barChartRef,setSlectedLineChart,slectedLineChart,setSlectedBarChart,slectedBarChart,setDataPacket,dataPacket,lastTimestamp,setLastTimestamp,fullScreenMode,setIsFullScreenModalOpen,isFullScreenModalOpen,exitFullScreen,setMinMaxIcon,minMaxIcon,toggleMinMaxIcon,setDataRecords,dataRecords,setSlectedGauge,slectedGauge,setIsGraphTabSelected,isGraphTabSelected,setIsUserActive,isUserActive,setIsUserAdmin,isUserAdmin,setIsDownloadModalOpen,isDownloadModalOpen,setIsThemeModalOpen,isThemeModalOpen,setIsConnectDeviceModalOpen,isConnectDeviceModalOpen,setIsDownloadTabSelected,isDownloadTabSelected,formateTextDataLogs,formateExcelDataLogs,downloadFile,executeDownloadProcess,setIsDataLoaded,isDataLoaded,setDateLimits,dateLimits,setTimesArr,timesArr,settingUserTheme,themeName,setThemeName,setUserObj,userObj,setIsThemeLoading,isThemeLoading}}>
   {props.children}
 </FirebaseContext.Provider>
 

@@ -39,6 +39,8 @@ Light Grey ( bg-light / text-dark )
     <div className="flex flex-col justify-center items-center gap-2">
 <div className="w-[100%] LM425:w-[80%] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-50">
         <Listbox 
+        
+          disabledKeys={FirebaseContext.isThemeLoading && ["default-dark", "red-dark","green-dark","purple-dark","blue-dark"]}
           aria-label="Single selection example"
           variant="flat"
           disallowEmptySelection

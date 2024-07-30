@@ -46,15 +46,12 @@ React.useEffect(()=>{
         radius="lg" color="primary"  >
           <Tab key="readings" title={
                               <div className="flex items-center space-x-2">
-                              <ImHome/>
+                              <ImHome className="checked:text-slate-900"/>
                               <span>Home</span>
                                </div>
-                               } 
-                               
+                               }              
             >
           </Tab>
-           
-           
            <Tab key="line-graph" title={(FirebaseContext.isTabSelected == "line-graph" || FirebaseContext.isTabSelected == "bar-graph") ? (
               <div className="flex items-center space-x-2">
               <FaChartLine/>

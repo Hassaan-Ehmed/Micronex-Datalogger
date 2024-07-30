@@ -1,12 +1,11 @@
 import { Button, Card, CardBody, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
 import React from "react";
 import '../App.css';
-import { useFirebaseContext } from "../context/FirebaseApp";
-
-
+import { firestore, useFirebaseContext } from "../context/FirebaseApp";
 import { Checkbox, Chip, cn } from "@nextui-org/react";
 import { getDatabase, ref , get, child } from "firebase/database";
 import { Bounce , toast } from "react-toastify";
+import { collection, getDocs, query } from "firebase/firestore";
 
 
 
@@ -47,21 +46,34 @@ export default function App() {
 
   const DownloadAllData = async ()=>{
   
+
+ 
+
   try{
     
-    const snapshot = await get(child(DB_REF,'dataLogs/')) ?? {};
+    let DB_URL_PATH = JSON.parse(localStorage.getItem("Url_Path"));
+    DB_URL_PATH = DB_URL_PATH+"/realtime"
+    const  COPMANY_NAME  =  DB_URL_PATH.split("/")[0]
+    const  DEVICE_NAME  =  DB_URL_PATH.split("/")[2]
 
-      if(snapshot.exists()){
-        
-        console.log("Data: ",snapshot.val());
+    const collectionRef = collection(firestore, COPMANY_NAME, "devices", DEVICE_NAME, "data", "logs");
 
-        const data = snapshot.val();
 
-        console.log("data",data);
-        setTimeout(()=>{
+    const q = query(collectionRef);
+      
+    const data = await getDocs(q);
+
+    if(!data.empty){
+      
+      const dataPackets = data.docs.map((doc)=>({
+        ...doc.data()
+      })) ?? {};
+
+
+      setTimeout(()=>{
             
         // Download File Main Function!! 
-        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
+        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,dataPackets);
         
         if(isFileDownloaded){
           
@@ -80,7 +92,9 @@ export default function App() {
 
         FirebaseContext.setAllDataLoading(true);
 
-      }else{
+
+
+    } else{
 
         
      //Show Error If Data is not available in  From Firebase
@@ -116,15 +130,9 @@ toast.error(`No Data Available !`,{
          });
          
          window.location.reload();
-        
-    
-
     }
     
   }
-
-
-
 
     return (
     <div className="flex flex-col w-full mb-[3.45rem]">
@@ -154,9 +162,8 @@ toast.error(`No Data Available !`,{
 
       return(
       <SelectItem key={format} value={format}>
-      {format}
-    </SelectItem>)
-   
+       {format}
+      </SelectItem>)
 
         })}
         

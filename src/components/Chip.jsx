@@ -24,9 +24,10 @@ const time =  getFormatedTimeByTimestamp(FirebaseContext?.lastTimestamp);
     <Chip
     variant="shadow"
     classNames={{
-      base:`bg-gradient-to-br from-indigo-500 to-pink-500 border-small border-white/50 shadow-pink-500/30`,
-      content: "drop-shadow shadow-black text-white",
+      base: `bg-gradient-to-br from-white to-pink-200 border-small border-white/50 shadow-pink-200/30`,
+      content: "drop-shadow shadow-black text-primary font-bold",
     }}
+    
   >
     
     {/* 070124_1230 */}

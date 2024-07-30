@@ -1,13 +1,18 @@
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFirebaseContext } from "../context/FirebaseApp";
+import { useFirebaseContext ,firestore} from "../context/FirebaseApp";
 import { getAuth, signOut } from "firebase/auth";
 import ListBox from "./ListBox";
 import NextListBox from "./ListBox";
+import {doc, updateDoc} from 'firebase/firestore'
+import { Bounce, toast } from "react-toastify";
+
+
 
 const ThemeModal = () => {
   const FirebaseContext = useFirebaseContext();
+
 
   const navigate = useNavigate();
 
@@ -36,16 +41,51 @@ const ThemeModal = () => {
     FirebaseContext.closeModal("CT");
   };
 
-  const SettingThemeInLS = ()=>{
+  const SettingThemeInLS = async ()=>{
 
-      localStorage.setItem('theme',JSON.stringify(FirebaseContext?.themeName));
+    FirebaseContext.setIsThemeLoading(true)
+    let urlPath = JSON.parse(localStorage.getItem("Url_Path")); // Get url path from Local Storage
+    const companyName = urlPath.split("/")[0]; // "birdschemotech" (Company Name)
+    
+    let userPacket =   JSON.parse(localStorage.getItem("User_ID")); // Get user object from Local Storage
+    const userUID = userPacket?.uid ?? "";
+    
+
+    const docRef = doc(firestore,'companies_credentials',companyName,'users',userUID);
+    
+
+    await updateDoc(docRef,{
+      
+      theme : FirebaseContext?.themeName ?? 'default-dark'
+    
+    }).then(()=>{
+      
+      FirebaseContext.setIsThemeLoading(false);
+    }).catch((error)=>{
+      
+      
+toast.error(`Updating theme failed: ${error.message} !`,{
+  position: "top-center",
+ autoClose: 1500,
+ hideProgressBar: false,
+ closeOnClick: true,
+ pauseOnHover: true,
+ draggable: true,
+ progress: undefined,
+ theme: "light",
+ transition: Bounce,
+ });
+      
+    }) 
+
+      localStorage.setItem('theme',JSON.stringify(FirebaseContext?.themeName ?? 'default-dark'));
     
       // console.log("Hmmmm.....",typeof FirebaseContext?.themeName)
   document.getElementById('html-tag').setAttribute("data-theme",`${FirebaseContext.themeName}`);
   document.getElementById('main-tag').classList.remove("className",`${FirebaseContext.themeName}`);
   document.getElementById('main-tag').classList.add("className",`${FirebaseContext.themeName}`);
   // pleaseCloseTheModal()
-  window.location.reload();  
+  window.location.reload()
 
   // setTimeout(()=>{    
   // },1500)
@@ -103,7 +143,7 @@ const ThemeModal = () => {
                   variant="shadow"
                   className="bg-primary LM425:flex  text-white shadow-lg shadow-primary"
                   // onClick={logoutUser}
-                  isLoading={FirebaseContext.isLoading}
+                  isLoading={FirebaseContext.isThemeLoading}
                   spinner={
                     <svg
                       className="animate-spin h-5 w-5 text-current"

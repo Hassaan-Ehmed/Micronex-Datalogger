@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from "react";
-import {Tabs, Tab, Input, Button, Card, CardBody, DateRangePicker, Checkbox, Select, SelectItem, } from "@nextui-org/react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ref,onValue, getDatabase, query, orderByChild, child, get, startAt, endAt } from "firebase/database";
-import { firebaseApp, firebaseAuth, useFirebaseContext } from "../context/FirebaseApp";
-import {getAuth, signInWithEmailAndPassword,createUserWithEmailAndPassword} from 'firebase/auth'
-import { IoMdArrowRoundBack } from "react-icons/io";
-import Text from 'react-font'
-import { Bounce, toast ,Flip, Slide} from "react-toastify";
-import '../App.css'
-import MyFullScreenModal from "./FullScreenModal";
-import { CgMaximize, CgMinimizeAlt } from "react-icons/cg";
-import {DatePicker} from "@nextui-org/react";
-import {getLocalTimeZone, today,parseDate} from "@internationalized/date";
-import { dateToEpochTime, formatedDate } from "../utils/helper";
-import { Chip, cn } from "@nextui-org/react";
+import { Button, Card, CardBody, Checkbox, DateRangePicker, Select, SelectItem, Tab, Tabs } from "@nextui-org/react";
+import { getDatabase, ref } from "firebase/database";
+import React from "react";
+// import { query as fquery } from "firebase/firestore";
+import { parseDate } from "@internationalized/date";
+import { collection, endAt, getDocs, orderBy, query, startAt } from "firebase/firestore";
+import { Bounce, toast } from "react-toastify";
+import '../App.css';
+import { firestore, useFirebaseContext } from "../context/FirebaseApp";
+import { formatedDate } from "../utils/helper";
 
 export default function App() {
   
+
+
   const FirebaseContext = useFirebaseContext();
   const DB_REF = ref(getDatabase());
 
@@ -49,22 +45,9 @@ export default function App() {
   
   React.useEffect(()=>{
 
-    // console.log("Start Date\n\n")
-    // console.log("start day",value.start.day);
-    // console.log("start month",value.start.month);
-    // console.log("start year",value.start.year);
-    // console.log("-----------\n\n");
 
-    // console.log("End Date\n\n")
-    // console.log("end day",value.end.day);
-    // console.log("end month",value.start.month);
-    // console.log("end year",value.end.year);
-    // console.log("-----------\n\n");
-    
-    // fetchTimeStamp();  
-    // console.table("Hmm...",parseDate(formatedDate(1714377797)))   
+
     console.log("StartDateConv..",value.start)   
-    // console.log("StartDateConv.XZY",dateToEpochTime(value.start.toString() || ""))   
     console.log("EndDateConv..",value.end.toString())   
 
     
@@ -147,48 +130,52 @@ React.useEffect(()=>{
     const DownloadDateRangeData = async ()=>{
   
       try{
+  
+
+        let DB_URL_PATH = JSON.parse(localStorage.getItem("Url_Path"));
+        DB_URL_PATH = DB_URL_PATH+"/logs"
+        const  COPMANY_NAME  =  DB_URL_PATH.split("/")[0]
+        const  DEVICE_NAME  =  DB_URL_PATH.split("/")[2]
+      
+      const collectionRef = collection(firestore, COPMANY_NAME, "devices", DEVICE_NAME, "data",'logs' );
+
+      const q = query(collectionRef, orderBy('datepoint'), startAt(`${value.start}`),endAt(`${value.end}`))
+      
+      const data = await getDocs(q);
+      
+      if(!data.empty){
+      
+      const documents = data.docs.map((doc)=>({
+      ...doc.data()
+      }))
+      console.log("Date Range Data Docs<||>",documents)
+
+      setTimeout(()=>{
+          
+
+    // Download File Main Function!! 
+      const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,documents);
+
+      if(isFileDownloaded){
         
-        const snapshot = await get(query(
-                          ref(getDatabase(),'dataLogs/'),
-                          orderByChild('datepoint'),
-                            startAt(`${value?.start}`),
-                          endAt(`${value?.end}`),
-                        ));
-    
-                      if(snapshot.exists()){
-                        
-                        console.log("Data: ",snapshot.val());
-                
-                        const data = snapshot.val();
-                
-                        console.log("dataLogs Date Range DATA::",data);
-                        setTimeout(()=>{
-                            
+        // if file downloaded so it can reset all the states
+        
+        setOptions(
+          {selectedOption:"Text format",
+          isCheckboxSelected:false,
+          isButtonDisabled:true}
+        )
+        
+        FirebaseContext.setDateDurationLoading(false);
+        }
 
-                          // console.log("options?.selectedOption",typeof options?.selectedOption)
-                        // Download File Main Function!! 
-                        const isFileDownloaded =  FirebaseContext?.executeDownloadProcess(options?.selectedOption,Object.values(data));
+      },2000)
 
-                        if(isFileDownloaded){
-                          
-                          // if file downloaded so it can reset all the states
-                          
-                          setOptions(
-                            {selectedOption:"Text format",
-                            isCheckboxSelected:false,
-                            isButtonDisabled:true}
-                          )
-                          
-                          FirebaseContext.setDateDurationLoading(false);
-                          }
-                
-                        },2000)
-                
-                        FirebaseContext.setDateDurationLoading(true);
-                
-                      }else{
+      FirebaseContext.setDateDurationLoading(true);
 
-                        //Show Error If Data is not available in  From Firebase
+      }else{
+
+                        //Show Error If Data is not available in  From Firestore
                         toast.error(`No Data Available !`,{
                           position: "top-center",
                         autoClose: 3500,
@@ -203,7 +190,7 @@ React.useEffect(()=>{
                         
                         window.location.reload();
 
-          }
+        }
        
         }catch(error) {
 

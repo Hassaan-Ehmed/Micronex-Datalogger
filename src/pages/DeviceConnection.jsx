@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {Tabs, Tab, Input, Button, Card, CardBody, } from "@nextui-org/react";
+import {Tabs, Tab, Input, Button, Card, CardBody, user, } from "@nextui-org/react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ref,onValue, getDatabase } from "firebase/database";
 import { firebaseApp, firebaseAuth, useFirebaseContext , firestore} from "../context/FirebaseApp";
 import { doc, getDoc } from "firebase/firestore";
 import {getAuth, signInWithEmailAndPassword,createUserWithEmailAndPassword , signOut} from 'firebase/auth'
 import { IoMdArrowRoundBack } from "react-icons/io";
-import Text from 'react-font'
 import { Bounce, toast ,Flip, Slide} from "react-toastify";
 import '../App.css'
 import { CgMaximize, CgMinimizeAlt } from "react-icons/cg";
@@ -154,7 +153,7 @@ if(state?.companyName && state?.companyName){
 
   if(docSnap.exists()) {
 
-    
+ 
     
 setState({companyName:""});
 setState({deviceName:""});
@@ -182,7 +181,7 @@ transition: Slide,
 
 localStorage.setItem("User_ID",JSON.stringify(FirebaseContext.userObj));
 localStorage.setItem("Url_Path",JSON.stringify(`${state.companyName}/devices/${state.deviceName}/data`));
-
+localStorage.setItem("Realtime_Storage",JSON.stringify([]));
 
 setTimeout(()=> navigate("/app") ,1500);
 
@@ -238,9 +237,9 @@ function backToLogin(){
       <Card className="my-form max-w-full  w-[400px] h-[420px] bg-gray-200 p-3 flex justify-center items-center" style={{boxShadow:"3px 9px 20px -14px black",margin:"0 40px"}}>
         <CardBody className="overflow-hidden">
           {/* w-[22vh] */}
-          <div className='mb-4 flex justify-between items-center w-[100%] '><div className="flex justify-between items-center  w-[20%] text-primary"><IoMdArrowRoundBack className="text-[4vh] text-primary  cursor-pointer" onClick={backToLogin}/><Text family="Jost"  className="text-[6vh] font-semibold text-primary">Back</Text></div><div>
+          <div className='mb-4 flex justify-between items-center w-[100%] '><div className="flex justify-between items-center  w-[20%] text-primary"><IoMdArrowRoundBack className="text-[4vh] text-slate-900  cursor-pointer" onClick={backToLogin}/><p style={{fontFamily:"Jost"}}  className="text-[3vh] font-semibold text-slate-900">Back</p></div><div>
             
-          {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
+          {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-slate-900" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-slate-900" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
 
             </div></div>
           <Tabs
@@ -279,7 +278,7 @@ function backToLogin(){
                 />
                 
                 <div className="flex gap-2 justify-end">
-                  <Button className="bg-primary LM425:flex  text-white shadow-lg shadow-primary" fullWidth  type="submit" onClick={connectDevice}>
+                  <Button className="bg-slate-900 LM425:flex text-white shadow-lg shadow-slate-900" fullWidth  type="submit" onClick={connectDevice}>
                     Connect
                   </Button> 
                 </div>

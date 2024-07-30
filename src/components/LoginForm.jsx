@@ -11,7 +11,7 @@ import { CgMaximize, CgMinimizeAlt } from "react-icons/cg";
 import DeviceConnection from "../pages/DeviceConnection";
 
 
-export default function LoginForm() {
+export default function   LoginForm() {
   
 const FirebaseContext = useFirebaseContext();
 const navigate = useNavigate();
@@ -97,9 +97,10 @@ const navigate = useNavigate();
   
   })
   
+
+
   const loginUser=(ev)=>{
     
-
   try{
 
   ev.preventDefault();
@@ -159,8 +160,6 @@ console.log("Hey.........");
 
 
 signInWithEmailAndPassword(firebaseAuth,state?.email,state?.password).then((cred)=>{
-
-
 
   FirebaseContext.setUserObj(cred.user);
   
@@ -261,7 +260,7 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
 
         <div className='mb-4 flex justify-end items-center w-[100%]'>
             
-            {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-primary" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
+            {FirebaseContext.minMaxIcon === "max"  ? <CgMaximize className="text-2xl cursor-pointer text-slate-900" onClick={()=>FirebaseContext.fullScreenMode()}/> : <CgMinimizeAlt className="text-2xl cursor-pointer text-slate-900" onClick={()=>FirebaseContext.exitFullScreen()}/> } 
   
               </div>
           <Tabs
@@ -272,7 +271,7 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
             selectedKey={selected}
             onSelectionChange={setSelected}
  >
-            <Tab key="login" title="Login" id="login-tab"  style={{color:"#FF0000",fontWeight:"600",cursor:"default",backgroundColor:'white'}}>
+            <Tab key="login" title="Login" id="login-tab" className="login-tab-class"  style={{color:"#FF0000",fontWeight:"600",cursor:"default",backgroundColor:'white'}}>
               <form className="flex flex-col gap-6 " id="login-form"  >
             
                 <Input
@@ -309,7 +308,7 @@ if(errorMsg == "Firebase: Error (auth/network-request-failed)."){
                 />
                 
                 <div className="flex gap-2 justify-end">
-                  <Button className="bg-primary LM425:flex  text-white shadow-lg shadow-primary" fullWidth type="submit" 
+                  <Button className="bg-slate-900 LM425:flex  text-white shadow-lg shadow-slate-900" fullWidth type="submit" 
                   onClick={loginUser}
                   // style={{boxShadow:"0px 0px 0px 0px black"}}
                   >

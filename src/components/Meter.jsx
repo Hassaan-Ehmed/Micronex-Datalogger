@@ -1,7 +1,7 @@
   import React from "react";
   import {CircularProgress, Card, CardBody, CardFooter, Chip} from "@nextui-org/react";
   import GaugeComponent from "react-gauge-component";
-import { Text } from "react-font";
+
 
   export default function MyMeter({title,reading,fromColor,toColor}) {
 
@@ -16,7 +16,7 @@ import { Text } from "react-font";
         <div className="shadow-2xl  rounded-2xl border-2 border-gray-50 bg-white h-full min-[950px]:h-[90%] laptop:h-[85%] tablet:w-[90%] laptop:w-[85%] relative">
         
         <div className="absolute top-2  right-3 p-1 shadow-2xl   rounded-2xl border-2 border-gray-50 bg-primary  flex justify-center items-center">
-    <Text family="Jost"  className="text-[13px] tablet:text-[16px]">{title}</Text>
+    <h1 family="Jost"  className="text-[13px] tablet:text-[16px]">{title}</h1>
     
     </div> 
    

@@ -1,16 +1,16 @@
 import { Button, Card, CardBody, DatePicker, Select, SelectItem, Tab, Tabs, TimeInput } from "@nextui-org/react";
 import React from "react";
 import '../App.css';
-import { useFirebaseContext } from "../context/FirebaseApp";
+import { firestore, useFirebaseContext } from "../context/FirebaseApp";
 
 import {parseAbsoluteToLocal, Time,parseDate, parseTime} from "@internationalized/date";
 
 import { Checkbox, Chip, cn } from "@nextui-org/react";
-import { getDatabase, ref , get, child, Database, query, orderByChild, equalTo, startAt } from "firebase/database";
+import { getDatabase, ref , get, child, Database, orderByChild } from "firebase/database";
 import { ConvertEpochTimeStamp, formatedDate, timeFormatedArray } from "../utils/helper";
 import { HiOutlineSelector } from "react-icons/hi";
 import { Bounce, toast } from "react-toastify";
-
+import { collection, getDocs ,orderBy,query, where} from "firebase/firestore";
 
 
 export default function App() {
@@ -20,6 +20,14 @@ export default function App() {
   const [value, setValue] = React.useState(parseDate(FirebaseContext?.dateLimits.minimumDate));
   const [startValue, setStartValue] = React.useState([]);
   const [endValue, setEndValue] = React.useState(new Time(11,30));
+
+
+  
+  let DB_URL_PATH = JSON.parse(localStorage.getItem("Url_Path"));
+  DB_URL_PATH = DB_URL_PATH+"/logs"
+  const  COPMANY_NAME  =  DB_URL_PATH.split("/")[0];
+  const  DEVICE_NAME  =  DB_URL_PATH.split("/")[2];
+
 
   const fileFormats = ["Text format","Excel format","PDF format"]
 
@@ -70,27 +78,49 @@ export default function App() {
     const fetchingForTimeStamps  = async()=>{
      
       try{
+
+
+        // const q =query
+
+        // const snapshot = await get(query(ref(getDatabase(),"dataLogs/"), ("datepoint"),equalTo(value?.toString())))
+    
+        const q = query(collection(firestore, COPMANY_NAME, "devices", DEVICE_NAME, "data", "logs"),where
+        ('datepoint','==', value?.toString()));
         
-        const snapshot = await get(query(ref(getDatabase(),"dataLogs/"),  ("datepoint"),equalTo(value?.toString())))
+        const mydata = await getDocs(q);
+
+        if(!mydata.empty){
+
+          const documents  = mydata.docs.map((doc)=>({
+            ...doc.data()   
+          }))
+
+              console.log("asaas",documents);
+
+               FirebaseContext.setTimesArr(timeFormatedArray(documents));
+              const timesArr = timeFormatedArray(documents);
+            setOptions({startTimeSelection:timesArr[0],endTimeSelection:timesArr[timesArr.length-1] ?? timesArr[0]});
+ 
+        }
+          // if(snapshot.exists()){
     
-          if(snapshot.exists()){
+          //   const data = snapshot.val();
     
-            const data = snapshot.val();
-    
-            FirebaseContext.setTimesArr(timeFormatedArray(Object.keys(data)));
+          //   console.log("TimeRangeStamps:>>>",data);
+          //   FirebaseContext.setTimesArr(timeFormatedArray(Object.keys(data)));
+            //   const timesArr = timeFormatedArray(Object.keys(data));
+          //   setOptions({startTimeSelection:timesArr[0],endTimeSelection:timesArr[timesArr.length-1]});
   
-            const timesArr = timeFormatedArray(Object.keys(data));
-  
-            setOptions({startTimeSelection:timesArr[0],endTimeSelection:timesArr[timesArr.length-1]});
-  
-            // console.log("Data in ByTimeForm ....: ",  Object.values(data));
-          }else{
+       
+          // }
+          
+          else{
 
           
             //Show Error If Timestamp Data is not available in Firebase
          toast.error(`No Data Available !`,{
           position: "top-center",
-         autoClose: 3500,
+         autoClose: 3500 , // 312000
          hideProgressBar: false,
          closeOnClick: true,
          pauseOnHover: true,
@@ -100,7 +130,7 @@ export default function App() {
          transition: Bounce,
          });
          
-         window.location.reload();
+        //  window.location.reload();
       
           }
        
@@ -110,7 +140,7 @@ export default function App() {
            //Show Error While Downloading (date range for intial tim limit drop down ) From Firebase
            toast.error(`${error.message}!`,{
             position: "top-center",
-           autoClose: 3500,
+             autoClose: 3500 , // 312000
            hideProgressBar: false,
            closeOnClick: true,
            pauseOnHover: true,
@@ -120,7 +150,7 @@ export default function App() {
            transition: Bounce,
            });
            
-           window.location.reload();
+          //  window.location.reload();
     
         }
         
@@ -145,17 +175,35 @@ export default function App() {
 
   },[options?.startTimeIsInValid,options?.endTimeIsInValid]);
 
+
+
     const DownloadDataUponDtime = async ()=>{
 
    
   try{
+
+// OLD ONE
+
+    // const mydata = await getDocs(query(collection(firestore , COPMANY_NAME, "devices", DEVICE_NAME, "data", "logs")),orderByChild('datepoint') , where('datepoint', '==', value?.toString()));
     
-    const snapshot = await get(query(ref(getDatabase(),"dataLogs/"),orderByChild("datepoint"),equalTo(value?.toString())))
+
+// NEW ONE    
+    const mydata = await getDocs(query(
+      collection(firestore, COPMANY_NAME, "devices", DEVICE_NAME, "data", "logs"),
+      where('datepoint', '==', value?.toString()),
+      orderBy('datepoint')
+    ));
+    
+
+    if(!mydata.empty){
+
+      const documents  = mydata.docs.map((doc)=>({
+        ...doc.data()   
+      }))
 
 
-      if(snapshot.exists()){
+      console.log("MAIN TIME DATA :::",documents)
 
-        const data = snapshot.val();
         
         // if(dataPacket.timestamp.split("_")[1] == options?.startTimeSelection.split(":").join("")){
         //    }
@@ -184,7 +232,7 @@ export default function App() {
 
 if(startTime !== endTime){
   
-       filteredTimeRange  = Object.values(data).filter((dataPacket)=>{
+       filteredTimeRange  = documents.filter((dataPacket)=>{
 
         const time = dataPacket.timestamp.split("_")[1];
 
@@ -200,7 +248,7 @@ if(startTime !== endTime){
 }  
         else{
   
-       filteredTimeRange =  Object.values(data).filter((dataPacket)=>{
+       filteredTimeRange =  documents.filter((dataPacket)=>{
 
             const time  = dataPacket.timestamp.split("_")[1];
 
@@ -212,7 +260,7 @@ if(startTime !== endTime){
 }
         
         console.log("filteredTimeRange Array", filteredTimeRange);
-        console.log("Data in ByTimeForm ....: ",  Object.values(data));
+        // console.log("Data in ByTimeForm ....: ",  Object.values(data));
         setTimeout(()=>{
           
   

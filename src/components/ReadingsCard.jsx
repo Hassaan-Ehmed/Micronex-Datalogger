@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Text } from 'react-font';
 import { useFirebaseContext } from '../context/FirebaseApp';
 
 function MyProgress({source,title,readings}) {
@@ -14,7 +13,7 @@ function MyProgress({source,title,readings}) {
             <div className="shadow-2xl p-6  rounded-2xl border-2 border-gray-50 bg-white">
               <div className="flex flex-col">
                 <div>
-                  <Text family='Jost' className="font-bold text-gray-600 text-center text-2xl">{title}</Text>
+                  <h1 style={{fontFamily:"Jost"}} className="font-bold text-gray-600 text-center text-2xl">{title}</h1>
                 </div>
                 <div className="my-6">
                   <div className="flex flex-row space-x-4 items-center">

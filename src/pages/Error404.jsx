@@ -1,6 +1,5 @@
 import { Button } from '@nextui-org/react'
 import React from 'react'
-import { Text } from 'react-font';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { Link , useNavigate} from 'react-router-dom';
 
@@ -22,14 +21,14 @@ return (
 {TOKEN == null ? (
 
 <Button className='absolute top-5 left-5 bg-white  text-primary z-10' style={{boxShadow:"rgb(255, 255, 255) 0px 7px 15px -7px",display:"ruby"}}>
-<Link to={'/'}><IoMdArrowRoundBack className="text-[4vh] text-primary cursor-pointer"/> <Text family='Jost'>Back</Text></Link>
+<Link to={'/'}><IoMdArrowRoundBack className="text-[4vh] text-primary cursor-pointer"/> <h1 style={{fontFamily:"Jost"}}>Back</h1></Link>
 </Button>
 
 ) : (
 
 <Button className='absolute top-5 left-5 bg-white  text-primary z-10' style={{boxShadow:"rgb(255, 255, 255) 0px 7px 15px -7px",display:"ruby",}} onClick={goBackUrl}>
 
-<IoMdArrowRoundBack className="text-[4vh] text-primary cursor-pointer"/> <Text family='Jost'>Back</Text>
+<IoMdArrowRoundBack className="text-[4vh] text-primary cursor-pointer"/> <h1 style={{fontFamily:"Jost"}} >Back</h1>
 </Button>
 
 )}

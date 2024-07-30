@@ -1,6 +1,5 @@
 import { Card, CardBody, CircularProgress } from '@nextui-org/react';
 import React from 'react'
-import { Text } from 'react-font';
 import GaugeComponent from 'react-gauge-component';
 // import NextProfile from './NextProfile';
 
@@ -15,7 +14,7 @@ const MiniGaugeCard = ({title,reading,fromColor,toColor})=> {
         <div className='w-full h-[20%] flex  justify-center items-center'>
             
             {/* <img src={source} alt="icon"  className='w-[35%]  object-contain'/> */}
-            <Text family='Jost' className={`left-0 absolute font-bold text-black text-center text-xl  flex justify-center items-center ml-2`}>{title}</Text>
+            <h1 style={{fontFamily:"Jost"}} className={`left-0 absolute font-bold text-black text-center text-xl  flex justify-center items-center ml-2`}>{title}</h1>
         </div>     
 
 

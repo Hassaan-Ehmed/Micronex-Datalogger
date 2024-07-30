@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer, useState } from 'react'
-import { Text } from 'react-font'
 import ReadingsCard from './ReadingsCard'
 import Tabs from './Tabs'
 import GraphTabs from './GraphTabs'
@@ -30,7 +29,8 @@ return (
     
     <div className='h-[80%] w-[100%] flex flex-col justify-center items-center z-[3]'>
      
-     <Text family='Jost' className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-foreground z-[3] ' style={{}}>Data Logger</Text>    
+   
+     <h1  className='main-text hidden LM425:block font-medium -mt-4 mb-9  text-[8vh] text-foreground z-[3] ' style={{fontFamily:"Jost"}}>Data Logger</h1>    
     
     {/* textShadow:"white 1px 1px 0px, white 0px 0px 2.5em, white 0px 0px 0.2em" */}
     {/* h-10% */}
@@ -74,7 +74,7 @@ return (
                   <div className='flex flex-col w-[100%] laptop:w-[90%] h-[65%] laptop:h-[70%] bg-white justify-center items-center gap-[8vw] mt-14 laptop:mt-10 shadow-2xl p-2 rounded-2xl border-2 border-gray-50 relative '>
                     {/* overflow-y-hidden */}
 
-              <Text family='Jost' className='flex justify-between absolute top-0 text-cyan-400 text-xl font-semibold'><LineDropDown/></Text>
+              <h1  className='flex justify-between absolute top-0 text-cyan-400 text-xl font-semibold'><LineDropDown/></h1>
 
               {
                 FirebaseContext.slectedLineChart === "Humidity" ? (
@@ -95,7 +95,7 @@ return (
                 <div className='flex flex-col w-[100%] laptop:w-[90%] h-[65%] laptop:h-[70%] bg-white justify-center items-center gap-[8vw] mt-14 laptop:mt-10   shadow-2xl p-2 rounded-2xl border-2 border-gray-50 relative '>
                   {/* overflow-y-hidden */}
 
-            <Text family='Jost' className='flex justify-between absolute top-0 text-cyan-400 text-xl font-semibold'><BarDropDown/></Text>
+            <p  className='flex justify-between absolute top-0 text-cyan-400 text-xl font-semibold'><BarDropDown/></p>
 
             {
               FirebaseContext.slectedBarChart === "Humidity" ? (

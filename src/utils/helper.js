@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import {v4 as uuidv4 } from 'uuid'
 const SECRET_KEY  = "`Bhp5lMb5$eggiqK`@I+";
 
 
@@ -76,12 +77,20 @@ return `${epochTime}`;
 
 }
 
-const timeFormatedArray = (timesArray)=>{
+const timeFormatedArray = (packets)=>{
+
+
+    let timesArr = packets.map((packet)=>{
+
+        return packet.timestamp
+
+    })
+
 
     let formatedTimesArrayPacket = [];
     
     // 070124_0000 = timesArray each index contain
-    timesArray.map((packet)=>{
+    timesArr.map((packet)=>{
 
         let TA = packet.split("_")[1].split(""); // ["0","0","0","0"]
 
@@ -123,9 +132,14 @@ function getFormatedTimeByTimestamp( timestamp ){
     return readyString;
     
     }
+
+
+    // Generate Random Unique uuid using uuid v4 npm-package
+    function generateRandomUserId () { return uuidv4() }
+
     
 // helper functions are export here!
-export { ConvertEpochTimeStamp, dateToEpochTime, Decrypt, Encrypt, formatedDate, getFormatedDateByTimestamp, getFormatedTimeByTimestamp, timeFormatedArray };
+export { ConvertEpochTimeStamp, dateToEpochTime, Decrypt, Encrypt, formatedDate, getFormatedDateByTimestamp, getFormatedTimeByTimestamp, timeFormatedArray ,generateRandomUserId};
 
 
 

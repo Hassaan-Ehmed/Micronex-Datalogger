@@ -1,6 +1,5 @@
 import { Button, Spinner } from '@nextui-org/react';
 import React, { useEffect } from 'react'
-import { Text } from 'react-font';
 import { LuRefreshCcw } from "react-icons/lu";
 import { MdErrorOutline } from "react-icons/md";
 import { FaCircleCheck } from "react-icons/fa6";
@@ -89,7 +88,7 @@ fill="#B0BEC5"
         <div className='h-[17vh] tablet:h-[25vh] laptop:h-[30vh] flex flex-col justify-around items-center '>
 
          
-         <Text family='Jost' style={{fontFamily:"sans-serif"}} className="font-bold text-black text-center text-2xl tablet:text-3xl leading-7">Check your Internet Connection</Text>
+         <h1  style={{fontFamily:"sans-serif"}} className="font-bold text-black text-center text-2xl tablet:text-3xl leading-7">Check your Internet Connection</h1>
 
          <Button 
          
